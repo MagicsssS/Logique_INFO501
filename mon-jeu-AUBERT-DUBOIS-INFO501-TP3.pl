@@ -16,6 +16,7 @@
 :- op(1000, fx, observer).
 :- op(1000, fx, interagir).
 :- op(1000, fx, aller).
+:- op(1000, fx, carnet).
 
 
 % position du joueur. Ce prédicat sera modifié au fur et à mesure de la partie (avec `retract` et `assert`)
@@ -27,6 +28,9 @@ inventory([]).
 
 :- dynamic interactedList/1.
 interactedList([]).
+
+:- dynamic dernierePage/1.
+dernierePage(_).
 
 % passages entre les différents endroits du jeu
 passage(chambre, porte, hub). 
@@ -103,10 +107,15 @@ inventaire:-
 
 
 % quelques raccourcis
-n :- aller(nord).
-s :- aller(sud).
-e :- aller(est).
-o :- aller(ouest).
+o(X) :- observer(X).
+i(X) :- interagir(X).
+c(X) :- carnet(X).
+go(X) :- aller(X).
+:- op(1000, fx, o).
+:- op(1000, fx, i).
+:- op(1000, fx, c).
+:- op(1000, fx, go).
+
 
 
 % déplacements
@@ -136,12 +145,44 @@ retour :-
         write("Où voulez-vous retourner ? Vous êtes déjà au centre de la pièce"), nl,
         fail.
 
+carnet(X) :-
+        lire(X).
+
+increase(X, X1) :-
+        X1 is X+1.
+
+decrease(X, X1) :-
+        X1 is X-1.
+
+notEqual(X,Y) :-
+        X \= Y.
+
+suiv :-
+        dernierePage(Last),
+        increase(Last, New),
+        notEqual(New, 9),
+        retract(dernierePage(Last)),
+        assert(dernierePage(New)),
+        lire(New).
+
+suiv :-
+        write("Vous êtes déjà à la fin du carnet !"), nl.
+
+prev :-
+        dernierePage(Last),
+        decrease(Last, New),
+        notEqual(New, 0),
+        retract(dernierePage(Last)),
+        assert(dernierePage(New)),
+        lire(New).
+
+prev :-
+        write("Vous êtes déjà au début du carnet !"), nl.
 
 % regarder autour de soi
 analyseSalle :-
         position_courante(Place),
         description(Place), nl.
-
 
 % fin de partie
 fin :-
@@ -150,6 +191,23 @@ fin :-
 
 
 % affiche les instructions du jeu
+instructions :-
+        inventory(Inventory),
+        list_check("Carnet & Stylo", Inventory),
+        nl,
+        write("Les commandes doivent être données avec la syntaxe Prolog habituelle."), nl,
+        write("Les commandes existantes sont :"), nl, nl,
+        write("jouer.                   -- pour commencer une partie."), nl,
+        write("aller(direction)         -- pour aller dans cette direction."), nl,
+        write("retour.                  -- pour retourner au centre de la pièce."), nl,
+        write("observer.                -- pour regarder quelque chose."), nl,
+        write("interagir.               -- pour interagir avec quelque chose."), nl,
+        write("inventaire.              -- pour analyser votre inventaire"), nl,
+        write("carnet(page).            -- pour lire les pages de votre carnet"), nl,
+        write("instructions.            -- pour revoir ce message !"), nl,
+        write("fin.                     -- pour terminer la partie et quitter."), nl,
+        nl.
+
 instructions :-
         nl,
         write("Les commandes doivent être données avec la syntaxe Prolog habituelle."), nl,
@@ -277,26 +335,30 @@ interaction(chat) :-
         write("Vous caressez Misty, elle se met à ronronner et se colle à vous. En continuant de la caresser, vous remarquez quelque chose coincé dans ses poils."), nl, nl,
         write("        *Vous obtenez 1x Fragment de Clé*"), nl, nl,
         write("Par malheur, vous lui avez tiré des poils, Misty fait un bond et s'enfuit de la pièce."), nl,
-        write("Il faut partir à sa recherche !"), nl.
+        write("Il faut partir à sa recherche !"), nl,
+        inventory(InventoryList),
+        list_add("Fragment de clé", InventoryList, NewList),
+        retract(inventory(_)),
+        assert(inventory(NewList)).
 
 % CR_V_01
 interaction(poster) :-
         inventory(Inventory),
         list_check(carnet, Inventory),
-        interactedList(InteractedList),
-        list_check(poster, InteractedList),
+        interactedList(Interacted),
+        list_check(poster, Interacted),
         write("Vous avez déjà noté tout ce qui était intéréssant sur ce poster."), nl.
 
 % CR_V_01
 interaction(poster) :-
         inventory(Inventory),
-        list_check(carnet, Inventory),
+        list_check("Carnet & Stylo", Inventory),
         write("Vous vous approchez du poster de 'Inception'."), nl,
         write("Les personnages semblent être libre de leurs mouvements."), nl,
         write("A travers le poster, ils se rapprochent de vous."), nl,
         write("Vous clignez des yeux. Les personnages sont revenus à leurs positions initiales."), nl,
         write("Cela n'était que votre imagination."), nl,
-        write("Vous décidez de noter cette drôle d'anecdote dans votre carnet."), nl.
+        write("Vous décidez de noter cette drôle d'anecdote dans la PREMIÈRE PAGE de votre carnet."), nl.
 
 % CR_V_01
 interaction(poster) :-
@@ -356,4 +418,41 @@ interaction(carnet) :-
 % CR_V_00
 interaction(carnet) :-
         write("Vous décidez que ces ustensiles vous seront utiles pour aujourd'hui et les prenez avec vous."), nl, nl,
-        write("        [*Vous obtenez un [Carnet & Stylo]*]"), nl, nl.
+        write("        [*Vous obtenez un [Carnet & Stylo]*]"), nl, nl,
+        write("Une nouvelle commande est apparue. N'hésitez pas à faire 'instructions.' pour la consulter"), nl,
+        inventory(InventoryList),
+        list_add("Carnet & Stylo", InventoryList, NewList),
+        retract(inventory(_)),
+        assert(inventory(NewList)).
+
+
+
+
+
+
+lire(1) :-
+        interactedList(Interacted),
+        list_check(poster, Interacted),
+        write("Eheh c'est la première page du carnet"), nl, nl,
+        write("Page suivante avec 'suiv.'"),
+        dernierePage(Last),
+        retract(dernierePage(Last)),
+        assert(dernierePage(1)).
+
+lire(1) :-
+        write("Cette page est vide."), nl,
+        dernierePage(Last),
+        retract(dernierePage(Last)),
+        assert(dernierePage(1)).
+
+lire(2) :-
+        write("Eheh c'est la deuxième page du carnet"), nl,
+        dernierePage(Last),
+        retract(dernierePage(Last)),
+        assert(dernierePage(2)).
+
+lire(3) :-
+        write("Eheh c'est la troisième page du carnet"), nl,
+        dernierePage(Last),
+        retract(dernierePage(Last)),
+        assert(dernierePage(3)).
