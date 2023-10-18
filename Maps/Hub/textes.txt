@@ -1,0 +1,51 @@
+HR_D0 - (Texte d'entrée dans la zone)
+Vous vous retrouvez dans un endroit étrange... Semblant être en dehors de notre monde.
+L'atmosphère, pour autant, est douce et légère, vous ne ressentez aucune crainte...
+Vous ne paraissez pas surpris de ce que vous voyez. Comme si vous étiez déjà venu ici.
+Vous décidez de faire le tour de la pièce afin d'avoir une vue d'ensemble.
+
+Vous y découvrez quatres nouvelles portes : 
+- En collant votre oreille à la première, vous y écoutez des {chansons}.
+- Par de-là la seconde, vous entendez des rires d'enfants, comme à une {fete}.
+- La troisième n'émet aucun bruit... C'est la seule porte à avoir une {serrure}.
+- Enfin, vous percevez des murmures et la voix d'un guide, comme dans un {musee} derrière la dernière porte.
+
+Malheureusement, la porte à votre chambre a disparu derrière vous... Il ne semble plus être possible d'y aller.
+
+Où voulez-vous ALLER ?
+
+HR_D5 - (Texte d'entrée dans la zone)
+Vous êtes de retour dans l'étrange pièce aux portes.
+- Celle d'où proviennent les {chansons}.
+- Celle où semble se dérouler une {fete}.
+- Celle avec la voix du guide du {musee}.
+- Celle à {serrure}.
+
+Où voulez-vous ALLER ?
+
+
+HR_D1 - Aller Chansons
+Vous ouvrez la porte dont proviennent les chansons.
+
+HR_D2 - Aller fete
+Vous ouvrez la porte dont proviennent les rires d'enfants.
+
+HR_D3 - Aller musee
+Vous ouvrez la porte dont provient la voix du guide.
+
+HR_Dv - Aller serrure
+Vous vous approchez de la porte à serrure, déterminer à tester votre clé.
+Celle-ci rentre finalement dans la serrure et la porte s'ouvre !
+Vous entrez dans la prochaine pièce...
+
+HR_F_01
+Vous tentez d'ouvrir la porte à serrure, malheureusement, celle-ci est fermé à clé.
+
+HR_F_02 - Aller Chansons
+La porte menant au feu de camp a disparu...
+
+HR_F_03 - Aller fete
+La porte menant à la fête foraine a disparu...
+
+HR_F_04 - Aller musee
+La porte menant au musée des illusions a disparu...
