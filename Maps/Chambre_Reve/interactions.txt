@@ -1,0 +1,31 @@
+Entrée de zone : CR_D0
+
+Aller Lit - CR_D1
+Aller Etagere - CR_D2
+Aller Bureau - CR_D3
+Aller Porte - Si CR_O_01 => CR_OV SINON => CR_F_17
+
+
+--- D1 ---
+Observer Chat - Si CR_O_01 => CR_F_18 SINON CR_F_01
+Interagir Chat - Si CR_O_01 => CR_F_18 SINON CR_O_01
+Observer Poster - CR_F_02
+Interagir Poster - Si CR_V_00 => CR_V_01 SINON CR_F_16
+Observer Peluche - CR_F_03
+Interagir Peluche - CR_F_04
+
+--- D2 ---
+Observer Origami - Si CR_F_06 => CR_F_05 SINON CR_F_19
+Interagir Origami - Si CR_F_06 => CR_F_20 SINON CR_F_06
+Observer Maths - CR_F_07
+Interagir Maths - Si CR_F_08 => CR_F_21 SINON CR_F_08
+Observer Logique - CR_F_09
+Interagir Logique - CR_F_10
+
+--- D3 ---
+Observer Photo - CR_F_11
+Interagir Photo - CR_F_12
+Observer Triangle - CR_F_13
+Interagir Triangle - CR_F_14
+Observer Carnet - Si CR_V_00 => CR_F_22 SINON CR_F_15
+Interagir Carnet - Si CR_V_00 => CR_F_22 SINON CR_V_00
