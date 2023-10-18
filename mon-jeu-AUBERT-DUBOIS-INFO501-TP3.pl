@@ -27,6 +27,9 @@ visited([]).
 :- dynamic dernierePage/1.
 dernierePage(_).
 
+:- dynamic actions/1.
+actions([_,_,_,_,_,_,_,_]).
+
 % passages entre les différents endroits du jeu
 passage(chambre, lit, lit).
 passage(chambre, etagere, etagere). 
@@ -77,7 +80,7 @@ observer(X) :-
 interagir(X) :-
         position_courante(P),
         position(X, P),
-        interaction(X),
+        interaction(X), nl,
         interactedList(Interacted),
         list_add(X, Interacted, NewList),
         retract(interactedList(_)),
@@ -89,6 +92,11 @@ interagir(X) :-
         write(X),
         write(" ici. Allez-vous vraiment bien ?"), nl,
         fail.
+
+regarder :-
+        position_courante(Ici),
+        description(Ici), 
+        !.
 
 
 % analyser votre inventaire.
@@ -110,13 +118,13 @@ inv :- inventaire.
 c(X) :- carnet(X).
 go(X) :- aller(X).
 b :- retour.
+r :- regarder.
 
 :- op(1000, fx, o).
 :- op(1000, fx, int).
 :- op(1000, fx, inv).
 :- op(1000, fx, c).
 :- op(1000, fx, go).
-:- op(1000, fx, b).
 
 % on déclare des opérateurs, pour autoriser `prendre torche` au lieu de `prendre(torche)`
 :- op(1000, fx, observer).
@@ -131,6 +139,15 @@ aller(porte) :-
         interactedList(Interacted),
         \+ list_check(chat, Interacted),
         write("Vous mettez la main sur la poignée, votre chat miaule et demande une caresse, mieux vaut lui dire au revoir avant de partir."), nl, nl,
+        position_courante(Ici),
+        description(Ici), 
+        !.
+
+% CR_Ov
+aller(porte) :-
+        inventory(Inventory),
+        \+ list_check("Carnet & Stylo", Inventory),
+        write("Vous mettez la main sur la poignée, mais soudain... Vous vous rappelez que vous avez oublié quelque chose sur votre bureau."), nl, nl,
         position_courante(Ici),
         description(Ici), 
         !.
@@ -173,13 +190,13 @@ increase(X, X1) :-
 decrease(X, X1) :-
         X1 is X-1.
 
-notEqual(X,Y) :-
-        X \= Y.
+equal(X,Y) :-
+        X == Y.
 
 suiv :-
         dernierePage(Last),
         increase(Last, New),
-        notEqual(New, 9),
+        \+ equal(New, 9),
         retract(dernierePage(Last)),
         assert(dernierePage(New)),
         lire(New).
@@ -190,13 +207,25 @@ suiv :-
 prev :-
         dernierePage(Last),
         decrease(Last, New),
-        notEqual(New, 0),
+        \+ equal(New, 0),
         retract(dernierePage(Last)),
         assert(dernierePage(New)),
         lire(New).
 
 prev :-
         write("Vous êtes déjà au début du carnet !"), nl.
+
+check_if_positif(Liste, Num) :-
+        nth0(Num, Liste, Element),
+        Element > 0.
+
+check_if_négatif(Liste, Num) :-
+        nth0(Num, Liste, Element),
+        Element < 0.
+
+change_list(Index, NewVal, List, NewList) :-
+        nth0(Index, List, _, TempList),
+        nth0(Index, NewList, NewVal, TempList).
 
 
 % fin de partie
@@ -213,8 +242,9 @@ instructions :-
         write("Les commandes doivent être données avec la syntaxe Prolog habituelle."), nl,
         write("Les commandes existantes sont :"), nl, nl,
         write("jouer.                             -- pour commencer une partie."), nl,
+        write("regarder. / r.                     -- pour regarder autour de vous (Répète le texte précédent)."), nl,
         write("aller(direction) / go {direction}. -- pour aller dans cette direction."), nl,
-        write("retour. / b.                       -- pour retourner à la pièce précédente/au centre de la pièce."), nl,
+        write("retour. / b.                       -- pour retourner à l'endroit précédent/au centre de la pièce."), nl,
         write("observer(objet). / o [objet].      -- pour regarder quelque chose."), nl,
         write("interagir(objet). / int [objet].   -- pour interagir avec quelque chose."), nl,
         write("inventaire. / inv.                 -- pour analyser votre inventaire"), nl,
@@ -228,8 +258,9 @@ instructions :-
         write("Les commandes doivent être données avec la syntaxe Prolog habituelle."), nl,
         write("Les commandes existantes sont :"), nl, nl,
         write("jouer.                             -- pour commencer une partie."), nl,
+        write("regarder. / r.                     -- pour regarder autour de vous (Répète le texte précédent)."), nl,
         write("aller(direction) / go {direction}. -- pour aller dans cette direction."), nl,
-        write("retour. / b.                       -- pour retourner au centre de la pièce."), nl,
+        write("retour. / b.                       -- pour retourner à l'endroit précédent/au centre de la pièce."), nl,
         write("observer(objet). / o {objet}.      -- pour regarder quelque chose."), nl,
         write("interagir(objet). / int {objet}.   -- pour interagir avec quelque chose."), nl,
         write("inventaire. / inv.                 -- pour analyser votre inventaire"), nl,
@@ -286,6 +317,8 @@ description(bureau) :-
 description(porte) :-
         interactedList(Interacted),
         list_check(chat, Interacted),
+        inventory(Inventory),
+        list_check("Carnet & Stylo", Inventory),
         write("Vous ouvrez la porte, et sortez de votre chambre."), nl.
 
 % ?
@@ -373,7 +406,7 @@ interaction(chat) :-
 % CR_V_01
 interaction(poster) :-
         inventory(Inventory),
-        list_check(carnet, Inventory),
+        list_check("Carnet & Stylo", Inventory),
         interactedList(Interacted),
         list_check(poster, Interacted),
         write("Vous avez déjà noté tout ce qui était intéréssant sur ce poster."), nl.
@@ -387,7 +420,11 @@ interaction(poster) :-
         write("A travers le poster, ils se rapprochent de vous."), nl,
         write("Vous clignez des yeux. Les personnages sont revenus à leurs positions initiales."), nl,
         write("Cela n'était que votre imagination."), nl,
-        write("Vous décidez de noter cette drôle d'anecdote dans la PREMIÈRE PAGE de votre carnet."), nl.
+        write("Vous décidez de noter cette drôle d'anecdote dans la PREMIÈRE PAGE de votre carnet."), nl,
+        actions(Actions),
+        change_list(0, 1, Actions, NewList),
+        retract(actions(_)),
+        assert(actions(NewList)).
 
 % CR_V_01
 interaction(poster) :-
@@ -455,14 +492,21 @@ interaction(carnet) :-
         assert(inventory(NewList)).
 
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%% Pages carnet %%%%%%%%%%%%%%%%%%%%%%%%%
 
 lire(1) :-
-        interactedList(Interacted),
-        list_check(poster, Interacted),
-        write("Eheh c'est la première page du carnet"), nl, nl,
+        actions(Actions),
+        check_if_positif(Actions, 0),
+        write("Oui ici c'est positif"), nl, nl,
+        write("Page suivante avec 'suiv.'"), nl,
+        dernierePage(Last),
+        retract(dernierePage(Last)),
+        assert(dernierePage(1)).
+
+lire(1) :-
+        actions(Actions),
+        check_if_negatif(Actions, 0),
+        write("Non ici c'est négatif"), nl, nl,
         write("Page suivante avec 'suiv.'"), nl,
         dernierePage(Last),
         retract(dernierePage(Last)),
