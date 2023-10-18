@@ -7,21 +7,13 @@
 %
 
 % il faut déclarer les prédicats "dynamiques" qui vont être modifiés par le programme.
-:- dynamic position/2, position_courante/1, position_precedente/1.
+:- dynamic position_courante/1.
 
 % on remet à jours les positions des objets et du joueur
 :- retractall(position(_, _)), retractall(position_courante(_)).
 
-% on déclare des opérateurs, pour autoriser `prendre torche` au lieu de `prendre(torche)`
-:- op(1000, fx, observer).
-:- op(1000, fx, interagir).
-:- op(1000, fx, aller).
-:- op(1000, fx, carnet).
-
-
 % position du joueur. Ce prédicat sera modifié au fur et à mesure de la partie (avec `retract` et `assert`)
 position_courante(chambre).
-position_precedente(chambre).
 
 :- dynamic inventory/1.
 inventory([]).
@@ -29,18 +21,22 @@ inventory([]).
 :- dynamic interactedList/1.
 interactedList([]).
 
+:- dynamic visited/1.
+visited([]).
+
 :- dynamic dernierePage/1.
 dernierePage(_).
 
 % passages entre les différents endroits du jeu
-passage(chambre, porte, hub). 
 passage(chambre, lit, lit).
 passage(chambre, etagere, etagere). 
-passage(chambre, bureau, bureau). 
+passage(chambre, bureau, bureau).
+passage(chambre, porte, hub).
 
-passage(lit, chambre, chambre). 
-passage(etagere, chambre, chambre). 
-passage(bureau, chambre, chambre). 
+% RETOURS
+retour(lit, chambre). 
+retour(etagere, chambre). 
+retour(bureau, chambre). 
 
 
 % position des objets
@@ -94,12 +90,13 @@ interagir(X) :-
         write(" ici. Allez-vous vraiment bien ?"), nl,
         fail.
 
+
+% analyser votre inventaire.
 print_inventory([H|[]]):- write('    '), write(H), nl, !.
 print_inventory([H|T]):-
 	write('    '), write(H), nl,
 	print_inventory(T).
 
-% analyser votre inventaire.
 inventaire:-
 	inventory(InventoryList),
 	nl, write("Vous possédez : "), nl,
@@ -108,41 +105,63 @@ inventaire:-
 
 % quelques raccourcis
 o(X) :- observer(X).
-i(X) :- interagir(X).
+int(X) :- interagir(X).
+inv :- inventaire.
 c(X) :- carnet(X).
 go(X) :- aller(X).
+b :- retour.
+
 :- op(1000, fx, o).
-:- op(1000, fx, i).
+:- op(1000, fx, int).
+:- op(1000, fx, inv).
 :- op(1000, fx, c).
 :- op(1000, fx, go).
+:- op(1000, fx, b).
 
+% on déclare des opérateurs, pour autoriser `prendre torche` au lieu de `prendre(torche)`
+:- op(1000, fx, observer).
+:- op(1000, fx, interagir).
+:- op(1000, fx, aller).
+:- op(1000, fx, carnet).
 
 
 % déplacements
+% CR_Ov
+aller(porte) :-
+        interactedList(Interacted),
+        \+ list_check(chat, Interacted),
+        write("Vous mettez la main sur la poignée, votre chat miaule et demande une caresse, mieux vaut lui dire au revoir avant de partir."), nl, nl,
+        position_courante(Ici),
+        description(Ici), 
+        !.
+
 aller(Direction) :-
         position_courante(Ici),
-        position_precedente(Avant),
         passage(Ici, Direction, La),
-        retract(position_precedente(Avant)),
-        assert(position_precedente(Ici)),
+        description(Direction),
         retract(position_courante(Ici)),
         assert(position_courante(La)),
-        analyseSalle, !.
+        visited(Visited),
+        list_add(Ici, Visited, NewList),
+        retract(visited(_)),
+        assert(visited(NewList)),
+        !.
 
 aller(_) :-
         write("Où essayez vous d'aller ? Cet endroit n'existe pas."), nl,
         fail.
 
-retour :-
-        position_courante(Ici),
-        position_precedente(Avant),
-        passage(Ici, Avant, La),
-        retract(position_courante(Ici)),
-        assert(position_courante(La)),
-        analyseSalle, !.
 
 retour :-
-        write("Où voulez-vous retourner ? Vous êtes déjà au centre de la pièce"), nl,
+        position_courante(Ici),
+        retour(Ici, Avant),
+        description(Avant),
+        retract(position_courante(Ici)),
+        assert(position_courante(Avant)),
+        !.
+
+retour :-
+        write("Où voulez-vous retourner ? Vous êtes déjà au centre de cet endroit."), nl,
         fail.
 
 carnet(X) :-
@@ -179,10 +198,6 @@ prev :-
 prev :-
         write("Vous êtes déjà au début du carnet !"), nl.
 
-% regarder autour de soi
-analyseSalle :-
-        position_courante(Place),
-        description(Place), nl.
 
 % fin de partie
 fin :-
@@ -197,29 +212,29 @@ instructions :-
         nl,
         write("Les commandes doivent être données avec la syntaxe Prolog habituelle."), nl,
         write("Les commandes existantes sont :"), nl, nl,
-        write("jouer.                   -- pour commencer une partie."), nl,
-        write("aller(direction)         -- pour aller dans cette direction."), nl,
-        write("retour.                  -- pour retourner au centre de la pièce."), nl,
-        write("observer.                -- pour regarder quelque chose."), nl,
-        write("interagir.               -- pour interagir avec quelque chose."), nl,
-        write("inventaire.              -- pour analyser votre inventaire"), nl,
-        write("carnet(page).            -- pour lire les pages de votre carnet"), nl,
-        write("instructions.            -- pour revoir ce message !"), nl,
-        write("fin.                     -- pour terminer la partie et quitter."), nl,
+        write("jouer.                             -- pour commencer une partie."), nl,
+        write("aller(direction) / go {direction}. -- pour aller dans cette direction."), nl,
+        write("retour. / b.                       -- pour retourner à la pièce précédente/au centre de la pièce."), nl,
+        write("observer(objet). / o [objet].      -- pour regarder quelque chose."), nl,
+        write("interagir(objet). / int [objet].   -- pour interagir avec quelque chose."), nl,
+        write("inventaire. / inv.                 -- pour analyser votre inventaire"), nl,
+        write("carnet(page). / c {page}.          -- pour lire les pages de votre carnet"), nl,
+        write("instructions.                      -- pour revoir ce message !"), nl,
+        write("fin.                               -- pour terminer la partie et quitter."), nl,
         nl.
 
 instructions :-
         nl,
         write("Les commandes doivent être données avec la syntaxe Prolog habituelle."), nl,
         write("Les commandes existantes sont :"), nl, nl,
-        write("jouer.                   -- pour commencer une partie."), nl,
-        write("aller(direction)         -- pour aller dans cette direction."), nl,
-        write("retour.                  -- pour retourner au centre de la pièce."), nl,
-        write("observer.                -- pour regarder quelque chose."), nl,
-        write("interagir.               -- pour interagir avec quelque chose."), nl,
-        write("inventaire.              -- pour analyser votre inventaire"), nl,
-        write("instructions.            -- pour revoir ce message !"), nl,
-        write("fin.                     -- pour terminer la partie et quitter."), nl,
+        write("jouer.                             -- pour commencer une partie."), nl,
+        write("aller(direction) / go {direction}. -- pour aller dans cette direction."), nl,
+        write("retour. / b.                       -- pour retourner au centre de la pièce."), nl,
+        write("observer(objet). / o {objet}.      -- pour regarder quelque chose."), nl,
+        write("interagir(objet). / int {objet}.   -- pour interagir avec quelque chose."), nl,
+        write("inventaire. / inv.                 -- pour analyser votre inventaire"), nl,
+        write("instructions.                      -- pour revoir ce message !"), nl,
+        write("fin.                               -- pour terminer la partie et quitter."), nl,
         nl.
 
 
@@ -227,10 +242,23 @@ instructions :-
 % lancer une nouvelle partie
 jouer :-
         instructions,
-        analyseSalle.
+        position_courante(Ici),
+        description(Ici),
+        visited(Visited),
+        list_add(Ici, Visited, NewList),
+        retract(visited(_)),
+        assert(visited(NewList)).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Emplacements chambre %%%%%%%%%%%%%%%%%%%%%%%%%
+% CR_D0
+description(chambre) :- 
+        visited(Visited),
+        list_check(chambre, Visited),
+        write("Vous êtes toujours dans votre chambre. Vous y apercevez votre {lit}, qui semble très moelleux..."), nl,
+        write("Quelques livres sont posés sur votre {etagere}, n'attendant que vous pour les prendre et vous asseoir en face de votre {bureau} les lire."), nl,
+        write("Le soleil levant éclaire légèrement la {porte} de votre chambre.").
+
 % CR_D0
 description(chambre) :- 
         write("Le soleil se lève, amenant une douce éclaircie sur la {porte} de votre chambre."), nl, 
@@ -257,11 +285,7 @@ description(bureau) :-
 % CR_Ov
 description(porte) :-
         interactedList(Interacted),
-        list_check(porte, Interacted),
-        write("Vous mettez la main sur la poignée, votre chat miaule et demande une caresse, mieux vaut lui dire au revoir avant de partir."), nl.
-
-% CR_Ov
-description(porte) :-
+        list_check(chat, Interacted),
         write("Vous ouvrez la porte, et sortez de votre chambre."), nl.
 
 % ?
@@ -319,10 +343,15 @@ description(photo) :-
 description(triangle) :-
         write("Ce triangle est une représentation du triangle impossible en version miniaturisé. Vous l'avez obtenu durant une visite au musée des illusions."), nl.
 
+% CR_F_22
+description(carnet) :-
+        interactedList(Interacted),
+        list_check(carnet, Interacted),
+        write("Le carnet est dans votre sac désormais."), nl.
+
 % CR_F_15
 description(carnet) :-
         write("Un simple carnet que vous venez d'acheter, est posé sur le bureau, sur sa couverture se trouve un stylo qui vous a suivi toute votre vie puisqu'il ne vous a jamais failli depuis le début de vos études. En même temps vous ne l'avez pas beaucoup utilisé."), nl.
-
 
 % CR_O_01
 interaction(chat) :-
@@ -409,11 +438,11 @@ interaction(triangle) :-
         write("En voyant ce triangle de forme impossible si singulière, vous vous rappelez les plus grandes illusions du musée que vous avez visité."), nl,
         write("Les étoiles plein les yeux, vous décidez de reprendre le parcours de votre chambre."), nl.
 
-% CR_V_00
+% CR_F_22
 interaction(carnet) :-
         interactedList(Interacted),
         list_check(carnet, Interacted),
-        write("Vous avez déjà récupéré le carnet."), nl.
+        write("Le carnet est dans votre sac désormais."), nl.
 
 % CR_V_00
 interaction(carnet) :-
@@ -428,31 +457,36 @@ interaction(carnet) :-
 
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%% Pages carnet %%%%%%%%%%%%%%%%%%%%%%%%%
 
 lire(1) :-
         interactedList(Interacted),
         list_check(poster, Interacted),
         write("Eheh c'est la première page du carnet"), nl, nl,
-        write("Page suivante avec 'suiv.'"),
+        write("Page suivante avec 'suiv.'"), nl,
         dernierePage(Last),
         retract(dernierePage(Last)),
         assert(dernierePage(1)).
 
 lire(1) :-
         write("Cette page est vide."), nl,
+        write("Page suivante avec 'suiv.'"), nl,
         dernierePage(Last),
         retract(dernierePage(Last)),
         assert(dernierePage(1)).
 
 lire(2) :-
-        write("Eheh c'est la deuxième page du carnet"), nl,
+        write("Eheh c'est la deuxième page du carnet"), nl, nl,
+        write("Page suivante avec 'suiv.'"), nl,
+        write("Page précédente avec 'prev.'"), nl,
         dernierePage(Last),
         retract(dernierePage(Last)),
         assert(dernierePage(2)).
 
 lire(3) :-
-        write("Eheh c'est la troisième page du carnet"), nl,
+        write("Eheh c'est la troisième page du carnet"), nl, nl,
+        write("Page suivante avec 'suiv.'"), nl,
+        write("Page précédente avec 'prev.'"), nl,
         dernierePage(Last),
         retract(dernierePage(Last)),
         assert(dernierePage(3)).
