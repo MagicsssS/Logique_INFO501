@@ -1,0 +1,120 @@
+CR_D0 - (Texte d'entrée dans la zone, début du jeu.)
+Le soleil se lève, amenant une douce éclaircie sur la {porte} de votre chambre.
+Vous avez fait votre {lit}, celui-ci semble désormais si moelleux...
+Mais, quelques livres sont posés sur votre {etagere}, n'attendant que vous pour les prendre
+et vous asseoir en face de votre {bureau} pour les lire.
+Où voulez-vous ALLER ?
+
+CR_D1 - Aller Lit
+Vous vous approchez du lit. Celui-ci semble moelleux et accueillant.
+Misty, votre [chat], vous regarde avec des yeux ronds, semblant attendre quelque chose de vous.
+Un [poster] est accroché sur le mur, au-dessus du lit.
+Une petite [peluche] est posée à côté de votre oreiller.
+
+CR_D2 - Aller Etagere
+Vous vous approchez de l'étagère. Sur celle-ci il y a deux livres, un de [Maths] et un de [Logique].
+Un [origami] fait-main est également posé sur cette étagère.
+
+CR_D3 - Aller Bureau
+Vous vous approchez du bureau. Un [carnet] est mis en évidence au milieu de celui-ci. Une [photo] encadrée est soutenu par un [triangle] peu commun.
+
+CR_OV - Aller Porte
+Vous ouvrez la porte, et sortez de votre chambre.
+
+CR_F_17 - Aller Porte
+Vous mettez la main sur la poignée,	votre chat miaule et demande une caresse, mieux vaut lui dire au revoir avant de partir.
+
+CR_F_01 - Observer Chat
+Misty, votre petit chat noir, se dresse sur le lit en vous observant. Elle miaule dans votre direction.
+
+CR_F_18 - Observer Chat
+Misty est partie en courant en dehors de la chambre.
+
+CR_O_01 - Interagir Chat
+Vous caressez Misty, elle se met à ronronner et se colle à vous. En continuant de la caresser, vous remarquez quelque chose coincé dans ses poils.
+	*Vous obtenez 1x Fragment de Clé*
+Par malheur, vous lui avez tiré des poils, Misty fait un bond et s'enfuit de la pièce.
+Il faut partir à sa recherche !
+
+CR_F_02 - Observer Poster
+C'est un poster du film "Inception". On y voit 6 personnages dans une ville distordue par la réalité des rêves.
+
+CR_F_16 - Interagir Poster
+Vous vous approchez du poster de "Inception".
+Vous vous imaginez que les personnages de l'affiche se mettent à bouger.
+Cela vous remémore de bons souvenirs du film.
+
+CR_V_01 - Interagir Poster
+Vous vous approchez du poster de "Inception".
+Les personnages semblent être libre de leurs mouvements.
+A travers le poster, ils se rapprochent de vous.
+Vous clignez des yeux. Les personnages sont revenus à leurs positions initiales.
+Cela n'était que votre imagination.
+Vous décidez de noter cette drôle d'anecdote dans votre carnet.
+
+CR_F_03 - Observer Peluche
+Une peluche en forme de T-Rex que vous avez obtenu plus jeune, en allant à la fête foraine avec votre famille.
+
+CR_F_04 - Interagir Peluche
+Vous serrez la peluche fort dans vos bras, qu'importe votre âge, l'enfant en vous est heureux d'avoir fait ça et se sent déterminer à continuer.
+
+CR_F_05 - Observer Origami
+Un origami en forme de renard que vous avez réalisé durant une conférence sur les origamis.
+Vous êtes fier de l'avoir remis à neuf.
+
+CR_F_19 - Observer Origami
+Un origami en forme de renard que vous avez réalisé durant une conférence sur les origamis.
+Celui-ci semble être courbé au niveau du museau.
+
+CR_F_06 - Interagir Origami
+Vous dépliez le museau du petit renard, l'origami est à nouveau tout neuf.
+
+CR_F_20 - Interagir Origami
+Vous admirez ce magnifique origami remis à neuf.
+
+CR_F_07 - Observer Maths
+Le livre de Maths a pour titre "Maths, Application et Algèbre".
+La poussière l'envahit, il ne semble pas avoir été ouvert depuis longtemps.
+
+
+CR_F_08 - Interagir Maths
+Vous prenez le livre de Mathématiques de votre bibliothèque, et ouvrez au milieu de celui-ci.
+Une vision de nombreux symboles mathématiques vous agresse l'esprit !
+Par réflexe de survie, vous refermez rapidement ce livre démoniaque et le rangez de nouveau sur l'étagère.
+Vous vous promettez de ne plus jamais y toucher.
+
+CR_F_21
+"Non, plus jamais je ne le toucherai !"
+
+CR_F_09 - Observer Logique
+Le livre de Logique a pour titre "Logique, Illogique, et Démontrer par l'Absurdité"
+Contrairement à son confrère, ce livre semble avoir été acheté récemment, il est en parfait état.
+
+CR_F_10 - Interagir Logique
+Ce livre édité par Pierre Hyvernat semble divin.
+Celui-ci vous a ouvert les yeux sur les différents aspects de notre monde.
+Désormais, vous arrivez à résonner de façon plus clair et obtiendrez plus de points au partiel de Logique arrivant la semaine prochaine.
+
+CR_F_11 - Observer Photo
+Un selfie de vous et vos amis, autour d'un superbe feu de camp dans la forêt.
+La photo a été mise dans un très joli cadre afin de ne pas abimer ce précieux souvenir.
+
+CR_F_12 - Interagir Photo
+Vous vous remémorez l'ambiance de ce feu de camp. Le parfum des brochettes puis des chamallow pendant que vous vous racontiez diverses histoires, tantôt drôles, tantôt terrifiantes.
+Une envie de refaire ce genre de soirée vous parvient à l'esprit pendant qu'une larme de nostalgie coule sur votre joue.
+
+CR_F_13 - Observer Triangle
+Ce triangle est une représentation du triangle impossible en version miniaturisé. Vous l'avez obtenu durant une visite au musée des illusions.
+
+CR_F_14 - Interagir Triangle
+En voyant ce triangle de forme impossible si singulière, vous vous rappelez les plus grandes illusions du musée que vous avez visité. Les étoiles plein les yeux, vous décidez de reprendre le parcours de votre chambre.
+
+CR_F_15 - Observer Carnet & Stylo
+Un simple carnet que vous venez d'acheter, est posé sur le bureau, sur sa couverture se trouve un stylo.qui vous a suivi toute votre vie puisqu'il ne vous a jamais failli depuis le début de vos études. En même temps vous ne l'avez pas beaucoup utilisé.
+
+CR_F_22 - Observer Carnet & Stylo
+Le carnet est dans votre sac désormais.
+
+CR_V_00 - Interagir Carnet & Stylo
+Vous décidez que ces ustensiles vous seront utiles pour aujourd'hui et les prenez avec vous.
+[*Vous obtenez un [Carnet & Stylo]*]
