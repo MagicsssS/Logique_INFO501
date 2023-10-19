@@ -4,10 +4,9 @@ L'atmosphère, pour autant, est douce et légère, vous ne ressentez aucune crai
 Vous ne paraissez pas surpris de ce que vous voyez. Comme si vous étiez déjà venu ici.
 Vous décidez de faire le tour de la pièce afin d'avoir une vue d'ensemble.
 
-Vous y découvrez quatres nouvelles portes : 
+Vous y découvrez trois nouvelles portes : 
 - En collant votre oreille à la première, vous y écoutez des {chansons}.
 - Par de-là la seconde, vous entendez des rires d'enfants, comme à une {fete}.
-- La troisième n'émet aucun bruit... C'est la seule porte à avoir une {serrure}.
 - Enfin, vous percevez la voix d'un guide, beaucoup d'échos, ainsi que des bruits de pelles et de pioches comme dans des {galeries}.
 
 Malheureusement, la porte à votre chambre a disparu derrière vous... Il ne semble plus être possible d'y aller.
@@ -19,7 +18,6 @@ Vous êtes de retour dans l'étrange pièce aux portes.
 - Celle d'où proviennent les {chansons}.
 - Celle où semble se dérouler une {fete}.
 - Celle avec la voix du guide du {galeries}.
-- Celle à {serrure}.
 
 Où voulez-vous ALLER ?
 
@@ -33,13 +31,8 @@ Vous ouvrez la porte dont proviennent les rires d'enfants.
 HR_D3 - Aller galeries
 Vous ouvrez la porte dont provient la voix du guide.
 
-HR_Dv - Aller serrure
-Vous vous approchez de la porte à serrure, déterminer à tester votre clé.
-Celle-ci rentre finalement dans la serrure et la porte s'ouvre !
-Vous entrez dans la prochaine pièce...
-
-HR_F_01
-Vous tentez d'ouvrir la porte à serrure, malheureusement, celle-ci est fermé à clé.
+HR_F_01 - Aller galeries
+La porte menant aux galeries a disparu...
 
 HR_F_02 - Aller Chansons
 La porte menant au feu de camp a disparu...
@@ -47,5 +40,3 @@ La porte menant au feu de camp a disparu...
 HR_F_03 - Aller fete
 La porte menant à la fête foraine a disparu...
 
-HR_F_04 - Aller galeries
-La porte menant aux galeries a disparu...

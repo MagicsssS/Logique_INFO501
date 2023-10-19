@@ -35,7 +35,7 @@ Misty est partie en courant en dehors de la chambre.
 
 CR_O_02 - Interagir Chat
 Vous caressez Misty, elle se met à ronronner et se colle à vous. En continuant de la caresser, vous remarquez quelque chose coincé dans ses poils.
-	*Vous obtenez 1x Fragment de Clé*
+	*Vous obtenez 1x Fragment Etrange*
 Par malheur, vous lui avez tiré des poils, Misty fait un bond et s'enfuit de la pièce.
 Il faut partir à sa recherche !
 

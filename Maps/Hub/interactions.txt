@@ -3,4 +3,3 @@ Entrée de la zone : Si HR_D0 => HR_D5 SINON HR_D0
 Aller chansons - Si HR_D1 => HR_F_02 SINON HR_D1
 Aller fete - Si HR_D2 => HR_F_03 SINON HR_D2
 Aller musee - Si HR_D3 => HR_F_04 SINON HR_D3
-Aller serrure - Si [CLE] => HR_Dv SINON HR_F_01
