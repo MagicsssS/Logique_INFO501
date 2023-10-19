@@ -4,7 +4,7 @@ Entrée de la zone : FR_D0
 Aller Foret - FR_D1
 
 Observer Mathieu - FR_F_01
-Interagir Mathieu - Si FR_O_01 & FR_O_02 & FR_O_06 => FR_O_07 SINON FR_F_02
+Interagir Mathieu - Si FR_O_01 & FR_O_02 & FR_O_06 => FR_Ov SINON FR_F_02
 Observer Maxime - FR_F_03
 Interagir Maxime - FR_F_04
 Observer Feu - FR_F_05
