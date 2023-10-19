@@ -1,0 +1,203 @@
+FR_D0 - (Texte d'entrée dans la zone)
+"Hey mec ! Ca va ?"
+A peine avoir franchi la porte, vous voilà autour d'un [feu] avec vos amis.
+Vous vous trouvez à la clairière d'une magnifique {foret} doucement éclaircie par un rayon de [lune].
+[Mathieu], votre ami d'enfance, vous redemande "Ca va ? Tu avais l'air absent."
+Le chant de [Maxime] et les rires de vos amis, ainsi que la chaleur et la lumière du [feu] vous rassure.
+[Mathieu] continua : 
+"On va manquer de quelques buches pour alimenter le [feu], tu peux aller nous en chercher dans la {foret} ? Trois buches suffiront je pense !"
+Vous hochez la tête et vous vous levez... Mais... Vous avez une impression de déjà-vu...
+Mathieu vous fait signe : "Attend ! Tiens ! Ca te sera utile pour (Couper) du bois et te déplacer en fôret !"
+	*Vous obtenez 1x [Couteau]*
+
+FR_D1 - Aller Forêt
+Vous vous dirigez sans crainte vers la forêt.
+Vous regardez autour de vous : 
+Face à vous, un {ruisseau} est partiellement bloqué par des [ronces].
+Sur la gauche, un {sentier} peu éclairé est présent.
+Sur la droite, vous apercevez une petite {maison}.
+
+FR_D2 - Aller Sentier
+En marchant sur le sentier, vous remarquez que des [feuilles] couvrent le ciel étoilé.
+Des [arbustes] sont disposés tout le long du sentier et les [lianes] tombant de ceux-ci rendent le chemin difficile d'accès. 
+
+FR_D3 - Aller Maison
+Vous vous dirigez vers cette maison semblant abandonné de part les nombreuses [branches] envahissant son intérieur.
+Les quelques [fleurs] entourant toutes la maison relève un peu le niveau de ce paysage désolé.
+Vous remarquez une superbe [hache], là, posée contre le mur, à l'entrée de la maison.
+
+FR_F_01 - Observer Mathieu
+Mathieu s'occupe méticuleusement du feu, regarde chaque braise virevolter, il semble passionné par ce spectacle.
+
+FR_F_02 - Interagir Mathieu
+"Oui ? Tu n'as pas encore récupéré les 3 buches ? Il doit y en avoir encore dans la {foret}..."
+
+FR_O_07 - Interagir Mathieu
+"Ah ! Merci pour les buches ! On va pouvoir faire un super feu !"
+"..."
+"Ca va ? Tu n'as pas l'air dans ton assiette depuis tout à l'heure..."
+"Tiens, regarde ce que j'ai trouvé pendant que tu étais parti ! Ca va peut être te remonter le moral, toi qui aime bien les trucs anciens !"
+Mathieu vous tend un morceau de cristal..
+"Qu'est-ce que ça peut être à ton avis ?"
+	*Vous obtenez 1x [Fragment Etrange]*
+"Alors qu'est-ce que tu en pens-"
+Vous clignez des yeux, vous êtes de retour dans le hub.
+
+FR_F_03 - Observer Maxime
+Maxime, armé de sa guitare, frappe du pied la pulsation, et chante à haute voix, entrainant toutes les personnes assises autour du feu à chanter aussi.
+
+FR_F_04 - Interagir Maxime
+"Soon may the Wellerman come !
+To bring us sugar and tea and rum !
+One day, when the tonguing is done !
+We'll take our leave and go..."
+
+FR_F_05 - Observer Feu
+Le feu crépite tout en rongeant le bois. Sa douce chaleur vous réchauffe...
+
+Interagir Feu - FR_F_06
+"C'est beaucoup trop chaud... Je n'y mettrais pas la main si j'étais toi !" réplique Mathieu.
+
+Observer Lune - FR_F_07
+La lune brille de doux rayons, éclairant partiellement toute la forêt.
+
+Interagir Lune - FR_F_08
+Vous observez le magnifique paysage que vous offre la lune sur ces bois. Cela vous rend, étrangement, nostalgique...
+
+FR_F_09 - Observer Ronces
+Des ronces vous bloque le passage, vous distinguez un ruisseau derrière celles-ci.
+
+FR_F_10 - Interagir Ronces
+"Aie ! Ca pique...", ses ronces n'ont pas l'air très solide pour autant.
+
+FR_O_04 - Couper Ronces
+Vous assénez de grands coups de couteau dans ces pauvres ronces et dégagez le passage vers le {ruisseau} !
+
+FR_F_11 - Observer Lianes
+L'une des lianes semble plus rigide que les autres, il ne semble cependant pas possible de les couper de part leurs nombre.
+
+FR_F_12 - Interagir Lianes
+Vous décidez de grimper sur la liane la plus rigide et apercevez un [fruit] à portée de main !
+
+FR_F_13 - Observer Fruit
+Le fruit semble bien mûr et juteux, vous ne trouverez pas de fruit d'aussi bonne qualitée au supermarché !
+
+FR_F_14 - Interagir Fruit
+Vous tentez d'attraper le fruit mais celui-ci semble bien accrocher à l'arbre. Peut être que couper le haut du fruit suffirait à le faire tomber...
+
+FR_F_15 - Couper Fruit
+Vous coupez le haut du fruit, ce dernier tombe par terre. Vous le récupérez, il vous servira peut être plus tard !
+	*Vous obtenez 1x [Fruit]*
+
+FR_F_16 - Observer Arbuste
+L'un des arbustes semble avoir un tronc plus épais que les autres, cela pourrait servir de bûche.
+
+FR_F_17 - Interagir Arbuste
+En tentant d'arracher à main nu cet arbuste, vous vous rendez compte que vous n'auriez pas dû arrêter votre abonnement à la salle de musculation si tôt.
+
+FR_O_O3 - Couper Arbuste
+Vous assénez de grand coup de hache dans le tronc de l'arbre et arrivez aisément à le faire faillir. 
+	*Vous obtenez 1x [Buche]*
+
+FR_F_37 - Couper Arbuste
+Malgré vos efforts, vous vous rendez à l'évidence : Votre faible couteau ne vous permettra pas de couper cet énorme tronc d'arbuste.
+
+FR_F_18 - Observer Feuille
+La couleur des feuilles annoncent que l'automne approche de part leurs magnifiques couleurs orangées.
+
+FR_F_19 - Interagir Feuille
+Vous prenez un paquet de feuilles et les jetez en avant.
+Ces dernières se prennent dans la brise d'air et virevoltent dans tous les sens.
+Ces nuances de couleurs éclatantes mélangé aux doux rayons de la lune vous offrent un spectacle mémorable. 
+
+FR_F_20 - Observer Hache
+Une grande et belle hache, tranchante et pratiquement neuve, un miracle dans un tel endroit, elle pourrait vous permettre de remplacer ce pauvre couteau.
+
+FR_O_01 - Interagir Hache
+Vous vous emparez de la hache, désormais vous pourrez coupez plus aisément !
+	*Vous obtenez 1x [Hache]*
+
+FR_F_21 - Observer Fleurs
+De belles fleurs colorées sont éparpillées autour de la maison, la rendant bien plus accueillante malgré son aspect abandonné.
+
+FR_F_22 - Interagir Fleurs
+Vous cueillez une des fleurs et sentez son odeur... Un doux parfum vous fait frémir les narines !
+
+FR_F_23 - Observer Branches
+Il y a tellement de branches ici... Vous avez l'embarras du choix ! L'une d'elle, suffisamment épaisse, pourrait servir de tronc pour le feu...
+
+FR_F_24 - Interagir Branches
+Vous choisissez la branche la plus épaisse et tentez de la couper à la seule force de vos bras... qui vous font défaut.
+
+FR_O_O2 - Couper Branches
+Avec votre superbe hache, vous DETRUISEZ la base d'une des branches et la récupérez !
+	*Vous obtenez 1x [Buche]*
+
+FR_F_38 - Couper Branches
+Votre couteau ne semble pas affecter ne serait-ce que l'écorce de la branche, il vous faudrait quelque chose de plus tranchant.
+
+FR_F_25 - Observer Eau
+L'eau du ruisseau semble très clair, presque transparente, elle a l'air si bonne... Mais mieux vaut ne pas la gouter, par mesure de précaution.
+
+FR_F_26 - Interagir Eau
+Vous essayez de traverser le ruisseau mais le courant est si fort que vous avez failli perdre l'équilibre en n'y posant qu'un pied ! Impossible de traverser...
+
+FR_F_27 - Observer Tronc
+Ce tronc appartient à un arbre massif, vous pourriez alimenter le feu pour des générations... Malheureusement impossible à couper, ce n'est pas ce gabarri que vous recherchez.
+
+FR_F_28 - Interagir Tronc
+En touchant le tronc d'arbre, vous vous rendez compte qu'il n'est pas très stable... En observant de plus prêt, il a été partiellement coupé à sa base ! Quelques coups supplémentaires suffiront peut être...
+
+FR_F_29 - Couper Tronc
+Vous essayez de couper le tronc avec votre couteau, mais, il s'avère inefficace...
+
+FR_O_05 - Couper Tronc
+Vous frappez à de nombreuses reprises le tronc... Il tremble... Puis se met à tomber !
+Vous pouvez désormais accéder à l'autre côté du ruisseau, là où se trouve une [buche] et un petit [animal] !
+
+FR_F_30 - Observer Buche
+Un bout du tronc s'est cassé lors de la chute, il peut être parfait pour vous...
+
+FR_F_31 - Interagir Buche
+Vous récupérez la buche posé à terre. C'était d'une simplicité... déconcertante.
+	*Vous obtenez 1x [Buche]*
+
+FR_F_32 - Observer Animal
+Le petit animal ressemble à un lapineau, il est en train de boire dans le ruisseau, il ne vous a pas vu...
+
+FR_F_34 - Observer/Interagir Animal
+Le petit lapin s'est enfuit après que vous l'ayez nourri.
+
+FR_V_01 - Interagir Animal
+Vous tendez le fruit à l'animal... Il est craintif...
+Vous posez le fruit à vos pieds puis reculez suffisamment.
+L'animal s'approche lentement... Et déguste le fruit devant vous !
+	*Vous notez cette expérience unique dans votre carnet*
+
+FR_F_33 - Interagir Animal
+Si vous vous approchez trop prêt de l'animal, il pourrait s'enfuir, mieux vaut éviter et trouver quelque chose pour l'appâter...
+
+FR_F_39 - Inaccessible
+Il faut trouver un moyen de franchir le ruisseau pour faire cela.
+
+FR_X_01 - Couper Animal
+Vous vous lancez brutalement sur l'animal et lui assénez plusieurs coups de couteaux, la bête hurle de douleur et agonise lentement au sol. Son sang coule dans le ruisseau.
+	*Vous notez cette expérience unique dans votre carnet*
+
+FR_CUT_01 - Ronce
+Le passage vers le {Ruisseau} est désormais accessible !
+
+FR_CUT_02 - Fruit
+Vous avez déjà coupé le fruit, il n'y a plus rien désormais.
+
+FR_CUT_03 - Arbuste
+Si vous coupez tout les arbustes de ce sentier, vous dénaturerez ce dernier...
+
+FR_CUT_04 - Branches
+Vous avez déjà coupé la seule branche pouvant faire office de tronc.
+
+FR_CUT_05 - Tronc
+Le tronc d'arbre est tombé au-dessus du ruisseau, vous offrant un pont peu pratique mais fonctionnel.
+
+FR_CUT_06 - Animal
+Le corps sans vie de la bête git au sol.

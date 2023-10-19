@@ -17,44 +17,60 @@ Aller Sentier - FR_D2
 Aller Maison - FR_D3
 Aller Ruisseau - Si FR_O_04 => FR_D4 SINON FR_F_36
 
-Observer Ronce - FR_F_09
-Interagir Ronce - FR_F_10
-Couper Ronce - FR_O_04
+Observer Ronce - FR_F_09 | CUT_01
+Interagir Ronce - FR_F_10 | CUT_01
+Couper Ronce - FR_O_04 | CUT_01
 
 
 --- D2 ---
 Observer Liane - FR_F_11
 Interagir Liane - FR_F_12
 
-Observer Fruit - FR_F_13
-Interagir Fruit - FR_F_14
-Couper Fruit - FR_F_15
+Observer Fruit - FR_F_13 | CUT_02
+Interagir Fruit - FR_F_14 | CUT_02
+Couper Fruit - FR_F_15 | CUT_02
 
-Observer Arbuste - FR_F_16
-Interagir Arbuste - FR_F_17
-Couper Arbuste - FR_O_01
+Observer Arbuste - FR_F_16 | CUT_03
+Interagir Arbuste - FR_F_17 | CUT_03
+Couper Arbuste - Si FR_O_01 => FR_O_03 SINON FR_F_37 | CUT_03
 
 Observer Feuille - FR_F_18
 Interagir Feuille - FR_F_19
 
 --- D3 ---
 Observer Hache - FR_F_20
-Interagir Hache - FR_O_03
+Interagir Hache - FR_O_01
+
 Observer Fleurs - FR_F_21
 Interagir Fleurs - FR_F_22
-Observer Branche - FR_F_23
-Interagir Branche - FR_F_24
-Couper Branche - FR_O_02
+
+Observer Branche - FR_F_23 | CUT_04
+Interagir Branche - FR_F_24 | CUT_04
+Couper Branche - Si FR_O_01 => FR_O_02 SINON FR_F_38 | CUT_04
 
 --- D4 ---
 Observer Eau - FR_F_25
 Interagir Eau - FR_F_26
-Observer Tronc - FR_F_27
-Interagir Tronc - FR_F_28
-Couper Tronc - Si FR_O_03 => FR_O_05 SINON FR_F_29
-Observer Buche - FR_F_30
-Interagir Buche - FR_F_31
-Couper Buche - FR_O_06
-Observer Animal - Si FR_X_01 OU FR_V_01 => FR_F_34 SINON FR_F_32
-Interagir Animal - Si FR_X_01 OU FR_V_01 => FR_F_35 SINON (Si FR_F_15 => FR_V_01 SINON FR_F_33)
-Couper Animal - FR_X_01
+
+Observer Tronc - FR_F_27 | CUT_05
+Interagir Tronc - FR_F_28 | CUT_05
+Couper Tronc - Si FR_O_01 => FR_O_05 SINON FR_F_29 | CUT_05
+
+Observer Buche - Si FR_O_05 => FR_F_30 SINON FR_F_35
+Interagir Buche - Si FR_O_05 => FR_F_31 SINON FR_F_35
+
+Observer Animal => 
+Si FR_O_05 => 
+	(Si FR_V_01 => FR_F_34 
+	SINON FR_F_32 | CUT_06)
+SINON FR_F_35
+
+Interagir Animal => 
+Si FR_O_05 => 
+	(Si FR_V_01 => FR_F_34 
+	SINON 
+		(Si FR_F_15 => FR_V_01 
+		SINON FR_F_33) | CUT_06) 
+SINON FR_F_35
+
+Couper Animal - Si FR_O_05 => (FR_X_01 | CUT_06) SINON FR_F_35
