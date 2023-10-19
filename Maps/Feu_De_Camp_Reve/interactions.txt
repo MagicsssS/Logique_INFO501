@@ -1,0 +1,60 @@
+Entrée de la zone : FR_D0
+
+--- D0 ---
+Aller Foret - FR_D1
+
+Observer Mathieu - FR_F_01
+Interagir Mathieu - Si FR_O_01 & FR_O_02 & FR_O_06 => FR_O_07 SINON FR_F_37
+Observer Maxime - FR_F_03
+Interagir Maxime - FR_F_04
+Observer Feu - FR_F_05
+Interagir Feu - FR_F_06
+Observer Lune - FR_F_07
+Interagir Lune - FR_F_08
+
+--- D1 ---
+Aller Sentier - FR_D2
+Aller Maison - FR_D3
+Aller Ruisseau - Si FR_O_04 => FR_D4 SINON FR_F_36
+
+Observer Ronce - FR_F_09
+Interagir Ronce - FR_F_10
+Couper Ronce - FR_O_04
+
+
+--- D2 ---
+Observer Liane - FR_F_11
+Interagir Liane - FR_F_12
+
+Observer Fruit - FR_F_13
+Interagir Fruit - FR_F_14
+Couper Fruit - FR_F_15
+
+Observer Arbuste - FR_F_16
+Interagir Arbuste - FR_F_17
+Couper Arbuste - FR_O_01
+
+Observer Feuille - FR_F_18
+Interagir Feuille - FR_F_19
+
+--- D3 ---
+Observer Hache - FR_F_20
+Interagir Hache - FR_O_03
+Observer Fleurs - FR_F_21
+Interagir Fleurs - FR_F_22
+Observer Branche - FR_F_23
+Interagir Branche - FR_F_24
+Couper Branche - FR_O_02
+
+--- D4 ---
+Observer Eau - FR_F_25
+Interagir Eau - FR_F_26
+Observer Tronc - FR_F_27
+Interagir Tronc - FR_F_28
+Couper Tronc - Si FR_O_03 => FR_O_05 SINON FR_F_29
+Observer Buche - FR_F_30
+Interagir Buche - FR_F_31
+Couper Buche - FR_O_06
+Observer Animal - Si FR_X_01 OU FR_V_01 => FR_F_34 SINON FR_F_32
+Interagir Animal - Si FR_X_01 OU FR_V_01 => FR_F_35 SINON (Si FR_F_15 => FR_V_01 SINON FR_F_33)
+Couper Animal - FR_X_01
