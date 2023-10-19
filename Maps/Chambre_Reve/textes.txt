@@ -21,6 +21,9 @@ Vous vous approchez du bureau. Un [carnet] est mis en évidence au milieu de cel
 CR_OV - Aller Porte
 Vous ouvrez la porte, et sortez de votre chambre.
 
+CR_F_23 - Aller Porte
+Vous ne pouvez pas sortir sans prendre votre carnet !
+
 CR_F_17 - Aller Porte
 Vous mettez la main sur la poignée,	votre chat miaule et demande une caresse, mieux vaut lui dire au revoir avant de partir.
 
@@ -30,7 +33,7 @@ Misty, votre petit chat noir, se dresse sur le lit en vous observant. Elle miaul
 CR_F_18 - Observer Chat
 Misty est partie en courant en dehors de la chambre.
 
-CR_O_01 - Interagir Chat
+CR_O_02 - Interagir Chat
 Vous caressez Misty, elle se met à ronronner et se colle à vous. En continuant de la caresser, vous remarquez quelque chose coincé dans ses poils.
 	*Vous obtenez 1x Fragment de Clé*
 Par malheur, vous lui avez tiré des poils, Misty fait un bond et s'enfuit de la pièce.
@@ -43,14 +46,6 @@ CR_F_16 - Interagir Poster
 Vous vous approchez du poster de "Inception".
 Vous vous imaginez que les personnages de l'affiche se mettent à bouger.
 Cela vous remémore de bons souvenirs du film.
-
-CR_V_01 - Interagir Poster
-Vous vous approchez du poster de "Inception".
-Les personnages semblent être libre de leurs mouvements.
-A travers le poster, ils se rapprochent de vous.
-Vous clignez des yeux. Les personnages sont revenus à leurs positions initiales.
-Cela n'était que votre imagination.
-Vous décidez de noter cette drôle d'anecdote dans votre carnet.
 
 CR_F_03 - Observer Peluche
 Une peluche en forme de T-Rex que vous avez obtenu plus jeune, en allant à la fête foraine avec votre famille.
@@ -75,7 +70,6 @@ Vous admirez ce magnifique origami remis à neuf.
 CR_F_07 - Observer Maths
 Le livre de Maths a pour titre "Maths, Application et Algèbre".
 La poussière l'envahit, il ne semble pas avoir été ouvert depuis longtemps.
-
 
 CR_F_08 - Interagir Maths
 Vous prenez le livre de Mathématiques de votre bibliothèque, et ouvrez au milieu de celui-ci.
@@ -115,6 +109,6 @@ Un simple carnet que vous venez d'acheter, est posé sur le bureau, sur sa couve
 CR_F_22 - Observer Carnet & Stylo
 Le carnet est dans votre sac désormais.
 
-CR_V_00 - Interagir Carnet & Stylo
+CR_O_01 - Interagir Carnet & Stylo
 Vous décidez que ces ustensiles vous seront utiles pour aujourd'hui et les prenez avec vous.
-[*Vous obtenez un [Carnet & Stylo]*]
+	*Vous obtenez un [Carnet & Stylo]*
