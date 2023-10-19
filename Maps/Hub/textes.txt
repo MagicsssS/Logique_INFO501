@@ -17,7 +17,7 @@ HR_D5 - (Texte d'entrée dans la zone)
 Vous êtes de retour dans l'étrange pièce aux portes.
 - Celle d'où proviennent les {chansons}.
 - Celle où semble se dérouler une {fete}.
-- Celle avec la voix du guide du {galeries}.
+- Celle avec la voix du guide des {galeries}.
 
 Où voulez-vous ALLER ?
 
