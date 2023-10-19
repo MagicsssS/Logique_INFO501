@@ -30,9 +30,9 @@ Observer Fruit - FR_F_13 | CUT_02
 Interagir Fruit - FR_F_14 | CUT_02
 Couper Fruit - FR_F_15 | CUT_02
 
-Observer Arbuste - FR_F_16 | CUT_03
-Interagir Arbuste - FR_F_17 | CUT_03
-Couper Arbuste - Si FR_O_01 => FR_O_03 SINON FR_F_37 | CUT_03
+Observer Arbre - FR_F_16 | CUT_03
+Interagir Arbre - FR_F_17 | CUT_03
+Couper Arbre - Si FR_O_01 => FR_O_03 SINON FR_F_37 | CUT_03
 
 Observer Feuille - FR_F_18
 Interagir Feuille - FR_F_19

@@ -37,11 +37,11 @@ FR_O_07 - Interagir Mathieu
 "..."
 "Ca va ? Tu n'as pas l'air dans ton assiette depuis tout à l'heure..."
 "Tiens, regarde ce que j'ai trouvé pendant que tu étais parti ! Ca va peut être te remonter le moral, toi qui aime bien les trucs anciens !"
-Mathieu vous tend un morceau de cristal..
+Mathieu vous tend un morceau de cristal.
 "Qu'est-ce que ça peut être à ton avis ?"
 	*Vous obtenez 1x [Fragment Etrange]*
 "Alors qu'est-ce que tu en pens-"
-Vous clignez des yeux, vous êtes de retour dans le hub.
+Vous clignez des yeux, vous êtes de retour dans la pièce étrange.
 
 FR_F_03 - Observer Maxime
 Maxime, armé de sa guitare, frappe du pied la pulsation, et chante à haute voix, entrainant toutes les personnes assises autour du feu à chanter aussi.
@@ -65,10 +65,10 @@ Interagir Lune - FR_F_08
 Vous observez le magnifique paysage que vous offre la lune sur ces bois. Cela vous rend, étrangement, nostalgique...
 
 FR_F_09 - Observer Ronces
-Des ronces vous bloque le passage, vous distinguez un ruisseau derrière celles-ci.
+Des ronces vous bloquent le passage, vous distinguez un ruisseau derrière celles-ci.
 
 FR_F_10 - Interagir Ronces
-"Aie ! Ca pique...", ses ronces n'ont pas l'air très solide pour autant.
+"Aie ! Ca pique...", ces ronces n'ont pas l'air très solide pour autant.
 
 FR_O_04 - Couper Ronces
 Vous assénez de grands coups de couteau dans ces pauvres ronces et dégagez le passage vers le {ruisseau} !
@@ -89,18 +89,18 @@ FR_F_15 - Couper Fruit
 Vous coupez le haut du fruit, ce dernier tombe par terre. Vous le récupérez, il vous servira peut être plus tard !
 	*Vous obtenez 1x [Fruit]*
 
-FR_F_16 - Observer Arbuste
-L'un des arbustes semble avoir un tronc plus épais que les autres, cela pourrait servir de bûche.
+FR_F_16 - Observer Arbre
+L'un des arbres semble avoir un tronc plus épais que les autres, cela pourrait servir de bûche.
 
-FR_F_17 - Interagir Arbuste
-En tentant d'arracher à main nu cet arbuste, vous vous rendez compte que vous n'auriez pas dû arrêter votre abonnement à la salle de musculation si tôt.
+FR_F_17 - Interagir Arbre
+En tentant d'arracher à main nu cet arbre, vous vous rendez compte que vous n'auriez pas dû arrêter votre abonnement à la salle de musculation si tôt.
 
-FR_O_O3 - Couper Arbuste
+FR_O_O3 - Couper Arbre
 Vous assénez de grand coup de hache dans le tronc de l'arbre et arrivez aisément à le faire faillir. 
 	*Vous obtenez 1x [Buche]*
 
-FR_F_37 - Couper Arbuste
-Malgré vos efforts, vous vous rendez à l'évidence : Votre faible couteau ne vous permettra pas de couper cet énorme tronc d'arbuste.
+FR_F_37 - Couper Arbre
+Malgré vos efforts, vous vous rendez à l'évidence : Votre faible couteau ne vous permettra pas de couper cet énorme tronc d'arbre.
 
 FR_F_18 - Observer Feuille
 La couleur des feuilles annoncent que l'automne approche de part leurs magnifiques couleurs orangées.
@@ -130,20 +130,20 @@ FR_F_24 - Interagir Branches
 Vous choisissez la branche la plus épaisse et tentez de la couper à la seule force de vos bras... qui vous font défaut.
 
 FR_O_O2 - Couper Branches
-Avec votre superbe hache, vous DETRUISEZ la base d'une des branches et la récupérez !
+Avec votre superbe hache, vous DÉTRUISEZ la base d'une des branches et la récupérez !
 	*Vous obtenez 1x [Buche]*
 
 FR_F_38 - Couper Branches
 Votre couteau ne semble pas affecter ne serait-ce que l'écorce de la branche, il vous faudrait quelque chose de plus tranchant.
 
 FR_F_25 - Observer Eau
-L'eau du ruisseau semble très clair, presque transparente, elle a l'air si bonne... Mais mieux vaut ne pas la gouter, par mesure de précaution.
+L'eau du ruisseau semble très claire, presque transparente, elle a l'air si bonne... Mais mieux vaut ne pas la gouter, par mesure de précaution.
 
 FR_F_26 - Interagir Eau
 Vous essayez de traverser le ruisseau mais le courant est si fort que vous avez failli perdre l'équilibre en n'y posant qu'un pied ! Impossible de traverser...
 
 FR_F_27 - Observer Tronc
-Ce tronc appartient à un arbre massif, vous pourriez alimenter le feu pour des générations... Malheureusement impossible à couper, ce n'est pas ce gabarri que vous recherchez.
+Ce tronc appartient à un arbre massif, vous pourriez alimenter le feu pour des générations... Malheureusement impossible à couper, ce n'est pas ce gabarit que vous recherchez.
 
 FR_F_28 - Interagir Tronc
 En touchant le tronc d'arbre, vous vous rendez compte qu'il n'est pas très stable... En observant de plus prêt, il a été partiellement coupé à sa base ! Quelques coups supplémentaires suffiront peut être...
@@ -190,11 +190,11 @@ Le passage vers le {Ruisseau} est désormais accessible !
 FR_CUT_02 - Fruit
 Vous avez déjà coupé le fruit, il n'y a plus rien désormais.
 
-FR_CUT_03 - Arbuste
-Si vous coupez tout les arbustes de ce sentier, vous dénaturerez ce dernier...
+FR_CUT_03 - Arbre
+Si vous coupez tout les arbres de ce sentier, vous dénaturerez ce dernier...
 
 FR_CUT_04 - Branches
-Vous avez déjà coupé la seule branche pouvant faire office de tronc.
+Vous avez déjà coupé la seule branche pouvant faire office de buche.
 
 FR_CUT_05 - Tronc
 Le tronc d'arbre est tombé au-dessus du ruisseau, vous offrant un pont peu pratique mais fonctionnel.

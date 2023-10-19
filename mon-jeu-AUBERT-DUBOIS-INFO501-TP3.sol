@@ -6,3 +6,21 @@ go lit.
 int chat.
 b.
 go porte.
+go chansons.
+go foret.
+cut ronces.
+go maison.
+int hache.
+cut branches.
+b.
+go sentier.
+cut fruit.
+cut arbre.
+b.
+go ruisseau.
+cut tronc.
+int buche.
+int animal.
+b.
+b.
+int mathieu.

@@ -21,6 +21,9 @@ inventory([]).
 :- dynamic interactedList/1.
 interactedList([]).
 
+:- dynamic cutList/1.
+cutList([]).
+
 :- dynamic visited/1.
 visited([]).
 
@@ -28,7 +31,7 @@ visited([]).
 dernierePage(_).
 
 :- dynamic actions/1.
-actions([_,_,_,_,_,_,_,_]).
+actions([0,0,0,0,0,0,0]).
 
 :- dynamic cauchemar/1.
 cauchemar(0).
@@ -38,7 +41,13 @@ passage(chambre, lit, lit).
 passage(chambre, etagere, etagere). 
 passage(chambre, bureau, bureau).
 passage(chambre, porte, hub_reve).
+
 passage(hub_reve, chansons, chansons).
+passage(chansons, foret, foret).
+passage(foret, sentier, sentier).
+passage(foret, maison, maison).
+passage(foret, ruisseau, ruisseau).
+
 passage(hub_reve, fete, fete).
 passage(hub_reve, galeries, galeries).
 
@@ -46,7 +55,13 @@ passage(hub_reve, galeries, galeries).
 retour(lit, chambre). 
 retour(etagere, chambre). 
 retour(bureau, chambre).
+
 retour(chansons, hub_reve). 
+retour(foret, chansons).
+retour(sentier, foret).
+retour(maison, foret).
+retour(ruisseau, foret).
+
 retour(fete, hub_reve). 
 retour(galeries, hub_reve). 
 
@@ -61,8 +76,30 @@ position(photo, bureau).
 position(figurine, bureau). 
 position(carnet, bureau). 
 
+position(mathieu, chansons).
+position(maxime, chansons).
+position(feu, chansons).
+position(lune, chansons).
+position(ronces, foret).
+position(liane, sentier).
+position(fruit, sentier).
+position(arbre, sentier).
+position(feuille, sentier).
+position(hache, maison).
+position(fleurs, maison).
+position(branches, maison).
+position(eau, ruisseau).
+position(tronc, ruisseau).
+position(buche, ruisseau).
+position(animal, ruisseau).
+
 % objets pouvants être coupés
-coupage(buche).
+coupage(ronces).
+coupage(arbre).
+coupage(fruit).
+coupage(branches).
+coupage(tronc).
+coupage(animal).
 
 
 increase(X, X1) :-
@@ -118,6 +155,10 @@ list_check_inventory(Name, Number, [_|T]):- list_check_inventory(Name, Number, T
 list_check_inventory(Name, [[Name, _]|_]).
 list_check_inventory(Name, [_|T]):- list_check_inventory(Name, T).
 
+remove_list(_, [], []).
+remove_list(R, [R|T], T2) :- remove_list(R, T, T2).
+remove_list(R, [H|T], [H|T2]) :- H \= R, remove_list(R, T, T2).
+
 % observer quelque chose
 observer(X) :-
         position_courante(P),
@@ -149,6 +190,26 @@ interagir(X) :-
         write(X),
         write(" ici. Allez-vous vraiment bien ?"), nl,
         fail.
+
+
+% couper quelque chose
+couper(X) :-
+        position_courante(P),
+        coupage(X),
+        couperTexte(X), nl,
+        cutList(Cut),
+        cauchemar(Cauchemar),
+        list_add([X, P, Cauchemar], Cut, NewList),
+        retract(cutList(_)),
+        assert(cutList(NewList)),
+        !.
+
+couper(X) :-
+        write("Je ne vois pas de "),
+        write(X),
+        write(" ici. Qu'essayez-vous donc de couper ?"), nl,
+        fail.
+
 
 regarder :-
         position_courante(Ici),
@@ -186,6 +247,7 @@ int(X) :- interagir(X).
 inv :- inventaire.
 c(X) :- carnet(X).
 go(X) :- aller(X).
+cut(X) :- couper(X).
 b :- retour.
 r :- regarder.
 
@@ -194,17 +256,19 @@ r :- regarder.
 :- op(1000, fx, inv).
 :- op(1000, fx, c).
 :- op(1000, fx, go).
+:- op(1000, fx, cut).
 
 % on déclare des opérateurs, pour autoriser `prendre torche` au lieu de `prendre(torche)`
 :- op(1000, fx, observer).
 :- op(1000, fx, interagir).
 :- op(1000, fx, aller).
 :- op(1000, fx, carnet).
+:- op(1000, fx, couper).
 
 % déplacements
 aller(porte) :-
-        inventory(Inventory),
-        \+ list_check_inventory("Carnet & Stylo", Inventory),
+        inventory(InventoryList),
+        \+ list_check_inventory("Carnet & Stylo", InventoryList),
         %%% CR_F_23
         write("Vous ne pouvez pas sortir sans prendre votre carnet !"), nl, nl,
         position_courante(Ici),
@@ -240,6 +304,12 @@ aller(galeries) :-
         %%% HR_F_04
         write("La porte menant aux galeries a disparu..."), nl,
         !.
+
+aller(ruisseau) :-
+        cutList(Cut),
+        \+ list_check_place(ronces, foret, 0, Cut),
+        %%% FR_F_39
+        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl.
 
 % Dans le cas où le nom où nous allons et celui rentré en direction est le même
 aller(Direction) :-
@@ -336,13 +406,26 @@ instructionsall :-
 instructions2 :-
         write("carnet(page). / c {page}.          -- pour lire les pages de votre carnet"), nl.
 
+instructions3 :-
+        write("couper(objet). / cut [objet].      -- pour couper un objet"), nl.
+
 instructionfin :-
         write("instructions.                      -- pour revoir ce message !"), nl,
         write("fin.                               -- pour terminer la partie et quitter."), nl.
 
 instructions :-
-        inventory(Inventory),
-        list_check_inventory("Carnet & Stylo", Inventory),
+        inventory(InventoryList),
+        list_check_inventory("Couteau", InventoryList),
+        nl,
+        instructionsall,
+        instructions2,
+        instructions3,
+        instructionfin,
+        nl.
+
+instructions :-
+        inventory(InventoryList),
+        list_check_inventory("Carnet & Stylo", InventoryList),
         nl,
         instructionsall,
         instructions2,
@@ -404,8 +487,8 @@ description(bureau) :-
 description(porte) :-
         interactedList(Interacted),
         list_check_place(chat, lit, 0, Interacted),
-        inventory(Inventory),
-        list_check_inventory("Carnet & Stylo", Inventory),
+        inventory(InventoryList),
+        list_check_inventory("Carnet & Stylo", InventoryList),
         %%% CR_OV
         write("Vous ouvrez la porte, et sortez de votre chambre."), nl.
 
@@ -474,7 +557,7 @@ description(carnet) :-
 %%%%%%%%%%%%%%%%%%%%%%%%% Emplacements hub reve %%%%%%%%%%%%%%%%%%%%%%%%%
 description(hub_reve) :-
         visited(Visited),
-        list_check_place(hub_reve, chambre, 0, Visited),
+        list_check_place(chambre, hub_reve, 0, Visited),
         %%% HR_D5
         write("Vous êtes de retour dans l'étrange pièce aux portes."), nl,
         write("- Celle d'où proviennent les {chansons}."), nl,
@@ -500,8 +583,37 @@ description(hub_reve) :-
         write("Où voulez-vous ALLER ?"), nl.
 
 description(chansons) :-
+        visited(Visited),
+        list_check_place(chansons, hub_reve, 0, Visited),
+        write("Vous voici de retour autour du [feu]."), nl,
+        write("Vous vous trouvez à la clairière d'une magnifique {foret} doucement éclaircie par un rayon de [lune]."), nl,
+        write("[Mathieu], votre ami d'enfance, est toujours présent."), nl,
+        write("Le chant de [Maxime] et les rires de vos amis, ainsi que la chaleur et la lumière du [feu] vous rassure."), nl,
+        write("[Mathieu] répéta : "), nl,
+        write("'On va manquer de quelques buches pour alimenter le [feu], tu peux aller nous en chercher dans la {foret} ? Trois buches suffiront je pense !'"), nl,
+        write("Vous hochez la tête et vous vous levez... Mais... Vous avez une impression de déjà-vu..."), nl.
+
+description(chansons) :-
         %%% HR_D1
-        write("Vous ouvrez la porte dont proviennent les chansons."), nl.
+        write("Vous ouvrez la porte dont proviennent les chansons."), nl, nl,
+
+        write("'Hey mec ! Ca va ?'"), nl,
+        write("A peine avoir franchi la porte, vous voilà autour d'un [feu] avec vos amis."), nl,
+        write("Vous vous trouvez à la clairière d'une magnifique {foret} doucement éclaircie par un rayon de [lune]."), nl,
+        write("[Mathieu], votre ami d'enfance, vous redemande 'Ca va ? Tu avais l'air absent.'"), nl,
+        write("Le chant de [Maxime] et les rires de vos amis, ainsi que la chaleur et la lumière du [feu] vous rassure."), nl,
+        write("[Mathieu] continua : "), nl,
+        write("'On va manquer de quelques buches pour alimenter le [feu], tu peux aller nous en chercher dans la {foret} ? Trois buches suffiront je pense !'"), nl,
+        write("Vous hochez la tête et vous vous levez... Mais... Vous avez une impression de déjà-vu..."), nl,
+        write("Mathieu vous fait signe : 'Attend ! Tiens ! Ca te sera utile pour (Couper) du bois et te déplacer en fôret !'"), nl, nl,
+
+        write("        *Vous obtenez 1x [Couteau]*"), nl, nl,
+
+        write("Une nouvelle commande est apparue. N'hésitez pas à faire 'instructions.' pour la consulter"), nl,
+        inventory(InventoryList),
+        list_add(["Couteau", 1], InventoryList, NewList),
+        retract(inventory(_)),
+        assert(inventory(NewList)).	
 
 description(fete) :-
         %%% HR_D2
@@ -510,6 +622,124 @@ description(fete) :-
 description(galeries) :-
         %%% HR_D3
         write("Vous ouvrez la porte dont provient la voix du guide."), nl.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Emplacements chansons %%%%%%%%%%%%%%%%%%%%%%%%%
+description(foret) :-
+        write("Vous vous dirigez sans crainte vers la forêt."), nl,
+        write("Vous regardez autour de vous : "), nl,
+        write("Face à vous, un {ruisseau} est partiellement bloqué par des [ronces]."), nl,
+        write("Sur la gauche, un {sentier} peu éclairé est présent."), nl,
+        write("Sur la droite, vous apercevez une petite {maison}."), nl.
+
+description(sentier) :-
+        write("En marchant sur le sentier, vous remarquez que des [feuilles] couvrent le ciel étoilé."), nl,
+        write("Des [arbustes] sont disposés tout le long du sentier et les [lianes] tombant de ceux-ci rendent le chemin difficile d'accès."), nl.
+
+description(maison) :-
+        write("Vous vous dirigez vers cette maison semblant abandonné de part les nombreuses [branches] envahissant son intérieur."), nl,
+        write("Les quelques [fleurs] entourant toutes la maison relève un peu le niveau de ce paysage désolé."), nl,
+        write("Vous remarquez une superbe [hache], là, posée contre le mur, à l'entrée de la maison."), nl.
+
+description(ruisseau) :-
+        write("Vous arrivez proche de l'[eau] claire du ruisseau."), nl,
+        write("Il ne semble pas possible de le traverser, celà vous déçoit quelques instants... Il y a pourtant une [buche] de l'autre côté..."), nl,
+        write("Un frèle [animal] roux vous regarde brièvement depuis l'autre côté du ruisseau."), nl,
+        write("Vous constatez un grand [tronc] figurant à votre droite..."), nl.
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Description objets chansons %%%%%%%%%%%%%%%%%%%%%%%%%
+description(mathieu) :-
+        write("Mathieu s'occupe méticuleusement du feu, regarde chaque braise virevolter, il semble passionné par ce spectacle."), nl.
+
+description(maxime) :-
+        write("Maxime, armé de sa guitare, frappe du pied la pulsation, et chante à haute voix, entrainant toutes les personnes assises autour du feu à chanter aussi."), nl.
+
+description(feu) :-
+        write("Le feu crépite tout en rongeant le bois. Sa douce chaleur vous réchauffe..."), nl.
+
+description(lune) :-
+        write("La lune brille de doux rayons, éclairant partiellement toute la forêt."), nl.
+
+description(ronces) :-
+        cutList(Cut),
+        list_check_place(ronces, foret, 0, Cut),
+        write("Le passage vers le {Ruisseau} est désormais accessible !"), nl. 
+
+description(ronces) :-
+        write("Des ronces vous bloquent le passage, vous distinguez un ruisseau derrière celles-ci."), nl.
+
+description(lianes) :-
+        write("L'une des lianes semble plus rigide que les autres, il ne semble cependant pas possible de les couper de part leurs nombre."), nl.
+
+description(fruit) :-
+        cutList(Cut),
+        list_check_place(fruit, sentier, 0, Cut),
+        write("Vous avez déjà coupé le fruit, il n'y a plus rien désormais."), nl. 
+
+description(fruit) :-
+        write("Le fruit semble bien mûr et juteux, vous ne trouverez pas de fruit d'aussi bonne qualitée au supermarché !"), nl.
+
+description(arbre) :-
+        cutList(Cut),
+        list_check_place(arbre, sentier, 0, Cut),
+        write("Si vous coupez tout les arbres de ce sentier, vous dénaturerez ce dernier..."), nl. 
+
+description(arbre) :-
+        write("L'un des arbres semble avoir un tronc plus épais que les autres, cela pourrait servir de bûche."), nl.
+
+description(feuille) :-
+        write("La couleur des feuilles annoncent que l'automne approche de part leurs magnifiques couleurs orangées."), nl.
+
+description(hache) :-
+        write("Une grande et belle hache, tranchante et pratiquement neuve, un miracle dans un tel endroit, elle pourrait vous permettre de remplacer ce pauvre couteau."), nl.
+
+description(fleurs) :-
+        write("De belles fleurs colorées sont éparpillées autour de la maison, la rendant bien plus accueillante malgré son aspect abandonné."), nl.
+
+description(branches) :-
+        cutList(Cut),
+        list_check_place(branches, maison, 0, Cut),
+        write("Vous avez déjà coupé la seule branche pouvant faire office de buche."), nl. 
+
+description(branches) :-
+        write("Il y a tellement de branches ici... Vous avez l'embarras du choix ! L'une d'elle, suffisamment épaisse, pourrait servir de tronc pour le feu..."), nl.
+
+description(eau) :-
+        write("L'eau du ruisseau semble très claire, presque transparente, elle a l'air si bonne... Mais mieux vaut ne pas la gouter, par mesure de précaution."), nl.
+
+description(tronc) :-
+        cutList(Cut),
+        list_check_place(tronc, ruisseau, 0, Cut),
+        write("Le tronc d'arbre est tombé au-dessus du ruisseau, vous offrant un pont peu pratique mais fonctionnel."), nl. 
+
+description(tronc) :-
+        write("Ce tronc appartient à un arbre massif, vous pourriez alimenter le feu pour des générations... Malheureusement impossible à couper, ce n'est pas ce gabarit que vous recherchez."), nl.
+
+description(buche) :-
+        cutList(Cut),
+        list_check_place(tronc, ruisseau, 0, Cut),
+        write("Un bout du tronc s'est cassé lors de la chute, il peut être parfait pour vous..."), nl.
+
+description(buche) :-
+        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl.
+
+description(animal) :-
+        cutList(Cut),
+        \+ list_check_place(tronc, ruisseau, 0, Cut),
+        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl.
+
+description(animal) :-
+        actions(Actions),
+        check_if_negatif(Actions, 0),
+        write("Le corps sans vie de la bête git au sol."), nl.
+
+description(animal) :-
+        actions(Actions),
+        check_if_positif(Actions, 0),
+        write("Le petit lapin s'est enfui après que vous l'ayez nourri."), nl.
+
+description(animal) :-
+        write("Le petit animal ressemble à un lapineau, il est en train de boire dans le ruisseau, il ne vous a pas vu..."), nl.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Interaction objets chambre %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -601,33 +831,331 @@ interaction(carnet) :-
         assert(inventory(NewList)).
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%% Interactions chansons %%%%%%%%%%%%%%%%%%%%%%%%%
+interaction(mathieu) :-
+        inventory(InventoryList),
+        list_check_inventory("Buche", 3, InventoryList),
+        write("'Ah ! Merci pour les buches ! On va pouvoir faire un super feu !'"), nl,
+        write("''...'"), nl,
+        write("'Ca va ? Tu n'as pas l'air dans ton assiette depuis tout à l'heure...'"), nl,
+        write("'Tiens, regarde ce que j'ai trouvé pendant que tu étais parti ! Ca va peut être te remonter le moral, toi qui aime bien les trucs anciens !'"), nl,
+        write("Mathieu vous tend un morceau de cristal."), nl, 
+        write("'Qu'est-ce que ça peut être à ton avis ?'"), nl, nl,
+
+        write("        *Vous obtenez 1x [Fragment Etrange]*"), nl,
+
+        write("'Alors qu'est-ce que tu en pens-'"), nl,
+        write("Vous clignez des yeux, vous êtes de retour dans la pièce étrange."), nl, nl,
+        inventory(InventoryList),
+        remove_list(["Buche", 3], InventoryList, NewList),
+        remove_list(["Hache", 1], NewList, NewList2),
+        retract(inventory(_)),
+        assert(inventory(NewList2)),
+        retour.
+
+interaction(mathieu) :-
+        write("'Oui ? Tu n'as pas encore récupéré les 3 buches ? Il doit y en avoir encore dans la {foret}...'"), nl.
+
+interaction(maxime) :-
+        write("'Soon may the Wellerman come !"), nl,
+        write("To bring us sugar and tea and rum !"), nl,
+        write("One day, when the tonguing is done !"), nl,
+        write("We'll take our leave and go...'"), nl.
+
+interaction(feu) :-
+        write("'C'est beaucoup trop chaud... Je n'y mettrais pas la main si j'étais toi !' réplique Mathieu."), nl.
+
+interaction(lune) :-
+        write("Vous observez le magnifique paysage que vous offre la lune sur ces bois. Cela vous rend, étrangement, nostalgique..."), nl.
+
+interaction(ronces) :-
+        cutList(Cut),
+        list_check_place(ronces, foret, 0, Cut),
+        write("Le passage vers le {Ruisseau} est désormais accessible !"), nl. 
+
+interaction(ronces) :-
+        write("'Aie ! Ca pique...', ces ronces n'ont pas l'air très solide pour autant."), nl.
+
+interaction(lianes) :-
+        write("Vous décidez de grimper sur la liane la plus rigide et apercevez un [fruit] à portée de main !"), nl.
+
+interaction(fruit) :-
+        cutList(Cut),
+        list_check_place(fruit, sentier, 0, Cut),
+        write("Vous avez déjà coupé le fruit, il n'y a plus rien désormais."), nl. 
+
+interaction(fruit) :-
+        write("Vous tentez d'attraper le fruit mais celui-ci semble bien accrocher à l'arbre. Peut être que couper le haut du fruit suffirait à le faire tomber..."), nl.
+
+interaction(arbre) :-
+        cutList(Cut),
+        list_check_place(arbre, sentier, 0, Cut),
+        write("Si vous coupez tout les arbres de ce sentier, vous dénaturerez ce dernier..."), nl. 
+
+interaction(arbre) :-
+        write("En tentant d'arracher à main nu cet arbre, vous vous rendez compte que vous n'auriez pas dû arrêter votre abonnement à la salle de musculation si tôt."), nl.
+
+interaction(feuille) :-
+        write("Vous prenez un paquet de feuilles et les jetez en avant."), nl,
+        write("Ces dernières se prennent dans la brise d'air et virevoltent dans tous les sens."), nl,
+        write("Ces nuances de couleurs éclatantes mélangé aux doux rayons de la lune vous offrent un spectacle mémorable."), nl.
+
+interaction(hache) :-
+        write("Vous vous emparez de la hache, désormais vous pourrez coupez plus aisément !"), nl, nl,
+        write("        *Vous obtenez 1x [Hache]*"), nl,
+        inventory(InventoryList),
+        list_add(["Hache", 1], InventoryList, NewList),
+        retract(inventory(_)),
+        assert(inventory(NewList)).
+
+interaction(fleurs) :-
+        write("Vous cueillez une des fleurs et sentez son odeur... Un doux parfum vous fait frémir les narines !"), nl.
+
+interaction(branches) :-
+        cutList(Cut),
+        list_check_place(branches, maison, 0, Cut),
+        write("Vous avez déjà coupé la seule branche pouvant faire office de buche."), nl. 
+
+interaction(branches) :-
+        write("Vous choisissez la branche la plus épaisse et tentez de la couper à la seule force de vos bras... qui vous font défaut."), nl.
+
+interaction(eau) :-
+        write("Vous essayez de traverser le ruisseau mais le courant est si fort que vous avez failli perdre l'équilibre en n'y posant qu'un pied ! Impossible de traverser..."), nl.
+
+interaction(tronc) :-
+        cutList(Cut),
+        list_check_place(tronc, ruisseau, 0, Cut),
+        write("Le tronc d'arbre est tombé au-dessus du ruisseau, vous offrant un pont peu pratique mais fonctionnel."), nl. 
+
+interaction(tronc) :-
+        write("En touchant le tronc d'arbre, vous vous rendez compte qu'il n'est pas très stable... En observant de plus prêt, il a été partiellement coupé à sa base ! Quelques coups supplémentaires suffiront peut être..."), nl.
+
+interaction(buche) :-
+        inventory(InventoryList),
+        list_check_inventory("Buche", 3, InventoryList),
+        cutList(Cut),
+        list_check_place(tronc, ruisseau, 0, Cut),
+        write("Vous récupérez la buche posé à terre. C'était d'une simplicité... déconcertante."), nl, nl,
+
+        write("        *Vous obtenez 1x [Buche]*"), nl, nl,
+
+        write("Vous constatez par malheur que vous avez perdu votre hache à ce moment-là..."), nl,
+        inventory(InventoryList),
+        list_add(["Buche", 1], InventoryList, NewList),
+        remove_list(["Hache", 1], NewList, NewList2),
+        retract(inventory(_)),
+        assert(inventory(NewList2)).
+
+interaction(buche) :-
+        cutList(Cut),
+        list_check_place(tronc, ruisseau, 0, Cut),
+        write("Vous récupérez la buche posé à terre. C'était d'une simplicité... déconcertante."), nl, nl,
+
+        write("        *Vous obtenez 1x [Buche]*"), nl,
+        inventory(InventoryList),
+        list_add(["Buche", 1], InventoryList, NewList),
+        retract(inventory(_)),
+        assert(inventory(NewList)).
+
+interaction(buche) :-
+        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl.
+
+interaction(animal) :-
+        cutList(Cut),
+        \+ list_check_place(tronc, ruisseau, 0, Cut),
+        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl.
+
+interaction(animal) :-
+        actions(Actions),
+        check_if_positif(Actions, 0),
+        write("Le petit lapin s'est enfui après que vous l'ayez nourri."), nl.
+
+interaction(animal) :-
+        inventory(InventoryList),
+        list_check_inventory("Fruit", InventoryList),
+        write("Vous tendez le fruit à l'animal... Il est craintif..."), nl,
+        write("Vous posez le fruit à vos pieds puis reculez suffisamment."), nl,
+        write("L'animal s'approche lentement... Et déguste le fruit devant vous !"), nl, nl,    
+
+        write("        *Vous notez cette expérience unique dans votre carnet*"), nl,
+        actions(Actions),
+        change_list(0, 1, Actions, NewList),
+        retract(actions(_)),
+        assert(actions(NewList)),
+        remove_list(["Fruit", 1], InventoryList, NewList2),
+        retract(inventory(_)),
+        assert(inventory(NewList2)).
+
+interaction(animal) :-
+        actions(Actions),
+        check_if_negatif(Actions, 0),
+        write("Le corps sans vie de la bête git au sol."), nl.
+
+interaction(animal) :-
+        write("Si vous vous approchez trop prêt de l'animal, il pourrait s'enfuir, mieux vaut éviter et trouver quelque chose pour l'appâter..."), nl.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Couper chansons %%%%%%%%%%%%%%%%%%%%%%%%%
+
+couperTexte(ronces) :-
+        cutList(Cut),
+        list_check_place(ronces, foret, 0, Cut),
+        write("Le passage vers le {ruisseau} est désormais accessible !"), nl. 
+
+couperTexte(ronces) :-
+        write("Vous assénez de grands coups de couteau dans ces pauvres ronces et dégagez le passage vers le {ruisseau} !"), nl.
+
+couperTexte(fruit) :-
+        cutList(Cut),
+        list_check_place(fruit, sentier, 0, Cut),
+        write("Vous avez déjà coupé le fruit, il n'y a plus rien désormais."), nl. 
+
+couperTexte(fruit) :-
+        write("Vous coupez le haut du fruit, ce dernier tombe par terre. Vous le récupérez, il vous servira peut être plus tard !"), nl, nl,
+
+        write("        *Vous obtenez 1x [Fruit]*"), nl,
+        inventory(InventoryList),
+        list_add(["Fruit", 1], InventoryList, NewList),
+        retract(inventory(_)),
+        assert(inventory(NewList)).
+
+couperTexte(arbre) :-
+        cutList(Cut),
+        list_check_place(arbre, sentier, 0, Cut),
+        write("Si vous coupez tout les arbres de ce sentier, vous dénaturerez ce dernier..."), nl. 
+
+couperTexte(arbre) :-
+        inventory(InventoryList),
+        list_check_inventory("Buche", 3, InventoryList),
+        inventory(InventoryList),
+        list_check_inventory("Hache", InventoryList),
+        write("Vous assénez de grand coup de hache dans le tronc de l'arbre et arrivez aisément à le faire faillir."), nl, nl,
+
+        write("        *Vous obtenez 1x [Buche]*"), nl, nl,
+
+        write("Votre hache s'est malheuresement cassée sur le coup..."), nl,
+        list_add(["Buche", 1], InventoryList, NewList),
+        remove_list(["Hache", 1], NewList, NewList2),
+        retract(inventory(_)),
+        assert(inventory(NewList2)).
+
+couperTexte(arbre) :-
+        inventory(InventoryList),
+        list_check_inventory("Hache", InventoryList),
+        write("Vous assénez de grand coup de hache dans le tronc de l'arbre et arrivez aisément à le faire faillir."), nl, nl,
+
+        write("        *Vous obtenez 1x [Buche]*"), nl,
+        list_add(["Buche", 1], InventoryList, NewList),
+        retract(inventory(_)),
+        assert(inventory(NewList)).
+
+couperTexte(arbre) :-
+        write("Malgré vos efforts, vous vous rendez à l'évidence : Votre faible couteau ne vous permettra pas de couper cet énorme tronc d'arbre."), nl.
+
+couperTexte(branches) :-
+        cutList(Cut),
+        list_check_place(branches, maison, 0, Cut),
+        write("Vous avez déjà coupé la seule branche pouvant faire office de buche."), nl. 
+
+couperTexte(branches) :-
+        inventory(InventoryList),
+        list_check_inventory("Buche", 3, InventoryList),
+        inventory(InventoryList),
+        list_check_inventory("Hache", InventoryList),
+        write("Avec votre superbe hache, vous DÉTRUISEZ la base d'une des branches et la récupérez !"), nl, nl,
+
+        write("        *Vous obtenez 1x [Buche]*"), nl, nl,
+
+        write("Malheuresement, votre hache se casse sur le coup..."), nl,
+        inventory(InventoryList),
+        list_add(["Buche", 1], InventoryList, NewList),
+        remove_list(["Hache", 1], NewList, NewList2),
+        retract(inventory(_)),
+        assert(inventory(NewList2)).
+
+couperTexte(branches) :-
+        inventory(InventoryList),
+        list_check_inventory("Hache", InventoryList),
+        write("Avec votre superbe hache, vous DÉTRUISEZ la base d'une des branches et la récupérez !"), nl, nl,
+
+        write("        *Vous obtenez 1x [Buche]*"), nl,
+        inventory(InventoryList),
+        list_add(["Buche", 1], InventoryList, NewList),
+        retract(inventory(_)),
+        assert(inventory(NewList)).
+
+couperTexte(branches) :-
+        write("Votre couteau ne semble pas affecter ne serait-ce que l'écorce de la branche, il vous faudrait quelque chose de plus tranchant."), nl.
+
+couperTexte(tronc) :-
+        cutList(Cut),
+        list_check_place(tronc, ruisseau, 0, Cut),
+        write("Le tronc d'arbre est tombé au-dessus du ruisseau, vous offrant un pont peu pratique mais fonctionnel."), nl. 
+
+couperTexte(tronc) :-
+        inventory(InventoryList),
+        list_check_inventory("Hache", InventoryList),
+        write("Vous frappez à de nombreuses reprises le tronc... Il tremble... Puis se met à tomber !"), nl,
+        write("Vous pouvez désormais accéder à l'autre côté du ruisseau, là où se trouve une [buche] et un petit [animal] !"), nl.
+
+couperTexte(tronc) :-
+        write("Vous essayez de couper le tronc avec votre couteau, mais, il s'avère inefficace..."), nl.
+
+couperTexte(animal) :-
+        cutList(Cut),
+        \+ list_check_place(tronc, ruisseau, 0, Cut),
+        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl.
+
+couperTexte(animal) :-
+        cutList(Cut),
+        list_check_place(animal, ruisseau, 0, Cut),
+        write("Le corps sans vie de la bête git au sol."), nl.
+
+couperTexte(animal) :-
+        write("Vous vous lancez brutalement sur l'animal et lui assénez plusieurs coups de couteaux, la bête hurle de douleur et agonise lentement au sol. Son sang coule dans le ruisseau."), nl, nl,
+
+        write("        *Vous notez cette expérience unique dans votre carnet*"), nl,
+        actions(Actions),
+        change_list(0, -1, Actions, NewList),
+        retract(actions(_)),
+        assert(actions(NewList)).
+
 %%%%%%%%%%%%%%%%%%%%%%%%% Pages carnet %%%%%%%%%%%%%%%%%%%%%%%%%
 lire(1) :-
         actions(Actions),
         check_if_positif(Actions, 0),
-        write("Oui ici c'est positif"), nl, nl,
+        write("Souvenir positif de la salle du feu de camp."), nl, nl,
+
+        write("J'ai posé un fruit devant un animal roux de l'autre côté d'un ruisseau."), nl,
+        write("Celui-ci l'a dégusté devant moi... Trop mignon !"), nl, nl,
 
         write("Page suivante avec 'suiv.'"), nl,
         dernierePage(Last),
         retract(dernierePage(Last)),
-        assert(dernierePage(1)).
+        assert(dernierePage(1)),
+        !.
 
 lire(1) :-
         actions(Actions),
         check_if_negatif(Actions, 0),
-        write("Non ici c'est négatif"), nl, nl,
+        write("Souvenir négatif de la salle du feu de camp."), nl, nl,
+        
+        write("En lançant un couteau sur un animal et en lui assenant plusieurs coups de couteaux, celui-ci s'est roulé de douleur avant d'agoniser sur le sol..."), nl,
+        write("Était-ce vraiment une expérience sympathique ?"), nl, nl,
 
         write("Page suivante avec 'suiv.'"), nl,
         dernierePage(Last),
         retract(dernierePage(Last)),
-        assert(dernierePage(1)).
+        assert(dernierePage(1)),
+        !.
 
 lire(1) :-
         write("Cette page est vide."), nl,
         write("Page suivante avec 'suiv.'"), nl,
         dernierePage(Last),
         retract(dernierePage(Last)),
-        assert(dernierePage(1)).
+        assert(dernierePage(1)),
+        !.
 
 lire(2) :-
         write("Eheh c'est la deuxième page du carnet"), nl, nl,
@@ -636,7 +1164,8 @@ lire(2) :-
         write("Page précédente avec 'prev.'"), nl,
         dernierePage(Last),
         retract(dernierePage(Last)),
-        assert(dernierePage(2)).
+        assert(dernierePage(2)),
+        !.
 
 lire(3) :-
         write("Eheh c'est la troisième page du carnet"), nl, nl,
@@ -645,4 +1174,5 @@ lire(3) :-
         write("Page précédente avec 'prev.'"), nl,
         dernierePage(Last),
         retract(dernierePage(Last)),
-        assert(dernierePage(3)).
+        assert(dernierePage(3)),
+        !.
