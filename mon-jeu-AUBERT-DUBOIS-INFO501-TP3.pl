@@ -50,7 +50,7 @@ position(origami, etagere).
 position(maths, etagere).
 position(logique, etagere). 
 position(photo, bureau). 
-position(triangle, bureau). 
+position(figurine, bureau). 
 position(carnet, bureau). 
 
 
@@ -134,20 +134,20 @@ r :- regarder.
 
 
 % déplacements
-% CR_Ov
 aller(porte) :-
-        interactedList(Interacted),
-        \+ list_check(chat, Interacted),
-        write("Vous mettez la main sur la poignée, votre chat miaule et demande une caresse, mieux vaut lui dire au revoir avant de partir."), nl, nl,
+        inventory(Inventory),
+        \+ list_check("Carnet & Stylo", Inventory),
+        %%% CR_F_23
+        write("Change ce texte"), nl, nl,
         position_courante(Ici),
         description(Ici), 
         !.
 
-% CR_Ov
 aller(porte) :-
-        inventory(Inventory),
-        \+ list_check("Carnet & Stylo", Inventory),
-        write("Vous mettez la main sur la poignée, mais soudain... Vous vous rappelez que vous avez oublié quelque chose sur votre bureau."), nl, nl,
+        interactedList(Interacted),
+        \+ list_check(chat, Interacted),
+        %%% CR_F_17
+        write("Vous mettez la main sur la poignée, votre chat miaule et demande une caresse, mieux vaut lui dire au revoir avant de partir."), nl, nl,
         position_courante(Ici),
         description(Ici), 
         !.
@@ -219,7 +219,7 @@ check_if_positif(Liste, Num) :-
         nth0(Num, Liste, Element),
         Element > 0.
 
-check_if_négatif(Liste, Num) :-
+check_if_negatif(Liste, Num) :-
         nth0(Num, Liste, Element),
         Element < 0.
 
@@ -235,10 +235,7 @@ fin :-
 
 
 % affiche les instructions du jeu
-instructions :-
-        inventory(Inventory),
-        list_check("Carnet & Stylo", Inventory),
-        nl,
+instructionsall :-
         write("Les commandes doivent être données avec la syntaxe Prolog habituelle."), nl,
         write("Les commandes existantes sont :"), nl, nl,
         write("jouer.                             -- pour commencer une partie."), nl,
@@ -247,25 +244,28 @@ instructions :-
         write("retour. / b.                       -- pour retourner à l'endroit précédent/au centre de la pièce."), nl,
         write("observer(objet). / o [objet].      -- pour regarder quelque chose."), nl,
         write("interagir(objet). / int [objet].   -- pour interagir avec quelque chose."), nl,
-        write("inventaire. / inv.                 -- pour analyser votre inventaire"), nl,
-        write("carnet(page). / c {page}.          -- pour lire les pages de votre carnet"), nl,
+        write("inventaire. / inv.                 -- pour analyser votre inventaire"), nl.
+
+instructions2 :-
+        write("carnet(page). / c {page}.          -- pour lire les pages de votre carnet"), nl.
+
+instructionfin :-
         write("instructions.                      -- pour revoir ce message !"), nl,
-        write("fin.                               -- pour terminer la partie et quitter."), nl,
+        write("fin.                               -- pour terminer la partie et quitter."), nl.
+
+instructions :-
+        inventory(Inventory),
+        list_check("Carnet & Stylo", Inventory),
+        nl,
+        instructionsall,
+        instructions2,
+        instructionfin,
         nl.
 
 instructions :-
         nl,
-        write("Les commandes doivent être données avec la syntaxe Prolog habituelle."), nl,
-        write("Les commandes existantes sont :"), nl, nl,
-        write("jouer.                             -- pour commencer une partie."), nl,
-        write("regarder. / r.                     -- pour regarder autour de vous (Répète le texte précédent)."), nl,
-        write("aller(direction) / go {direction}. -- pour aller dans cette direction."), nl,
-        write("retour. / b.                       -- pour retourner à l'endroit précédent/au centre de la pièce."), nl,
-        write("observer(objet). / o {objet}.      -- pour regarder quelque chose."), nl,
-        write("interagir(objet). / int {objet}.   -- pour interagir avec quelque chose."), nl,
-        write("inventaire. / inv.                 -- pour analyser votre inventaire"), nl,
-        write("instructions.                      -- pour revoir ce message !"), nl,
-        write("fin.                               -- pour terminer la partie et quitter."), nl,
+        instructionsall,
+        instructionfin,
         nl.
 
 
@@ -282,7 +282,6 @@ jouer :-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Emplacements chambre %%%%%%%%%%%%%%%%%%%%%%%%%
-% CR_D0
 description(chambre) :- 
         visited(Visited),
         list_check(chambre, Visited),
@@ -290,110 +289,112 @@ description(chambre) :-
         write("Quelques livres sont posés sur votre {etagere}, n'attendant que vous pour les prendre et vous asseoir en face de votre {bureau} les lire."), nl,
         write("Le soleil levant éclaire légèrement la {porte} de votre chambre.").
 
-% CR_D0
 description(chambre) :- 
+        %%% CR_D0
         write("Le soleil se lève, amenant une douce éclaircie sur la {porte} de votre chambre."), nl, 
         write("Vous avez fait votre {lit}, celui-ci semble désormais si moelleux..."), nl,
         write("Mais, quelques livres sont posés sur votre {etagere}, n'attendant que vous pour les prendre et vous asseoir en face de votre {bureau} les lire."), nl, nl,
         write("Où voulez-vous ALLER ?"), nl.
 
-% CR_D1
-description(lit) :- 
+description(lit) :-
+        %%% CR_D1 
         write("Vous vous approchez du lit. Celui-ci semble moelleux et accueillant."), nl, 
         write("Misty, votre [chat], vous regarde avec des yeux ronds, semblant attendre quelque chose de vous."), nl, 
         write("Un [poster] est accroché sur le mur, au-dessus du lit."), nl, 
         write("Une petite [peluche] est posée à côté de votre oreiller."), nl.
 
-% CR_D2
 description(etagere) :-
+        %%% CR_D2
         write("Vous vous approchez de l'étagère. Sur celle-ci il y a deux livres, un de [Maths] et un de [Logique]."), nl, 
         write("Un [origami] fait-main est également posé sur cette étagère."), nl.
 
-% CR_D3
 description(bureau) :-
+        %%% CR_D3
         write("Vous vous approchez du bureau. Un [carnet] est mis en évidence au milieu de celui-ci. Une [photo] encadrée est soutenu par un [triangle] peu commun."), nl.
 
-% CR_Ov
 description(porte) :-
         interactedList(Interacted),
         list_check(chat, Interacted),
         inventory(Inventory),
         list_check("Carnet & Stylo", Inventory),
+        %%% CR_OV
         write("Vous ouvrez la porte, et sortez de votre chambre."), nl.
 
 % ?
 description(hub) :-
-        write("Vous êtes au hub").
+        write("Change ce texte").
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Objets chambre %%%%%%%%%%%%%%%%%%%%%%%%%
 
-% CR_F_01
 description(chat) :-
         interactedList(Interacted),
         list_check(chat, Interacted),
+        %%% CR_F_18
         write("Misty est partie en courant en dehors de la chambre."), nl.
 
-% CR_F_01
 description(chat) :-
+        %%% CR_F_01
         write("Misty, votre petit chat noir, se dresse sur le lit en vous observant. Elle miaule dans votre direction."), nl.
 
-% CR_F_02
 description(poster) :-
+        %%% CR_F_02
         write("C'est un poster du film 'Inception'. On y voit 6 personnages dans une ville distordue par la réalité des rêves."), nl.
 
-% CR_F_03
 description(peluche) :-
+        %%% CR_F_03
         write("Une peluche en forme de T-Rex que vous avez obtenu plus jeune, en allant à la fête foraine avec votre famille."), nl.
 
 description(origami) :-
         interactedList(Interacted),
         list_check(origami, Interacted),
+        %%% CR_F_05
         write("Un origami en forme de renard que vous avez réalisé durant une conférence sur les origamis."), nl, 
         write("Vous êtes fier de l'avoir remis à neuf."), nl.
 
-% CR_F_05
 description(origami) :-
+        %%% CR_F_19
         write("Un origami en forme de renard que vous avez réalisé durant une conférence sur les origamis."), nl, 
         write("Celui-ci semble être courbé au niveau du museau."), nl.
 
-% CR_F_07
 description(maths) :-
+        %%% CR_F_07
         write("Le livre de Maths a pour titre 'Maths, Application et Algèbre'."), nl,
         write("La poussière l'envahit, il ne semble pas avoir été ouvert depuis longtemps."), nl.
 
-% CR_F_09
 description(logique) :-
+        %%% CR_F_09
         write("Le livre de Logique a pour titre 'Logique, Illogique, et Démontrer par l'Absurdité'."), nl,
         write("Contrairement à son confrère, ce livre semble avoir été acheté récemment, il est en parfait état."), nl.
 
-% CR_F_11
 description(photo) :-
+        %%% CR_F_11
         write("Un selfie de vous et vos amis, autour d'un superbe feu de camp dans la forêt."), nl,
         write("La photo a été mise dans un très joli cadre afin de ne pas abimer ce précieux souvenir."), nl.
 
-% CR_F_13
-description(triangle) :-
+description(figurine) :-
+        %%% CR_F_13
         write("Ce triangle est une représentation du triangle impossible en version miniaturisé. Vous l'avez obtenu durant une visite au musée des illusions."), nl.
 
-% CR_F_22
 description(carnet) :-
         interactedList(Interacted),
         list_check(carnet, Interacted),
+        %%% CR_F_22
         write("Le carnet est dans votre sac désormais."), nl.
 
-% CR_F_15
 description(carnet) :-
+        %%% CR_F_15
         write("Un simple carnet que vous venez d'acheter, est posé sur le bureau, sur sa couverture se trouve un stylo qui vous a suivi toute votre vie puisqu'il ne vous a jamais failli depuis le début de vos études. En même temps vous ne l'avez pas beaucoup utilisé."), nl.
 
-% CR_O_01
+
 interaction(chat) :-
         interactedList(Interacted),
         list_check(chat, Interacted),
+        %%% CR_F_18
         write("Misty est partie en courant en dehors de la chambre."), nl.
 
-% CR_O_01
 interaction(chat) :-
+        %%% CR_O_02
         write("Vous caressez Misty, elle se met à ronronner et se colle à vous. En continuant de la caresser, vous remarquez quelque chose coincé dans ses poils."), nl, nl,
         write("        *Vous obtenez 1x Fragment de Clé*"), nl, nl,
         write("Par malheur, vous lui avez tiré des poils, Misty fait un bond et s'enfuit de la pièce."), nl,
@@ -403,88 +404,64 @@ interaction(chat) :-
         retract(inventory(_)),
         assert(inventory(NewList)).
 
-% CR_V_01
 interaction(poster) :-
-        inventory(Inventory),
-        list_check("Carnet & Stylo", Inventory),
-        interactedList(Interacted),
-        list_check(poster, Interacted),
-        write("Vous avez déjà noté tout ce qui était intéréssant sur ce poster."), nl.
+        %%% CR_F_16
+        write("Change ce texte"), nl.
 
-% CR_V_01
-interaction(poster) :-
-        inventory(Inventory),
-        list_check("Carnet & Stylo", Inventory),
-        write("Vous vous approchez du poster de 'Inception'."), nl,
-        write("Les personnages semblent être libre de leurs mouvements."), nl,
-        write("A travers le poster, ils se rapprochent de vous."), nl,
-        write("Vous clignez des yeux. Les personnages sont revenus à leurs positions initiales."), nl,
-        write("Cela n'était que votre imagination."), nl,
-        write("Vous décidez de noter cette drôle d'anecdote dans la PREMIÈRE PAGE de votre carnet."), nl,
-        actions(Actions),
-        change_list(0, 1, Actions, NewList),
-        retract(actions(_)),
-        assert(actions(NewList)).
-
-% CR_V_01
-interaction(poster) :-
-        write("Vous vous approchez du poster de 'Inception'."), nl,
-        write("Vous vous imaginez que les personnages de l'affiche se mettent à bouger."), nl,
-        write("Cela vous remémore de bons souvenirs du film."), nl.
-
-% CR_F_04
 interaction(peluche) :-
+        %%% CR_F_04
         write("Vous serrez la peluche fort dans vos bras, qu'importe votre âge, l'enfant en vous est heureux d'avoir fait ça et se sent déterminer à continuer."), nl.
 
-% CR_F_06
+
 interaction(origami) :-
         interactedList(Interacted),
         list_check(origami, Interacted),
+        %%% CR_F_20
         write("Vous dépliez le museau du petit renard, l'origami est à nouveau tout neuf."), nl.
 
-% CR_F_06
 interaction(origami) :-
+        %%% CR_F_06
         write("Vous avez déjà remis l'origami est à neuf."), nl.
 
-% CR_F_08
 interaction(maths) :-
         interactedList(Interacted),
         list_check(maths, Interacted),
+        %%% CR_F_21
         write("Non, plus jamais je ne le toucherai !"), nl.
 
-% CR_F_08
 interaction(maths) :-
+        %%% CR_F_08
         write("Vous prenez le livre de Mathématiques de votre bibliothèque, et ouvrez au milieu de celui-ci."), nl,
         write("Une vision de nombreux symboles mathématiques vous agresse l'esprit !"), nl,
         write("Par réflexe de survie, vous refermez rapidement ce livre démoniaque et le rangez de nouveau sur l'étagère."), nl,
         write("Vous vous promettez de ne plus jamais y toucher."), nl.
 
-% CR_F_10
 interaction(logique) :-
+        %%% CR_F_10
         write("Ce livre édité par Pierre Hyvernat semble divin."), nl,
         write("Celui-ci vous a ouvert les yeux sur les différents aspects de notre monde."), nl,
         write("Désormais, vous arrivez à résonner de façon plus clair et obtiendrez plus de points au partiel de Logique arrivant la semaine prochaine."), nl.
 
-% CR_F_12
 interaction(photo) :-
+        %%% CR_F_12
         write("Vous vous remémorez l'ambiance de ce feu de camp. Le parfum des brochettes puis des chamallow pendant que vous vous racontiez diverses histoires, tantôt drôles, tantôt terrifiantes."), nl,
         write("Une envie de refaire ce genre de soirée vous parvient à l'esprit pendant qu'une larme de nostalgie coule sur votre joue."), nl.
 
-% CR_F_14
-interaction(triangle) :-
+interaction(figurine) :-
+        %%% CR_F_14
         write("En voyant ce triangle de forme impossible si singulière, vous vous rappelez les plus grandes illusions du musée que vous avez visité."), nl,
         write("Les étoiles plein les yeux, vous décidez de reprendre le parcours de votre chambre."), nl.
 
-% CR_F_22
 interaction(carnet) :-
         interactedList(Interacted),
         list_check(carnet, Interacted),
+        %%% CR_F_22
         write("Le carnet est dans votre sac désormais."), nl.
 
-% CR_V_00
 interaction(carnet) :-
+        %%% CR_V_01
         write("Vous décidez que ces ustensiles vous seront utiles pour aujourd'hui et les prenez avec vous."), nl, nl,
-        write("        [*Vous obtenez un [Carnet & Stylo]*]"), nl, nl,
+        write("        *Vous obtenez 1x [Carnet & Stylo]*"), nl, nl,
         write("Une nouvelle commande est apparue. N'hésitez pas à faire 'instructions.' pour la consulter"), nl,
         inventory(InventoryList),
         list_add("Carnet & Stylo", InventoryList, NewList),
