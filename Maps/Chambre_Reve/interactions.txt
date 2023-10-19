@@ -25,7 +25,7 @@ Interagir Logique - CR_F_10
 --- D3 ---
 Observer Photo - CR_F_11
 Interagir Photo - CR_F_12
-Observer Triangle - CR_F_13
-Interagir Triangle - CR_F_14
+Observer Figurine - CR_F_13
+Interagir Figurine - CR_F_14
 Observer Carnet - Si CR_O_01 => CR_F_22 SINON CR_F_15
 Interagir Carnet - Si CR_O_01 => CR_F_22 SINON CR_O_01

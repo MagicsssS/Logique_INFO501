@@ -16,7 +16,7 @@ Vous vous approchez de l'étagère. Sur celle-ci il y a deux livres, un de [Math
 Un [origami] fait-main est également posé sur cette étagère.
 
 CR_D3 - Aller Bureau
-Vous vous approchez du bureau. Un [carnet] est mis en évidence au milieu de celui-ci. Une [photo] encadrée est soutenu par un [triangle] peu commun.
+Vous vous approchez du bureau. Un [carnet] est mis en évidence au milieu de celui-ci. Une [photo] encadrée est soutenu par une [figurine].
 
 CR_OV - Aller Porte
 Vous ouvrez la porte, et sortez de votre chambre.
@@ -97,11 +97,12 @@ CR_F_12 - Interagir Photo
 Vous vous remémorez l'ambiance de ce feu de camp. Le parfum des brochettes puis des chamallow pendant que vous vous racontiez diverses histoires, tantôt drôles, tantôt terrifiantes.
 Une envie de refaire ce genre de soirée vous parvient à l'esprit pendant qu'une larme de nostalgie coule sur votre joue.
 
-CR_F_13 - Observer Triangle
-Ce triangle est une représentation du triangle impossible en version miniaturisé. Vous l'avez obtenu durant une visite au musée des illusions.
+CR_F_13 - Observer Figurine
+C'est une petite figurine poussièreuse en bois que vous avez trouvé lors d'une expédition dans des galeries pour un projet scientifique. Elle représente un aigle.
 
-CR_F_14 - Interagir Triangle
-En voyant ce triangle de forme impossible si singulière, vous vous rappelez les plus grandes illusions du musée que vous avez visité. Les étoiles plein les yeux, vous décidez de reprendre le parcours de votre chambre.
+CR_F_14 - Interagir Figurine
+Vous essayez de nettoyer la figurine, sans succès. La poussière dessus est trop incrustée.
+"Au moins elle est plus authentique !" est la pensée qui traverse votre esprit en ce moment.
 
 CR_F_15 - Observer Carnet & Stylo
 Un simple carnet que vous venez d'acheter, est posé sur le bureau, sur sa couverture se trouve un stylo.qui vous a suivi toute votre vie puisqu'il ne vous a jamais failli depuis le début de vos études. En même temps vous ne l'avez pas beaucoup utilisé.
@@ -111,4 +112,4 @@ Le carnet est dans votre sac désormais.
 
 CR_O_01 - Interagir Carnet & Stylo
 Vous décidez que ces ustensiles vous seront utiles pour aujourd'hui et les prenez avec vous.
-	*Vous obtenez un [Carnet & Stylo]*
+	*Vous obtenez 1x [Carnet & Stylo]*

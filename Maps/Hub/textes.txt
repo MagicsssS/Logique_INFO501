@@ -8,7 +8,7 @@ Vous y découvrez quatres nouvelles portes :
 - En collant votre oreille à la première, vous y écoutez des {chansons}.
 - Par de-là la seconde, vous entendez des rires d'enfants, comme à une {fete}.
 - La troisième n'émet aucun bruit... C'est la seule porte à avoir une {serrure}.
-- Enfin, vous percevez des murmures et la voix d'un guide, comme dans un {musee} derrière la dernière porte.
+- Enfin, vous percevez la voix d'un guide, beaucoup d'échos, ainsi que des bruits de pelles et de pioches comme dans des {galeries}.
 
 Malheureusement, la porte à votre chambre a disparu derrière vous... Il ne semble plus être possible d'y aller.
 
@@ -18,7 +18,7 @@ HR_D5 - (Texte d'entrée dans la zone)
 Vous êtes de retour dans l'étrange pièce aux portes.
 - Celle d'où proviennent les {chansons}.
 - Celle où semble se dérouler une {fete}.
-- Celle avec la voix du guide du {musee}.
+- Celle avec la voix du guide du {galeries}.
 - Celle à {serrure}.
 
 Où voulez-vous ALLER ?
@@ -30,7 +30,7 @@ Vous ouvrez la porte dont proviennent les chansons.
 HR_D2 - Aller fete
 Vous ouvrez la porte dont proviennent les rires d'enfants.
 
-HR_D3 - Aller musee
+HR_D3 - Aller galeries
 Vous ouvrez la porte dont provient la voix du guide.
 
 HR_Dv - Aller serrure
@@ -47,5 +47,5 @@ La porte menant au feu de camp a disparu...
 HR_F_03 - Aller fete
 La porte menant à la fête foraine a disparu...
 
-HR_F_04 - Aller musee
-La porte menant au musée des illusions a disparu...
+HR_F_04 - Aller galeries
+La porte menant aux galeries a disparu...
