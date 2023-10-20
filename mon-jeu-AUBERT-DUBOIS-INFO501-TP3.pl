@@ -40,23 +40,27 @@ actions([0,0,0,0]).
 cauchemar(0).
 
 % passages entre les différents endroits du jeu
-passage(chambre, lit, lit).
-passage(chambre, etagere, etagere). 
-passage(chambre, bureau, bureau).
-passage(chambre, porte, hub_reve).
+passage(chambre, lit, lit, 0).
+passage(chambre, etagere, etagere, 0). 
+passage(chambre, bureau, bureau, 0).
+passage(chambre, porte, hub_reve, 0).
 
-passage(hub_reve, chansons, chansons).
-passage(chansons, foret, foret).
-passage(foret, sentier, sentier).
-passage(foret, maison, maison).
-passage(foret, ruisseau, ruisseau).
+passage(hub_reve, chansons, chansons, 0).
+passage(chansons, foret, foret, 0).
+passage(foret, sentier, sentier, 0).
+passage(foret, maison, maison, 0).
+passage(foret, ruisseau, ruisseau, 0).
 
-passage(hub_reve, galeries, galeries).
-passage(galeries, couloir, couloir).
-passage(couloir, passage, passage).
-passage(couloir, escalier, escalier).
+passage(hub_reve, galeries, galeries, 0).
+passage(galeries, couloir, couloir, 0).
+passage(couloir, passage, passage, 0).
+passage(couloir, escalier, escalier, 0).
 
-passage(hub_cauchemar, campement, campement).
+passage(hub_cauchemar, campement, campement, 1).
+passage(campement, foret, foret, 1).
+passage(maison, ruisseau, ruisseau, 1).
+passage(ruisseau, campement, campement, 1).
+
 passage(hub_cauchemar, galeries, galeries).
 %passage(hub_cauchemar, chambre, chambre).
 
@@ -80,43 +84,53 @@ retour(campement, hub_cauchemar).
 retour(galeries, hub_cauchemar).
 
 % position des objets
-position(chat, lit).
-position(poster, lit).
-position(peluche, lit).
-position(origami, etagere).
-position(maths, etagere).
-position(logique, etagere). 
-position(photo, bureau). 
-position(figurine, bureau). 
-position(carnet, bureau). 
+position(chat, lit, 0).
+position(poster, lit, 0).
+position(peluche, lit, 0).
+position(origami, etagere, 0).
+position(maths, etagere, 0).
+position(logique, etagere, 0). 
+position(photo, bureau, 0). 
+position(figurine, bureau, 0). 
+position(carnet, bureau, 0).
 
-position(mathieu, chansons).
-position(maxime, chansons).
-position(feu, chansons).
-position(lune, chansons).
-position(ronces, foret).
-position(liane, sentier).
-position(fruit, sentier).
-position(arbre, sentier).
-position(feuille, sentier).
-position(hache, maison).
-position(fleurs, maison).
-position(branches, maison).
-position(eau, ruisseau).
-position(tronc, ruisseau).
-position(buche, ruisseau).
-position(animal, ruisseau).
+position(mathieu, chansons, 0).
+position(maxime, chansons, 0).
+position(feu, chansons, 0).
+position(lune, chansons, 0).
+position(ronces, foret, 0).
+position(liane, sentier, 0).
+position(fruit, sentier, 0).
+position(arbre, sentier, 0).
+position(feuille, sentier, 0).
+position(hache, maison, 0).
+position(fleurs, maison, 0).
+position(branches, maison, 0).
+position(eau, ruisseau, 0).
+position(tronc, ruisseau, 0).
+position(buche, ruisseau, 0).
+position(animal, ruisseau, 0).
 
-position(pelle, galeries).
-position(gerald, galeries).
-position(minerais, galeries).
-position(friable, couloir).
-position(toile, couloir).
-position(joyaux, passage).
-position(pioche, passage).
-position(dynamite, escalier).
-position(trou, escalier).
-position(statuette, escalier).
+position(pelle, galeries, 0).
+position(gerald, galeries, 0).
+position(minerais, galeries, 0).
+position(friable, couloir, 0).
+position(toile, couloir, 0).
+position(joyaux, passage, 0).
+position(pioche, passage, 0).
+position(dynamite, escalier, 0).
+position(trou, escalier, 0).
+position(statuette, escalier, 0).
+
+position(traces, campement, 1).
+position(feu, campement, 1).
+position(lune, campement, 1).
+position(ronces, foret, 1).
+position(hache, maison, 1).
+position(baton, maison, 1).
+position(broussailles, maison, 1).
+position(tronc, ruisseau, 1).
+position(courant, ruisseau, 1).
 
 % objets pouvants être coupés
 coupage(ronces).
@@ -200,8 +214,8 @@ remove_list(R, [H|T], [H|T2]) :- H \= R, remove_list(R, T, T2).
 % observer quelque chose
 observer(X) :-
         position_courante(P),
-        position(X, P),
         cauchemar(Cauchemar),
+        position(X, P, Cauchemar),
         description(X, Cauchemar),
         !.
 
@@ -215,8 +229,8 @@ observer(X) :-
 % interagir avec quelque chose
 interagir(X) :-
         position_courante(P),
-        position(X, P),
         cauchemar(Cauchemar),
+        position(X, P, Cauchemar),
         interaction(X, Cauchemar), nl,
         interactedList(Interacted),
         list_add([X, P, Cauchemar], Interacted, NewList),
@@ -384,7 +398,7 @@ aller(Direction) :-
         equal(Cauchemar, 0),
         description(Direction, Cauchemar),
         position_courante(Ici),
-        passage(Ici, Direction, La),
+        passage(Ici, Direction, La, Cauchemar),
         equal(Direction, La),
         retract(position_courante(Ici)),
         assert(position_courante(La)),
@@ -399,7 +413,7 @@ aller(Direction) :-
         cauchemar(Cauchemar),
         equal(Cauchemar, 0),
         position_courante(Ici),
-        passage(Ici, Direction, La),
+        passage(Ici, Direction, La, Cauchemar),
         description(Direction, Cauchemar), nl,
         retract(position_courante(Ici)),
         assert(position_courante(La)),

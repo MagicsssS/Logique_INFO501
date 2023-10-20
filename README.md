@@ -67,7 +67,8 @@ Cette liste d'instructions s'actualisera tout au long de la partie ! N'hésitez 
       %Remplacement par le nouvel inventaire.
       assert(inventory(NewList)).	
 
-    La difficulté d'ajout dans l'inventaire réside dans le fait d'avoir plusieurs éléments. Par exemple, si nous récupérons une buche, puis une seconde buche plus tard, il nous faut 2x Buche, et non pas 1x Buche / 1x Buche
+    La difficulté d'ajout dans l'inventaire réside dans le fait d'avoir plusieurs éléments. 
+    Par exemple, si nous récupérons une buche, puis une seconde buche plus tard, il nous faut 2x Buche, et non pas 1x Buche / 1x Buche
 
       % Ajouter dans l'inventaire si l'item existe déjà
       list_add(Name, OldList, NewList):-

@@ -45,5 +45,5 @@ Aller Campement - Si FC_O_06 => FC_D0_BIS SINON FC_F_19
 Observer Tronc - FC_F_16
 Interagir Tronc - FC_O_06
 
-Observer Ruisseau - FC_F_17
-Interagir Ruisseau - FC_F_18
+Observer Courant - FC_F_17
+Interagir Courant - FC_F_18
