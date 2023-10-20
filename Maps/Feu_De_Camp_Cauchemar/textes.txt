@@ -1,11 +1,12 @@
 FC_D0 - (Texte d'entrée dans la zone)
+Vous vous retrouvez dans la forêt où a eu lieu le feu de camp, mais...
 Il n'y a personne.
 Il n'y a que vous.
-La forêt n'a plus rien d'accueillant, vous ne vous sentez plus en sécurité.
-Pas un seul rayon de lune ne vous offre ne serait-ce qu'un peu de lumière dans cette nuit noire.
+La [Pluie] fait rage, la forêt n'a plus rien d'accueillant, vous ne vous sentez plus en sécurité.
+Pas une seule éclaircie de la lune ne vous offre ne serait-ce qu'un peu de lumière dans cette nuit noire.
 Les grands arbres sont oppressant, vous commencez à stresser et à avoir du mal à respirer...
 Quelques bruits dans les buissons, probablement de petits animaux, sont les seuls sons que vous entendez.
-Le [Feu] de camp est éteint par la [Pluie] qui fait rage.
+Le [Feu] de camp est éteint.
 Des [Traces] suspectes sont présentes un peu partout autour du campement.
 
 FC_D0_Bis
