@@ -645,7 +645,7 @@ description(etagere, 0) :-
 
 description(bureau, 0) :-
         %%% CR_D3
-        write("Vous vous approchez du bureau. Un [carnet] est mis en évidence au milieu de celui-ci. Une [photo] encadrée est soutenu par un [triangle] peu commun."), nl.
+        write("Vous vous approchez du bureau. Un [carnet] est mis en évidence au milieu de celui-ci. Une [photo] encadrée est soutenu par une [figurine]."), nl.
 
 description(porte, 0) :-
         interactedList(Interacted),
@@ -704,7 +704,7 @@ description(photo, 0) :-
 
 description(figurine, 0) :-
         %%% CR_F_13
-        write("Ce triangle est une représentation du triangle impossible en version miniaturisé. Vous l'avez obtenu durant une visite au musée des illusions."), nl.
+        write("C'est une petite figurine poussièreuse en bois que vous avez trouvé lors d'une expédition dans des galeries pour un projet scientifique. Elle représente un aigle."), nl.
 
 description(carnet, 0) :-
         interactedList(Interacted),
@@ -1355,8 +1355,8 @@ interaction(photo, 0) :-
 
 interaction(figurine, 0) :-
         %%% CR_F_14
-        write("En voyant ce triangle de forme impossible si singulière, vous vous rappelez les plus grandes illusions du musée que vous avez visité."), nl,
-        write("Les étoiles plein les yeux, vous décidez de reprendre le parcours de votre chambre."), nl.
+        write("Vous essayez de nettoyer la figurine, sans succès. La poussière dessus est trop incrustée."), nl,
+        write("'Au moins elle est plus authentique !' est la pensée qui traverse votre esprit en ce moment."), nl.
 
 interaction(carnet, 0) :-
         interactedList(Interacted),
