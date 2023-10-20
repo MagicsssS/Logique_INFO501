@@ -380,17 +380,20 @@ deplacer(ruisseau, 0) :-
         cutList(Cut),
         \+ list_check_place(ronces, foret, 0, Cut),
         %%% FR_F_39
-        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl.
+        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl,
+        !.
 
 deplacer(couloir, 0) :-
         interactedList(Interacted),
         \+ list_check_place(gerald, galeries, 0, Interacted),
-        write("Il faut que je parle à [Gérald] afin de savoir ce que je fais ici."), nl.
+        write("Il faut que je parle à [Gérald] afin de savoir ce que je fais ici."), nl,
+        !.
 
 deplacer(couloir, 0) :-
         inventory(InventoryList),
         \+ list_check_inventory("Pelle", InventoryList),
-        write("Mieux vaut prendre la [Pelle] avant de partir en exploration..."), nl.
+        write("Mieux vaut prendre la [Pelle] avant de partir en exploration..."), nl,
+        !.
 
 deplacer(foret, 1) :-
         visited(Visited),
@@ -413,10 +416,10 @@ deplacer(ruisseau, 1) :-
 
 % Dans le cas où le nom où nous allons et celui rentré en direction est le même
 deplacer(Direction, Cauchemar) :-
-        description(Direction, Cauchemar),
         position_courante(Ici),
         passage(Ici, Direction, La, Cauchemar),
         equal(Direction, La),
+        description(Direction, Cauchemar),
         retract(position_courante(Ici)),
         assert(position_courante(La)),
         visited(Visited),
@@ -429,6 +432,7 @@ deplacer(Direction, Cauchemar) :-
 deplacer(Direction, Cauchemar) :-
         position_courante(Ici),
         passage(Ici, Direction, La, Cauchemar),
+        description(Direction, Cauchemar),
         retract(position_courante(Ici)),
         assert(position_courante(La)),
         visited(Visited),
@@ -439,7 +443,7 @@ deplacer(Direction, Cauchemar) :-
         !.
 
 
-deplacer(_) :-
+deplacer(_, _) :-
         write("Où essayez vous d'aller ? Cet endroit n'existe pas."), nl,
         fail.
 
@@ -713,8 +717,8 @@ description(carnet, 0) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Emplacements hub reve %%%%%%%%%%%%%%%%%%%%%%%%%
 description(hub_reve, 0) :-
-        visited(Visited),
-        list_check_place(hub_reve, chambre, 0, Visited),
+        interactedList(Interacted),
+        list_check_place(porte, chambre, 0, Interacted),
         %%% HR_D5
         write("Vous êtes de retour dans l'étrange pièce aux portes."), nl,
         write("- Celle d'où proviennent les {chansons}."), nl,
@@ -972,7 +976,7 @@ description(dynamite, 0) :-
 
 description(trou, 0) :-
         interactedList(Interacted),
-        list_check_place(dynamite, escalier, 0, Interacted),
+        \+ list_check_place(dynamite, escalier, 0, Interacted),
         write("Un trou ? Quel trou ? Je ne vois qu'une dynamite prête à exploser..."), nl.
 
 description(trou, 0) :-
@@ -1660,7 +1664,7 @@ interaction(dynamite, 0) :-
 
 interaction(trou, 0) :-
         interactedList(Interacted),
-        list_check_place(dynamite, escalier, 0, Interacted),
+        \+ list_check_place(dynamite, escalier, 0, Interacted),
         write("Un trou ? Quel trou ? Je ne vois qu'une dynamite prête à exploser..."), nl.
 
 interaction(trou, 0) :-
