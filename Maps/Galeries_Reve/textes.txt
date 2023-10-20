@@ -1,0 +1,127 @@
+GR_D0 - (Texte d'entrée dans la zone)
+Vos poumons manquent subitement d'air... Vos yeux s'habituent difficilement à l'obscurité...
+Vous vous sentez lourd, en effet, vous remarquez être grandement équipé : Tenue complète de sécurité, bottes comprises et même
+un casque à lampe frontale. Vous êtes dans une galerie, en train de miner.
+
+En regardant autour de vous, vous remarquez [Gérald], sans même vous étonner de connaitre son nom, il vous parrait familier.
+Des [minerais] gisent sur les murs en quantité... Posé contre l'un d'entre eux, une [pelle], n'attendant qu'à être prise.
+Par delà cette salle se trouve un grand {couloir}, menant à la suite des galeries.
+
+GR_D1 - Aller Couloir
+En vous dirigeant vers ce long couloir, vous remarquez plusieurs [toiles] d'araignée sur les murs.
+L'{escalier} que vous avez découvert est encore tout poussiéreux.
+En continuant à avancer, vous découvrez un {passage} vers la salle suivante.
+
+GR_D1_Bis - Aller Couloir
+En vous dirigeant vers ce long couloir, vous remarquez plusieurs [toiles] d'araignée sur les murs et qu'un de ceux-ci semble [friable]. 
+En continuant à avancer, vous découvrez un {passage} vers la salle suivante.
+
+GR_D2 - Aller Passage
+Lorsque vous traversez le passage, vous arrivez dans une grande pièce. Le sol parait friable... 
+Au centre de cette pièce, se trouve une pierre comportant un nombre de [joyaux] incroyable !
+C'est un véritable trésor !
+
+GR_D3 - Aller Escalier
+Après l'explosion en bas de l'escalier, un [trou] s'est formé au niveau du mur.
+Une petite [statuette] est mise en évidence.
+
+GR_D3_Bis - Aller Escalier
+En descendant l'escalier, vous vous trouvez désormais dans une petite pièce sombre.
+En y faisant le tour vous y découvrez une [dynamite] incrustée dans le mur ainsi qu'une [statuette] mise en évidence.
+
+GR_F_02 - Aller Couloir
+Mieux vaut prendre la [Pelle] avant de partir en exploration...
+
+GR_F_03 - Aller Couloir
+Il faut que je parle à [Gérald] afin de savoir ce que je fais ici.
+
+GR_F_01 - Observer Pelle
+Une grande pelle à manche rouge est posée sur un mur couvert de minerais multicolores.
+
+GR_O_01 - Interagir Pelle
+Vous saisissez de vos mains cette magnifique pelle. Celle-ci est votre désormais. Prêt à obéir à chacun de vos ordres, vous pouvez désormais (Creuser) certains murs ou minerais par exemple.
+	*Vous obtenez 1x [Pelle]*
+
+GR_F_04 - Observer Gérald
+Gérald est un grand homme d'une trentaine d'année, en tenue complète de sécurité, comme vous. Il a une jolie barbe et de grands yeux bleus. Il sourit gaiement, vous voyant l'observer de tout les recoins au lieu d'aller lui parler.
+
+GR_O_02 - Interagir Gérald
+"Aaaaah ! Te voilà enfin ! On a besoin de toi pour continuer à explorer nos galeries... On n'a plus de nouvelle de Richard depuis quelques minutes, ça nous inquiète pas mal, tu pourrais nous aider à le chercher ? Et si tu peux récupérer quelques pierres précieuses en même temps, profites-en !"
+
+GR_F_05 - Observer Minerais
+Sans ces minerais, la grotte serait beaucoup plus fade, il y en a tellement qu'il serait impossible de tous les récolter à vous seul.
+
+GR_F_06 - Interagir Minerais
+Vous touchez quelques-uns de ces minerais, ils sont froids et raffraichissant, cela contraste bien avec la chaleur que vous ressentez sous toutes ces couches de vêtements... Vous continuez à toucher des minerais jusqu'à vous en lasser et continuer votre exploration.
+
+GR_F_07 - Observer Friable
+Le mur semble friable, il s'éffrite tout seul, quelques coups de pelle devraient suffire à voir ce qu'il y a derrière...
+
+GR_F_08 - Interagir Friable
+Vous posez votre pelle par terre et tentez de griffer le mur avec vos mains, après tout, qui a besoin d'outil quand notre corps est si pratique ?
+
+GR_F_09 - Creuser Friable
+Vous creusez au niveau du mur qui vous semblait friable... et vous aviez vu juste ! Un nouvel {escalier} se révèle sous vos yeux !
+
+GR_F_10 - Observer Toile
+Vous regardez méticuleusement l'une des toiles d'araignée... Mmh... Pas de doute... C'est une toile d'araignée.
+
+GR_F_11 - Interagir Toile
+Vous balayez l'une des toiles d'araignée à coup de pelle ! Il en reste encore... vraiment beaucoup. Mieux vaut arrêter d'essayer de faire du ménage dans ces galeries.
+
+GR_F_12 - Aller Escalier
+Un escalier ? Quel escalier ? Je ne vois aucun escalier ici... Juste un mur potentiellement creusable par une petite pelle...
+
+GR_F_13 - Observer Joyaux
+Des rubis ! Des saphirs ! De l'or ! De l'émeraude ! Des diamants ! ... Plus vous observez cette pierre de joyaux, plus vous découvrez de pierres précieuses dessus.
+
+GR_F_14 - Interagir Joyaux
+Dur comme de la roche, cette pierre ne se cassera qu'à l'aide de votre pelle pour sûr ! Vous pouvez néanmoins tester avec vos mains... Vous y arriverez un jour pour sûr !
+
+GR_F_15 - Creuser Joyaux
+Vous avez pris toutes les précautions nécessaires, et ayant sauvé Richard, vous pouvez facilement récupérer les joyaux présents sur la pierre. Ce que vous vous empressez de faire afin de vous en mettre plein les poches évidemment.
+	*Faites un rapport de la situation à [Gérald] !*
+
+GR_X_02 - Creuser Joyaux
+Dans l'empressement de votre découverte, vous sautez sur la pierre aux joyaux. Asséner votre premier coup de pelle et le sol se dérobe sous vos pieds !
+L'éboulement à totalement détruit la pièce du dessous...
+	*Faites un rapport de la situation à [Gérald] !* 
+
+GR_F_18 - Observer Pioche
+Une pioche se cachait dans le seul coin de la pièce que vous n'aviez pas regardé, heureusement que vous l'avez vu maintenant !
+
+GR_F_19 - Interagir Pioche
+Vous récupérez la pioche, vous pouvez désormais détruire un plus gros mur ! Sur son dos il y est écrit "Made In China, Usage Unique"...
+
+GR_F_20 - Observer Dynamite
+La dynamite est incrusté dans le mur par un petit trou fait avec un outil spécial.
+
+GR_F_21 - Interagir Dynamite
+Vous allumez la dynamite et courez le plus loin possible !
+BOOOOM !
+En revenant sur les lieux, vous découvrez un [trou] à l'endroit où la dynamite a explosé.
+
+GR_F_22 - Observer Trou
+Vous jetez un oeil dans le trou, vous ne voyez pas grand chose, à part un autre oeil de l'autre côté...
+
+GR_F_23 - Interagir Trou
+"Hey ! C'est Richard ! Je suis coincé ici ! Tu peux m'aider ? Il faudrait que tu ailles récupérer la [pioche] qui se trouve au passage, c'est la pièce au-dessus de moi ! Reviens avec et tu pourras creuser ce trou dans le mur pour me libérer !"
+
+GR_F_24 - Un Trou ?
+Un trou ? Quel trou ? Je ne vois qu'une dynamite prête à exploser...
+
+GR_F_25 - Creuser Trou
+Vous tentez de creuser avec votre pelle... Cela ne semble pas efficace, le mur est trop solide !
+
+GR_F_26 - Mort
+Il n'y a plus rien ici, l'éboulement a détruit tout ce qui se trouvait de l'autre côté du trou.
+
+GR_V_02 - Creuser Trou
+Grâce à votre nouvelle pioche, vous arrivez assez aisément à ouvrir un passage pour laisser Richard sortir ! Votre mission est réussie ! Vous pouvez encore vous balader dans les galeries ou faire tout de suite votre rapport à [Gérald].
+
+GR_F_16 - Observer Figurine
+C'est une petite figurine poussièreuse en bois. Elle représente un aigle.
+
+GR_F_17 - Interagir Figurine
+L'heure n'est pas à la récolte, vous vous juerez de récupérer cette figurine avant de partir pour garder un souvenir de cette expédition.
+

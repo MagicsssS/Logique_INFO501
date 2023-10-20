@@ -1,0 +1,57 @@
+Entrée de la zone : GR_D0
+
+--- D0 ---
+Aller Couloir => 
+- Si GR_O_02 => 
+	(Si GR_O_01 => GR_D1 
+	SINON GR_F_02) 
+  SINON GR_F_03
+
+Observer Pelle - GR_F_01
+Interagir Pelle - GR_O_01
+
+Observer Gérald - GR_F_04
+Interagir Gérald - GR_O_02
+
+Observer Minerais - GR_F_05
+Interagir Minerais - GR_F_06
+
+
+--- D1 --- Texte d'Entrée : SI GR_F_09 : GR_D1 SINON GR_D1_BIS
+Aller Passage - GR_D2
+Aller Escalier - Si GR_F_09 => GR_D3 SINON GR_F_12
+Observer Friable - GR_F_07
+Interagir Friable - GR_F_08
+Creuser Friable - GR_F_09
+Observer Toile - GR_F_10
+Interagir Toile - GR_F_11
+
+--- D2 ---
+Observer Joyaux - GR_F_13
+Interagir Joyaux - GR_F_14
+Creuser Joyaux - Si GR_V_02 => GR_F_15 SINON GR_X_02
+
+Observer Pioche - GR_F_18
+Interagir Pioche - GR_F_19
+
+
+--- D3 --- Texte d'Entrée : SI GR_F_21 : GR_D3 SINON GR_D3_BIS
+Observer Dynamite - GR_F_20
+Interagir Dynamite - GR_F_21
+
+Observer Trou - Si GR_F_21 => GR_F_24 SINON (Si GR_X_02 => GR_F_26 SINON GR_F_22)
+Interagir Trou - Si GR_F_21 => GR_F_24 SINON (Si GR_X_02 => GR_F_26 SINON GR_F_23)
+Creuser Trou =>
+- Si GR_X_02 
+	=> GR_F_26
+  SINON 
+  	(Si GR_F_21 
+  		=> (Si GR_F_19 
+  			=> GR_V_02 
+  			SINON GR_F_25) 
+  	SINON GR_F_24)
+
+Observer Figurine - GR_F_16
+Interagir Figurine - GR_F_17
+
+

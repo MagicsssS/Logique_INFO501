@@ -7,7 +7,7 @@ Vous décidez de faire le tour de la pièce afin d'avoir une vue d'ensemble.
 Vous y découvrez trois nouvelles portes : 
 - En collant votre oreille à la première, vous y écoutez des {chansons}.
 - Par de-là la seconde, vous entendez des rires d'enfants, comme à une {fete}.
-- Enfin, vous percevez la voix d'un guide, beaucoup d'échos, ainsi que des bruits de pelles et de pioches comme dans des {galeries}.
+- Enfin, vous percevez des bruits de pelles et de pioches comme dans des {galeries}.
 
 Malheureusement, la porte à votre chambre a disparu derrière vous... Il ne semble plus être possible d'y aller.
 
@@ -29,7 +29,7 @@ HR_D2 - Aller fete
 Vous ouvrez la porte dont proviennent les rires d'enfants.
 
 HR_D3 - Aller galeries
-Vous ouvrez la porte dont provient la voix du guide.
+Vous ouvrez la porte dont proviennent les bruits de galeries.
 
 HR_F_01 - Aller galeries
 La porte menant aux galeries a disparu...
