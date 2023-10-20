@@ -354,7 +354,6 @@ deplacer(porte, 0) :-
         write("Vous ne pouvez pas sortir sans prendre votre carnet !"), nl, nl,
         position_courante(Ici),
         cauchemar(Cauchemar),
-        description(Ici, Cauchemar), 
         !.
 
 deplacer(porte, 0) :-
@@ -364,7 +363,6 @@ deplacer(porte, 0) :-
         write("Vous mettez la main sur la poignée, votre chat miaule et demande une caresse, mieux vaut lui dire au revoir avant de partir."), nl, nl,
         position_courante(Ici),
         cauchemar(Cauchemar),
-        description(Ici, Cauchemar), 
         !.
 
 deplacer(chansons, 0) :-
