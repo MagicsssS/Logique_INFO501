@@ -418,10 +418,10 @@ deplacer(ruisseau, 1) :-
 
 % Dans le cas où le nom où nous allons et celui rentré en direction est le même
 deplacer(Direction, Cauchemar) :-
+        equal(Direction, La),
         description(Direction, Cauchemar),
         position_courante(Ici),
         passage(Ici, Direction, La, Cauchemar),
-        equal(Direction, La),
         retract(position_courante(Ici)),
         assert(position_courante(La)),
         visited(Visited),
