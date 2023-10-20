@@ -250,6 +250,7 @@ interagir(X) :-
 % couper quelque chose
 couper(X) :-
         position_courante(P),
+        position(X, P, Cauchemar),
         coupage(X),
         cauchemar(Cauchemar),
         couperTexte(X, Cauchemar), nl,
@@ -268,6 +269,7 @@ couper(X) :-
 % creuser quelque chose
 creuser(X) :-
         position_courante(P),
+        position(X, P, Cauchemar),
         creusage(X),
         cauchemar(Cauchemar),
         creuserTexte(X, Cauchemar), nl,
