@@ -3,14 +3,14 @@ Entrée de la zone : FC_D0
 --- D0 ---
 Aller Foret - Si FC_O_01 => FC_D1 SINON FC_F_04
 
-Observer Traces - FC_F_01
-Interagir Traces - FC_O_01
+Observer Traces - Si FC_O_01 => FC_F_23 SINON FC_F_01
+Interagir Traces - Si FC_O_01 => FC_F_23 SINON FC_O_01
 
-Observer Feu - FC_F_02
-Interagir Feu - Si FC_O_04 => FC_V_03 SINON FC_F_03
+Observer Feu - Si FC_O_01 => FC_F_23 SINON FC_F_02
+Interagir Feu - Si FC_O_01 => (Si FC_O_04 => FC_V_03 SINON FC_F_23) SINON FC_F_03
 
-Observer Pluie - FC_F_14
-Interagir Pluie - FC_F_15
+Observer Pluie - Si FC_O_01 => FC_F_23 SINON FC_F_14
+Interagir Pluie - Si FC_O_01 => FC_F_23 SINON FC_F_15
 
 Observer Loup - Si FC_O_06 => FC_F_20 SINON FC_F_22
 Interagir Loup - 

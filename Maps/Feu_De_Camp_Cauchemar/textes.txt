@@ -1,0 +1,82 @@
+FC_D0 - (Texte d'entrée dans la zone)
+Il n'y a personne.
+Il n'y a que vous.
+La forêt n'a plus rien d'accueillant, vous ne vous sentez plus en sécurité.
+Pas un seul rayon de lune ne vous offre ne serait-ce qu'un peu de lumière dans cette nuit noire.
+Les grands arbres sont oppressant, vous commencez à stresser et à avoir du mal à respirer...
+Quelques bruits dans les buissons, probablement de petits animaux, sont les seuls sons que vous entendez.
+Le [Feu] de camp est éteint par la [Pluie] qui fait rage.
+Des [Traces] suspectes sont présentes un peu partout autour du campement.
+
+FC_F_01 - Observer Traces
+Des traces d'animaux, encore sèche malgré la pluie, elles doivent être très récentes...
+
+FC_O_01 - Interagir Traces
+Vous analysez de plus près les traces d'animaux... Ce sont des traces de loups, ils ont l'air d'être plusieurs...
+Vous décidez de suivre les traces.
+Celles-ci se terminent au niveau d'un petit sentier, vous regardez au loin et apercevez plusieurs pupilles, brillantes dans le noir... Ce sont les loups ! Ils vous pourchassent !
+
+FC_F_04 - Aller Foret
+Vous êtes trop pétrifié par cette forêt sombre pour y pénétrer.
+
+FC_F_23 - En Danger
+Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la [Foret] !
+
+FC_F_02 - Observer Feu
+Le feu est encore tiède, les campeurs sont partis récemment... Des braises sont encore visibles, miraculeusement protégées de la pluie par quelques buches.
+
+FC_F_03 - Interagir Feu
+Vous soufflez sur les braises, espérant vous réchauffez un peu... Sans grand succès.
+
+FC_V_03 - Interagir Feu
+Vous plongez votre baton dans le feu de camp... Les quelques braises suffirent à enflammer le bout de votre baton, le transformant en torche !
+Vous agitez votre nouvelle torche devant les loups, qui craintif, s'enfuient !
+	*Vous notez cette expérience unique dans votre carnet*
+En clignant des yeux, vous vous retrouvez, encore une fois, dans la pièce étrange.
+
+FC_F_14 - Observer Pluie
+Il pleut des cordes.
+
+
+interactions.txt
+--- D0 ---
+Aller Foret - Si FC_O_01 => FC_D1 SINON FC_F_04
+
+Observer Pluie - FC_F_14
+Interagir Pluie - FC_F_15
+
+Observer Loup - Si FC_O_06 => FC_F_20 SINON FC_F_22
+Interagir Loup - 
+- Si FC_O_06 => 
+	Si FC_O_03 => FC_X_03
+	SINON FC_F_21
+  SINON FC_F_22
+
+--- D1 ---
+Aller Maison - Si FC_O_02 => FC_D2 SINON FC_F_07
+
+Observer Ronce - FC_F_05
+Interagir Ronce - FC_F_06
+Couper Ronce - FC_O_02
+
+--- D2 ---
+Aller Ruisseau - Si FC_O_05 => FC_D3 SINON FC_F_13
+
+Observer Hache - FC_F_08
+Interagir Hache - Si FC_O_03 OU FC_O_04 => FC_F_10 SINON FC_O_03
+
+Observer Baton - FC_F_09
+Interagir Baton - Si FC_O_03 OU FC_O_04 => FC_F_10 SINON FC_O_04
+
+Observer Broussailles - FC_F_11
+Interagir Broussailles - FC_F_12
+Couper Broussailles - FC_O_05
+
+--- D3 ---
+Aller Campement - Si FC_O_06 => FC_D0_BIS SINON FC_F_19
+
+Observer Tronc - FC_F_16
+Interagir Tronc - FC_O_06
+
+Observer Ruisseau - FC_F_17
+Interagir Ruisseau - FC_F_18
