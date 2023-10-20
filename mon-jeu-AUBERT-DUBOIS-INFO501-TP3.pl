@@ -34,7 +34,7 @@ visited([]).
 dernierePage(_).
 
 :- dynamic actions/1.
-actions([0,0,0,0]).
+actions([0,0,0]).
 
 :- dynamic cauchemar/1.
 cauchemar(0).
@@ -56,13 +56,11 @@ passage(galeries, couloir, couloir, 0).
 passage(couloir, passage, passage, 0).
 passage(couloir, escalier, escalier, 0).
 
-passage(hub_cauchemar, campement, campement, 1).
+passage(hub_cauchemar, porte, campement, 1).
 passage(campement, foret, foret, 1).
+passage(foret, maison, maison, 1).
 passage(maison, ruisseau, ruisseau, 1).
 passage(ruisseau, campement, campement, 1).
-
-passage(hub_cauchemar, galeries, galeries).
-%passage(hub_cauchemar, chambre, chambre).
 
 % RETOURS
 retour(lit, chambre). 
@@ -79,9 +77,6 @@ retour(galeries, hub_reve).
 retour(couloir, galeries).
 retour(passage, couloir).
 retour(escalier, couloir).
-
-retour(campement, hub_cauchemar).
-retour(galeries, hub_cauchemar).
 
 % position des objets
 position(chat, lit, 0).
@@ -125,6 +120,8 @@ position(statuette, escalier, 0).
 position(traces, campement, 1).
 position(feu, campement, 1).
 position(lune, campement, 1).
+position(loups, campement, 1).
+position(pluie, campement, 1).
 position(ronces, foret, 1).
 position(hache, maison, 1).
 position(baton, maison, 1).
@@ -139,6 +136,7 @@ coupage(fruit).
 coupage(branches).
 coupage(tronc).
 coupage(animal).
+coupage(broussailles).
 
 % objets pouvants être creusés
 creusage(friable).
@@ -340,8 +338,12 @@ r :- regarder.
 :- op(1000, fx, couper).
 :- op(1000, fx, creuser).
 
+aller(X) :-
+        cauchemar(Cauchemar),
+        deplacer(X, Cauchemar).
+
 % déplacements
-aller(porte) :-
+deplacer(porte, 0) :-
         inventory(InventoryList),
         \+ list_check_inventory("Carnet & Stylo", InventoryList),
         %%% CR_F_23
@@ -351,7 +353,7 @@ aller(porte) :-
         description(Ici, Cauchemar), 
         !.
 
-aller(porte) :-
+deplacer(porte, 0) :-
         interactedList(Interacted),
         \+ list_check_place(chat, lit, 0, Interacted),
         %%% CR_F_17
@@ -361,41 +363,59 @@ aller(porte) :-
         description(Ici, Cauchemar), 
         !.
 
-aller(chansons) :-
+deplacer(chansons, 0) :-
         visited(Visited),
         list_check_place(chansons, hub_reve, 0, Visited),
         %%% HR_F_02
         write("La porte menant au feu de camp a disparu..."), nl,
         !.
         
-aller(galeries) :-
+deplacer(galeries, 0) :-
         visited(Visited),
         list_check_place(galeries, hub_reve, 0, Visited),
         %%% HR_F_04
         write("La porte menant aux galeries a disparu..."), nl,
         !.
 
-aller(ruisseau) :-
+deplacer(ruisseau, 0) :-
         cutList(Cut),
         \+ list_check_place(ronces, foret, 0, Cut),
         %%% FR_F_39
         write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl.
 
-aller(couloir) :-
+deplacer(couloir, 0) :-
         interactedList(Interacted),
         \+ list_check_place(gerald, galeries, 0, Interacted),
         write("Il faut que je parle à [Gérald] afin de savoir ce que je fais ici."), nl.
 
-aller(couloir) :-
+deplacer(couloir, 0) :-
         inventory(InventoryList),
         \+ list_check_inventory("Pelle", InventoryList),
         write("Mieux vaut prendre la [Pelle] avant de partir en exploration..."), nl.
 
+deplacer(foret, 1) :-
+        visited(Visited),
+        list_check_place(foret, campement, 1, Visited),
+        write("Les loups vous attraperaient, cela ne servirait à rien..."), nl,
+        !.
+
+deplacer(maison, 1) :-
+        cutList(Cut),
+        \+ list_check_place(ronces, foret, 1, Cut),
+        write("Des [Ronces] vous empêche d'aller plus loin !"), nl,
+        !.
+
+deplacer(ruisseau, 1) :-
+        inventory(InventoryList),
+        \+ list_check_inventory("Hache", InventoryList),
+        \+ list_check_inventory("Baton", InventoryList),
+        write("Il vous faut d'abord choisir une arme pour vous défendre !"), nl,
+        !.
+
+
 %%%%% CAS HUB reve %%%%%
 % Dans le cas où le nom où nous allons et celui rentré en direction est le même
-aller(Direction) :-
-        cauchemar(Cauchemar),
-        equal(Cauchemar, 0),
+deplacer(Direction, Cauchemar) :-
         description(Direction, Cauchemar),
         position_courante(Ici),
         passage(Ici, Direction, La, Cauchemar),
@@ -409,16 +429,13 @@ aller(Direction) :-
         !.
         
 % Dans l'autre cas
-aller(Direction) :-
-        cauchemar(Cauchemar),
-        equal(Cauchemar, 0),
+deplacer(Direction, Cauchemar) :-
+        description(Direction, Cauchemar), nl,
         position_courante(Ici),
         passage(Ici, Direction, La, Cauchemar),
-        description(Direction, Cauchemar), nl,
         retract(position_courante(Ici)),
         assert(position_courante(La)),
         visited(Visited),
-        cauchemar(Cauchemar),
         list_add([Direction, La, Cauchemar], Visited, NewList),
         retract(visited(_)),
         assert(visited(NewList)),
@@ -426,7 +443,7 @@ aller(Direction) :-
         !.
 
 
-aller(_) :-
+deplacer(_) :-
         write("Où essayez vous d'aller ? Cet endroit n'existe pas."), nl,
         fail.
 
@@ -582,14 +599,14 @@ description(fin, 2) :-
 description(fin, 2) :-
         actions(Actions),
         somme(Actions, Res),
-        check_if_negatif(Res),
-        write("C'est la fin négative"), nl.
-        
+        equal(Res, 0),
+        write("C'est la fin positive"), nl.
+
 description(fin, 2) :-
         actions(Actions),
         somme(Actions, Res),
-        equal(Res, 0),
-        write("C'est la fin ??"), nl.
+        check_if_negatif(Res),
+        write("C'est la fin négative"), nl.
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Emplacements chambre %%%%%%%%%%%%%%%%%%%%%%%%%
 description(chambre, 0) :- 
@@ -696,7 +713,7 @@ description(carnet, 0) :-
 %%%%%%%%%%%%%%%%%%%%%%%%% Emplacements hub reve %%%%%%%%%%%%%%%%%%%%%%%%%
 description(hub_reve, 0) :-
         visited(Visited),
-        list_check_place(chambre, hub_reve, 0, Visited),
+        list_check_place(hub_reve, chambre, 0, Visited),
         %%% HR_D5
         write("Vous êtes de retour dans l'étrange pièce aux portes."), nl,
         write("- Celle d'où proviennent les {chansons}."), nl,
@@ -971,22 +988,6 @@ description(statuette, 0) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Description hub_cauchemar %%%%%%%%%%%%%%%%%%%%%%%%%
 description(hub_cauchemar, 1) :-
-        visited(Visited),
-        list_check_place(hub_cauchemar, galeries, 1, Visited),
-        write("Vous regardez autour de vous... Terrifié..."), nl,
-        write("Mais il faut continuer d'avancer."), nl, nl,
-
-        write("Le {campement}, les {galeries} ou votre {chambre}, quel sera votre choix ?"), nl.
-
-description(hub_cauchemar, 1) :-
-        visited(Visited),
-        list_check_place(hub_cauchemar, chansons, 1, Visited),
-        write("Vous regardez autour de vous... Terrifié..."), nl,
-        write("Mais il faut continuer d'avancer."), nl, nl,
-
-        write("Le {campement}, les {galeries} ou votre {chambre}, quel sera votre choix ?"), nl.
-        
-description(hub_cauchemar, 1) :-
         nl,
         write("Les [Fragments Étrange] brillent sous vos yeux, se mettent à flotter et se rapproche doucement les uns des autres..."), nl, 
         write("Ils se combinent !"), nl, nl,
@@ -995,11 +996,11 @@ description(hub_cauchemar, 1) :-
 
         write("Un souvenir que vous aviez oublié. Et que vous aurez préféré ne pas vous rappeler."), nl, nl,
 
-        write("De manière presque instantané, la pièce étrange se métamorphose sous vos yeux jusqu'à devenir méconnaissable."),nl,
-        write("Les portes vers les {galeries}, le {campement} et même votre {chambre} sont réapparus mais, l'atmosphère vous semble pesante, voir même menacante. Vous avez un très mauvais pressentiment."), nl, nl,
+        write("De manière presque instantanée, la pièce étrange se métamorphose sous vos yeux."), nl,
+        write("Une brume de couleur pourpre envahit la pièce... Vous avez du mal à respirer."), nl,
+        write("L'ambiance devient menacante. Vous avez un très mauvais pressentiment."), nl, nl,
 
-        write("En écoutant aux portes, vous n'entendez rien, impossible de savoir ce qu'il se trouve derrière."), nl, nl,
-
+        write("Une seule {porte} s'offre à vous."), nl, 
         write("Cette fois, vous êtes sûr de n'être JAMAIS venu ici."), nl,
         inventory(InventoryList),
         remove_list(["Fragment Étrange", 3], InventoryList, NewList),
@@ -1008,31 +1009,126 @@ description(hub_cauchemar, 1) :-
         assert(inventory(NewList2)).
 
 description(campement, 1) :-
-        visited(Visited),
-        list_check_place(campement, hub_cauchemar, 1, Visited),
-        write("La porte est toujours là. Mais... Vous n'avez clairement pas envie d'y retourner, vous êtes traumatisé."), nl.
+        interactedList(Interacted),
+        list_check_place(tronc, ruisseau, 1, Interacted),
+        write("Vous êtes finalement de retour au campement."), nl,
+        write("Mais vous entendez des grognements autour de vous..."), nl,
+        write("Les [Loups] sont là ! Ils vous ont encerclé !"), nl,
+        write("Vous reculez lentement en direction du [Feu] de camp éteint..."), nl.
 
 description(campement, 1) :-
-        write("Vous ouvrez la porte correspondant au campement."), nl.
+        interactedList(Interacted),
+        \+ list_check_place(tronc, ruisseau, 1, Interacted),
+        position_courante(X),
+        equal(X, campement),
+        write("..."), nl,
+        !.
 
-description(chambre, 1) :-
-        visited(Visited),
-        list_check_place(campement, hub_cauchemar, 1, Visited),
-        write("La porte est toujours là. Mais... Vous n'avez clairement pas envie d'y retourner, vous êtes traumatisé."), nl.
+description(campement, 1) :-
+        interactedList(Interacted),
+        \+ list_check_place(tronc, ruisseau, 1, Interacted),
+        position_courante(X),
+        \+ equal(X, hub_cauchemar),
+        write("Le chemin vers le campement se trouve de l'autre côté du ruisseau !"), nl,
+        !.
 
-description(chambre, 1) :-
-        write("Vous ouvrez la porte correspondant à votre chambre."), nl.
+description(porte, 1) :-
+        write("En vous approchant de la porte, vous remarquez Misty."), nl,
+        write("Votre chat, assise et dressée tout en longueur, regarde la porte menacante."), nl,
+        write("Elle se retourne vers vous, miaule comme pour vous souhaiter bonne chance, puis disparait."), nl, nl,
 
-description(galeries, 1) :-
-        visited(Visited),
-        list_check_place(campement, hub_cauchemar, 1, Visited),
-        write("La porte est toujours là. Mais... Vous n'avez clairement pas envie d'y retourner, vous êtes traumatisé."), nl.
+        write("Vous ouvrez la porte et entrez dans la pièce..."), nl, nl,
 
-description(galeries, 1) :-
-        write("Vous ouvrez la porte correspondant aux galeries."), nl.
+        write("Vous vous retrouvez dans la forêt où a eu lieu le feu de camp, mais..."), nl,
+        write("Il n'y a personne."), nl,
+        write("Il n'y a que vous."), nl,
+        write("La [Pluie] fait rage, la forêt n'a plus rien d'accueillant, vous ne vous sentez plus en sécurité."), nl,
+        write("Pas une seule éclaircie de la lune ne vous offre ne serait-ce qu'un peu de lumière dans cette nuit noire."), nl,
+        write("Les grands arbres sont oppressant, vous commencez à stresser et à avoir du mal à respirer..."), nl,
+        write("Quelques bruits dans les buissons, probablement de petits animaux, sont les seuls sons que vous entendez."), nl,
+        write("Le [Feu] de camp est éteint."), nl,
+        write("Des [Traces] suspectes sont présentes un peu partout autour du campement."), nl.
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Description campement %%%%%%%%%%%%%%%%%%%%%%%%%
+description(foret, 1) :-
+        interactedList(Interacted),
+        list_check_place(traces, campement, 1, Interacted),
+        write("Vous courez en direction de la forêt pour échapper aux loups. Il fait sombre, vous ne voyez que des [Ronces] bloquant le chemin vers la {maison}. Il faut faire vite, les loups vous poursuivent !"), nl.
+
+description(foret, 1) :-
+        write("Vous êtes trop pétrifié par cette forêt sombre pour y pénétrer."), nl.
+
+description(traces, 1) :-
+        interactedList(Interacted),
+        list_check_place(traces, campement, 1, Interacted),
+        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {Foret} !"), nl.
+
+description(traces, 1) :-
+        write("Des traces d'animaux, encore sèche malgré la pluie, elles doivent être très récentes..."), nl.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%% Interaction chambre %%%%%%%%%%%%%%%%%%%%%%%%%
+description(feu, 1) :-
+        interactedList(Interacted),
+        list_check_place(traces, campement, 1, Interacted),
+        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {Foret} !"), nl.
+
+description(feu, 1) :-
+        write("Le feu est encore tiède, les campeurs sont partis récemment... Des braises sont encore visibles, miraculeusement protégées de la pluie par quelques buches."), nl.
+
+description(pluie, 1) :-
+        interactedList(Interacted),
+        list_check_place(traces, campement, 1, Interacted),
+        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {Foret} !"), nl.
+
+description(pluie, 1) :-
+        write("La pluie tombe fortement sur toute la forêt... C'est surement pour ça que les campeurs sont partis."), nl.
+                
+description(loups, 1) :-
+        interactedList(Interacted),
+        list_check_place(tronc, ruisseau, 1, Interacted),
+        write("Les loups vous dévorent du regard, ils sont prêt à vous sauter dessus à tout moment, il faut agir !"), nl.
+
+description(loups, 1) :-
+        write("Des loups ? Quel loups ? Je ne vois pas de loups moi."), nl.
+
+description(maison, 1) :-
+        write("En fuyant les loups, vous arrivez devant la maison."), nl,
+        write("Vous recherchez un moyen de vous défendre : "), nl,
+        write("- Une [Hache] est posée sur le mur à l'entrée."), nl,
+        write("- Un grand [Baton] épais se trouve à vos pieds"), nl, nl,
+
+        write("Vous n'aurez le temps d'en récupérer qu'un des deux puis de fuir en direction du {Ruisseau}, bloqué par les [Broussailles]"), nl.
+
+description(ronces, 1) :-
+        write("Des grandes ronces bloquent le passage vers la maison. C'est votre seul accès pour fuir les loups !"), nl.
+
+description(ruisseau, 1) :-
+        cutList(Cut),
+        list_check_place(broussailles, maison, 1, Cut),
+        write("Vous arrivez de l'autre côté du ruisseau !"), nl,
+        write("Les loups se démènent pour passer à travers les broussailles, cela ne leur prendra pas longtemps."), nl,
+        write("Le [Courant] est fort, impossible d'y traverser à pied."), nl,
+        write("Heureusement, le [tronc] que vous avez coupé semble toujours en place !"), nl.
+
+description(ruisseau, 1) :-
+        write("Le chemin est bloqué par des [Broussailles] !"), nl.
+
+description(hache, 1) :-
+        write("Cela semble être la même hache que vous avez utilisé autrefois. Elle n'est pas en parfait état."), nl.
+
+description(baton, 1) :-
+        write("Un simple baton à bout rond, pas pratique pour éliminer ses cibles."), nl.
+
+description(broussailles, 1) :-
+        write("Des broussailles menant de l'autre côté du ruisseau, si peu qu'on arrive à les traverser."), nl.
+
+description(tronc, 1) :-
+        write("Un gros tronc d'arbre qui est tombé, permettant de traverser le ruisseau avec un peu d'adresse."), nl.
+
+description(courant, 1) :-
+        write("Le courant du ruisseau est beaucoup trop fort, vous perdrez l'équilibre en une fraction de seconde si vous essayez de le traverser."), nl.
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Interactions chambre %%%%%%%%%%%%%%%%%%%%%%%%%
 interaction(chat, 0) :-
         interactedList(Interacted),
         list_check_place(chat, lit, 0, Interacted),
@@ -1166,6 +1262,10 @@ interaction(mathieu, 0) :-
         assert(cauchemar(1)),
         retract(position_courante(_)),
         assert(position_courante(hub_cauchemar)),
+        visited(Visited),
+        list_add([hub_cauchemar, hub_reve, 1], Visited, NewList3),
+        retract(visited(_)),
+        assert(visited(NewList3)),
         description(hub_cauchemar, 1).
 
 interaction(mathieu, 0) :-
@@ -1310,7 +1410,7 @@ interaction(animal, 0) :-
         write("Si vous vous approchez trop prêt de l'animal, il pourrait s'enfuir, mieux vaut éviter et trouver quelque chose pour l'appâter..."), nl.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%% Interaction galeries %%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%% Interactions galeries %%%%%%%%%%%%%%%%%%%%%%%%%
 interaction(pelle, 0) :-
         write("Vous saisissez de vos mains cette magnifique pelle. Celle-ci est votre désormais. Prêt à obéir à chacun de vos ordres, vous pouvez désormais (Creuser) certains murs ou minerais par exemple."), nl, nl,
 
@@ -1348,6 +1448,10 @@ interaction(gerald, 0) :-
         assert(cauchemar(1)),
         retract(position_courante(_)),
         assert(position_courante(hub_cauchemar)),
+        visited(Visited),
+        list_add([hub_cauchemar, hub_reve, 1], Visited, NewList3),
+        retract(visited(_)),
+        assert(visited(NewList3)),
         description(hub_cauchemar, 1).
                 
 interaction(gerald, 0) :-
@@ -1360,6 +1464,10 @@ interaction(gerald, 0) :-
         assert(cauchemar(1)),
         retract(position_courante(_)),
         assert(position_courante(hub_cauchemar)),
+        visited(Visited),
+        list_add([hub_cauchemar, hub_reve, 1], Visited, NewList3),
+        retract(visited(_)),
+        assert(visited(NewList3)),
         description(hub_cauchemar, 1).        
 
 interaction(gerald, 0) :-
@@ -1412,6 +1520,128 @@ interaction(trou, 0) :-
 interaction(statuette, 0) :-
         write("L'heure n'est pas à la récolte, vous vous jouerez de récupérer cette figurine avant de partir pour garder un souvenir de cette expédition."), nl.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Interactions campement %%%%%%%%%%%%%%%%%%%%%%%%%
+interaction(traces, 1) :-
+        interactedList(Interacted),
+        list_check_place(traces, campement, 1, Interacted),
+        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {Foret} !"), nl.
+
+interaction(traces, 1) :-
+        write("Vous analysez de plus près les traces d'animaux... Ce sont des traces de loups, ils ont l'air d'être plusieurs..."), nl,
+        write("Vous décidez de suivre les traces."), nl,
+        write("Celles-ci se terminent au niveau d'un petit sentier, vous regardez au loin et apercevez plusieurs pupilles, brillantes dans le noir... Ce sont les loups ! Ils vous pourchassent !"), nl.
+
+interaction(feu, 1) :-
+        interactedList(Interacted),
+        list_check_place(traces, campement, 1, Interacted),
+        inventory(InventoryList),
+        list_check_inventory("Baton", InventoryList),
+        write("Vous plongez votre baton dans le feu de camp... Les quelques braises suffirent à enflammer le bout de votre baton, le transformant en torche !"), nl,
+        write("Vous agitez votre nouvelle torche devant les loups, qui craintif, s'enfuient !"), nl, nl,
+
+        write("        *Vous notez cette expérience unique dans votre carnet*"), nl, nl,
+
+        write("En clignant des yeux, vous vous retrouvez, encore une fois, dans la pièce étrange."), nl,
+        actions(Actions),
+        change_list(2, 1, Actions, NewList),
+        retract(actions(_)),
+        assert(actions(NewList)),
+        retract(position_courante(_)),
+        assert(position_courante(fin0)),
+        description(hub_cauchemar, 1). 
+
+
+interaction(feu, 1) :-
+        interactedList(Interacted),
+        list_check_place(traces, campement, 1, Interacted),
+        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {Foret} !"), nl.
+
+interaction(feu, 1) :-
+        write("Vous soufflez sur les braises, espérant vous réchauffez un peu... Sans grand succès."), nl.
+
+
+interaction(pluie, 1) :-
+        interactedList(Interacted),
+        list_check_place(traces, campement, 1, Interacted),
+        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {Foret} !"), nl.
+
+interaction(pluie, 1) :-
+        write("La pluie coulant sur votre peau est froide et désagréable. Vous n'avez aucun moyen de vous abritez. Vous tentez de vous couvrir, mais sans succès."), nl.
+
+interaction(loups, 1) :-
+        interactedList(Interacted),
+        list_check_place(tronc, ruisseau, 1, Interacted),
+        inventory(InventoryList),
+        list_check_inventory("Hache", InventoryList),
+        write("Vous sautez sur les loups armé de votre hache, tel un guerrier partant en bataille !"), nl,
+        write("Vous esquivez le premier loup, parez le deuxième avec votre hache et frappez d'un coup mortel le troisième !"), nl,
+        write("Un quatrième loup vous fait perdre l'équilibre, un des animaux vous saute alors à la gorge !"), nl,
+        write("Vous bloquez sa machoire avec votre hache... Qui... casse."), nl,
+        write("Vous sentez vos entrailles se faire ouvrir et dévorer par les loups..."), nl,
+        write("Quand soudain... Vous clignez des yeux, et vous revoilà dans la salle étrange, en vie, et même pas blessé."), nl, nl,
+
+        write("*Vous notez cette expérience unique dans votre carnet*"), nl,
+        actions(Actions),
+        change_list(2, -1, Actions, NewList),
+        retract(actions(_)),
+        assert(actions(NewList)),
+        retract(position_courante(_)),
+        assert(position_courante(fin0)),
+        description(hub_cauchemar, 1). 
+
+interaction(loups, 1) :-
+        interactedList(Interacted),
+        list_check_place(tronc, ruisseau, 1, Interacted),
+        write("Vous tentez de les tenir à distance grâce à votre baton."), nl,
+        write("Ca semble fonctionner mais ce n'est qu'une solution temporaire..."), nl.
+
+interaction(loups, 1) :-
+        write("Des loups ? Quel loups ? Je ne vois pas de loups moi."), nl.
+
+interaction(ronces, 1) :-
+        write("Vous essayez d'arracher les ronces à la main mais celles-ci sont trop durs et piquantes, vous ne faites que vous blessez."), nl.
+
+interaction(hache, 1) :-
+        inventory(InventoryList),
+        \+ list_check_inventory("Hache", InventoryList),
+        \+ list_check_inventory("Baton", InventoryList),
+        write("Vous saissisez la hache avant que les loups ne vous rattrapent !"), nl, nl,
+
+        write("*Vous obtenez 1x [Hache]*"), nl,
+        list_add(["Hache", 1], InventoryList, NewList),
+        retract(inventory(_)),
+        assert(inventory(NewList)).
+
+interaction(hache, 1) :-
+        write("Impossible ! Les loups ont déjà dépassé ce point, il faut avancer !"), nl.
+
+interaction(baton, 1) :-
+        inventory(InventoryList),
+        \+ list_check_inventory("Hache", InventoryList),
+        \+ list_check_inventory("Baton", InventoryList),
+        write("Vous saissisez le baton avant que les loups ne vous rattrapent !"), nl, nl,
+
+        write("*Vous obtenez 1x [Baton]*"), nl,
+        list_add(["Baton", 1], InventoryList, NewList),
+        retract(inventory(_)),
+        assert(inventory(NewList)).
+
+interaction(baton, 1) :-
+        write("Impossible ! Les loups ont déjà dépassé ce point, il faut avancer !"), nl.
+
+interaction(broussailles, 1) :-
+        write("Impossible de passer à travers, les feuillages sont trop denses, il va vous falloir un outil !"), nl.
+
+interaction(tronc, 1) :-
+        write("Vous passez par le tronc pour traverser le ruisseau."), nl,
+        write("Vous manquez de perdre l'équilibre sous le stress mais vous arrivez à vous en sortir indemne."), nl,
+        write("Les loups sont bloqués de l'autre côté. Certains d'entre eux décident de faire le tour."), nl,
+        write("Vous n'êtes pas encore sorti d'affaires..."), nl,
+        write("Le chemin jusqu'au {campement} s'offre à vous afin d'établir une nouvelle stratégie."), nl.
+
+interaction(courant, 1) :-
+        write("'Impossible ! Les loups me rattraperaient si je perd l'équilibre ! Je ne peux pas tenter ça !'"), nl.
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Couper chansons %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1535,6 +1765,14 @@ couperTexte(animal, 0) :-
         change_list(0, -1, Actions, NewList),
         retract(actions(_)),
         assert(actions(NewList)).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Couper campement %%%%%%%%%%%%%%%%%%%%%%%%%
+couperTexte(ronces, 1) :-
+        write("Vous coupez les ronces à l'aide de votre couteau ! Le chemin vers la {maison} est libre !"), nl.
+
+couperTexte(broussailles, 1) :-
+        write("Vous vous frayez un chemin à travers les broussailles !"), nl.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Creuser galeries %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1671,9 +1909,37 @@ lire(2) :-
         !.
 
 lire(3) :-
+        actions(Actions),
+        check_if_positif(Actions, 1),
+        write("Souvenir 'positif' du campement."), nl, nl,
+
+        write("En plongeant mon baton dans le feu de camp... Les braises suffirent à enflemmer le baton et à en faire une torche !"), nl,
+        write("J'ai agité ma nouvelle torche devant les loups, qui craintif, s'enfuirent !"), nl, nl,
+
+        write("Page précédente avec 'prev.'"), nl,
+        dernierePage(Last),
+        retract(dernierePage(Last)),
+        assert(dernierePage(3)),
+        !.
+
+lire(3) :-
+        actions(Actions),
+        check_if_negatif(Actions, 0),
+        write("Souvenir négatif du campement."), nl, nl,
+
+        write("Après un combat acharné contre les loups... Ma hache s'est cassée au moment où j'affrontais le quatrième loup..."), nl,
+        write("Il l'a cassé avec sa mâchoire ??"), nl,
+        write("Je sentais mes entrailles se faire dévorer par les loups..."), nl, nl,
+
+        write("Page précédente avec 'prev.'"), nl,
+        dernierePage(Last),
+        retract(dernierePage(Last)),
+        assert(dernierePage(3)),
+        !.
+
+lire(3) :-
         write("Cette page est vide."), nl, nl,
 
-        write("Page suivante avec 'suiv.'"), nl,
         write("Page précédente avec 'prev.'"), nl,
         dernierePage(Last),
         retract(dernierePage(Last)),

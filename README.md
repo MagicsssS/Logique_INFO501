@@ -137,11 +137,10 @@ Cette liste d'instructions s'actualisera tout au long de la partie ! N'hésitez 
 
     - La fin positive
     - La fin négative
-    - La fin neutre
 
     Les différentes fins sont décidées en fonction de la somme des "valeurs d'action".
-    Votre liste d'actions, représentée telle quelle : [1,-1,1,1], peut avoir une somme positive, négative ou neutre.
+    Votre liste d'actions, représentée telle quelle : [1,-1,1,1], peut avoir une somme positive ou négative.
     A la toute fin du jeu, une fin vous sera affichée en vérifiant grace à ce code :
       actions(Actions),
       somme(Actions, Res),
-      check_if_positif(Res). / check_if_negatif(Res). / equal(Res, 0).
+      check_if_positif(Res). / check_if_negatif(Res).

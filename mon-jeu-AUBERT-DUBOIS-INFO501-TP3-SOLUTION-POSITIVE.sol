@@ -41,3 +41,14 @@ cr joyaux.
 b.
 b.
 int gerald.
+go porte.
+int traces.
+go foret.
+cut ronces.
+go maison.
+int baton.
+cut broussailles.
+go ruisseau.
+int tronc.
+go campement.
+int feu.
