@@ -363,10 +363,6 @@ deplacer(porte, 0) :-
         write("Vous mettez la main sur la poignée."), nl,
         write("Votre chat miaule et demande une caresse."), nl,
         write("Mieux vaut lui dire au revoir avant de partir."), nl, nl,
-        position_courante(Ici),
-        cauchemar(Cauchemar),
-        description(Ici, Cauchemar), 
-
         !.
 
 deplacer(chansons, 0) :-
