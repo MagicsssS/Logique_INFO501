@@ -85,6 +85,7 @@ Vous avez pris toutes les précautions nécessaires, et ayant sauvé Richard, vo
 GR_X_02 - Creuser Joyaux
 Dans l'empressement de votre découverte, vous sautez sur la pierre aux joyaux. Asséner votre premier coup de pelle et le sol se dérobe sous vos pieds !
 L'éboulement à totalement détruit la pièce du dessous...
+	*Vous notez cette expérience unique dans votre carnet*
 	*Faites un rapport de la situation à [Gérald] !* 
 
 GR_F_18 - Observer Pioche
@@ -118,6 +119,7 @@ Il n'y a plus rien ici, l'éboulement a détruit tout ce qui se trouvait de l'au
 
 GR_V_02 - Creuser Trou
 Grâce à votre nouvelle pioche, vous arrivez assez aisément à ouvrir un passage pour laisser Richard sortir ! Votre mission est réussie ! Vous pouvez encore vous balader dans les galeries ou faire tout de suite votre rapport à [Gérald].
+	*Vous notez cette expérience unique dans votre carnet*
 
 GR_F_16 - Observer Figurine
 C'est une petite figurine poussièreuse en bois. Elle représente un aigle.
@@ -125,3 +127,25 @@ C'est une petite figurine poussièreuse en bois. Elle représente un aigle.
 GR_F_17 - Interagir Figurine
 L'heure n'est pas à la récolte, vous vous juerez de récupérer cette figurine avant de partir pour garder un souvenir de cette expédition.
 
+GR_Ov_1 - Interagir Gérald
+	*Vous expliquez à Gérald ce qu'il s'est passé*
+"Je vois, ce n'est pas ta faute, tu ne pouvais pas savoir ce qui allait se passer...
+Ecoute, mes gars et moi, on va dégager tout ce foutoir et on revient vers toi après...
+J'ai besoin d'être un peu seul."
+
+	** Quelques heures plus tard **
+
+"Bon, malheureusement, on a bien retrouvé Richard sous les décombres...
+On a également trouvé ça, on ne sait pas ce que c'est, ça te dit quelque chose ?"
+Gérald vous tend un mystérieux objet... A peine vous le touchez que... vous êtes de retour dans la salle étrange.
+	*Vous avez obtenu 1x [Fragment Etrange]*
+
+GR_Ov_2 - Interagir Gérald
+	*Vous expliquez à Gérald ce qu'il s'est passé*
+"Ahahah ! C'est passé de peu, hein Richard ?!"
+"C'est sûr, si le petit gars n'avait pas été là, j'aurais pas donner chère de ma peau !" répliqua-t-il.
+"Je te dois une belle chandelle bonhomme ! Tiens, c'est peu par rapport au prix de ma vie, mais j'avais trouvé ça durant mes fouilles"
+Richard vous tend un mystérieux objet...
+	*Vous avez obtenu 1x [Fragment Etrange]*
+"Bon, c'est pas tout ça, on va manger ? Ces mésaventures m'ont ouvert l'a-"
+Vous clignez des yeux... Vous êtes de retour dans la salle étrange.

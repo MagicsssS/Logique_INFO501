@@ -11,13 +11,13 @@ Observer Pelle - GR_F_01
 Interagir Pelle - GR_O_01
 
 Observer Gérald - GR_F_04
-Interagir Gérald - GR_O_02
+Interagir Gérald - Si GR_X_02 => GR_Ov_1 SINON Si GR_V_02 => GR_Ov_2 SINON GR_O_02
 
 Observer Minerais - GR_F_05
 Interagir Minerais - GR_F_06
 
 
---- D1 --- Texte d'Entrée : SI GR_F_09 : GR_D1 SINON GR_D1_BIS
+--- D1 --- Texte d'Entrée : Si GR_F_09 : GR_D1 SINON GR_D1_BIS
 Aller Passage - GR_D2
 Aller Escalier - Si GR_F_09 => GR_D3 SINON GR_F_12
 Observer Friable - GR_F_07
