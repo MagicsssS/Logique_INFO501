@@ -1,0 +1,120 @@
+CF_D0
+La salle étrange semble encore se transformer... 
+Des murs se forment autour de vous et se réduisent, formant un grand couloir.
+"Hé ! Tu m'entends ? Hé ! Ne lache pas, s'il te plait, tiens bon !"
+Une voix au loin semble vous appeler.
+En face de vous, dans ce grand couloir, se dresse, [Misty], votre chat.
+
+- Observer Misty
+Misty vous fixe, avec de grands yeux ronds, assise, droite et immobile.
+
+- Interagir Misty
+Vous tendez la main pour la caresser... mais elle disparait subitement.
+La voix au loin répète : "Penses aux choses qui t'ont rendu heureux !"
+...
+Vous avancez dans le couloir...
+...
+Devant vous se dresse désormais le petit [Animal] que vous avez rencontré dans la forêt.
+
+	- Observer Animal
+	Comme Misty, l'animal vous regarde sans bouger, attendant votre action.
+
+	- Interagir Animal
+	SI X_01
+	Vous tendez la main vers l'animal. Terrifié, il s'enfuit en courant !
+	"On est en train de le perdre !" - Cria une autre voix, au bout du couloir.
+
+	SI V_01
+	Vous tendez la main vers l'animal. Il se rapproche de vous et se laisse caresser.
+	Puis il disparait d'un coup.
+	"Ses constantes sont stables !" - Cria une autre voix, au bout du couloir.
+
+
+	DANS TOUT LES CAS :
+	Vous avancez encore... Vous tombez face à [Gérald].
+
+		- Observer Gérald
+		Gérald, est debout devant vous, il vous fixe, avec un grand sourire, immobile.
+
+		- Interagir Gérald
+		SI X_02
+		"Hey bonhomme ! Ca va ? C'est toi qui a tué mon pote ?!"
+		Gérald se jette sur vous, furieux ! Il disparait au moment de vous toucher.
+
+		SI V_02
+		"Hey bonhomme ! Ca va ? Richard va bien, il s'est remis de cette aventure.
+		Merci de l'avoir secouru, heureusement que tu étais là !"
+		Gérald s'approche de vous, bras ouvert, pour vous caliner.
+		Au moment de vous toucher, il disparait.
+
+		DANS TOUT LES CAS :
+		Vous continuez dans ce sombre couloir... jusqu'à voir les yeux d'un [loup] dans l'obscurité.
+		Celui-ci ne semble pas vouloir vous attaquer.
+
+			- Observer Loup
+			Le loup vous observe également. Immobile, comme les autres... Il ne présente aucune animosité.
+
+			- Interagir Loup
+			Si X_03
+			Vous lui sautez dessus, hache en main ?!
+			Vous le frappez, le coupez, le tordez, l'arrachez, le déchiquetez, ...
+			Votre visage est couvert du sang du pauvre loup.
+			Celui-ci disparait.
+
+			Si V_03
+			Vous vous abaissez à son niveau et tendez la main... Le loup s'approche.
+			Vous ne ressentez aucune crainte, et carressez lentement le loup en souriant.
+			Le loup semble apprécier les carresses, et vous lèche la main en retour.
+			Soudain, il disparait.
+
+			DANS TOUT LES CAS : 
+			Vous voilà à la fin du couloir. Face à un [miroir].
+
+				- Observer Miroir
+				Vous vous regardez dans le miroir... Êtes-vous fier de vos actions ?
+
+				- Interagir Miroir
+
+				SI FIN NEGATIVE
+				Vous approchez votre main du miroir, puis le touchez.
+				Ce dernier se fissure, votre reflet sourit, contrairement à vous.
+				"On le perd !", la voix du couloir est de plus en plus lointaine...
+				"Accroche-toi à de bons souvenirs !"... "Lesquels ?" répondit le reflet...
+
+				Progressivement, tout autour de vous se met à disparaitre...
+				Le miroir, les murs, le sol, le toit, le couloir, ...
+				Puis vos pieds, vos mains, vos jambes et vos bras ...
+				Il ne reste plus que votre tête, plus que votre cerveau...
+				Votre conscien-...
+
+				*Vous n'avez pas réussi à vous réveiller.*
+				*Fin...*
+
+				SI FIN POSITIVE
+				Vous approchez votre main du miroir, puis le touchez.
+				Ce dernier rayonne... Vous vous sentez vous élever...
+				"Il reprend connaissance !", la voix du couloir semble de plus en plus proche !
+				"Accroche-toi à de bons souvenirs !"...
+				Vous repensez à tout ce que vous avez vécu...
+				Vous ne pouvez pas vous arrêter là...
+
+				Progressivement, tout autour de vous se met à briller, de plus en plus fort.
+				Vous ne voyez plus rien, puis... seulement la lumière d'une lampe...
+				La luminosité s'affaiblit et vous distinguez-
+
+				"Oh putain gars ! On pensait qu'on t'avait perdu !" s'exclama Mathieu.
+
+				Vous regardez autour de vous et reconnaissez également Maxime, Gérald et Richard !
+				Votre chat, assis sur vos genoux, se dresse vers vous. Il vous regarde avec des yeux ronds.
+				Miaule, comme s'il attendait une caresse. Vous lui faites sans broncher.
+
+				"Depuis ton accident, tu te trouvais dans le coma dans ce lit d'hopital" réplique Richard.
+
+				Maxime explique : "On s'occupait de ton chat depuis ce jour mais elle n'arrêtait pas de miauler. 
+				On s'est dit qu'elle avait peut être envie de te voir."
+				"Ce petit bonhomme a sauté sur toi dès qu'elle t'a vu et n'a pas arrêter de miauler !" s'étonne Gérald.
+				"Et en une dizaine de minutes, te voilà réveillé !" finit Mathieu.
+
+				Misty vous fixe, puis miaule une nouvelle fois.
+				...
+				Merci, Misty.
