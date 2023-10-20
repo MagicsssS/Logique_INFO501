@@ -52,3 +52,8 @@ go ruisseau.
 int tronc.
 go campement.
 int feu.
+int misty.
+int animal.
+int gerald.
+int loup.
+int miroir.

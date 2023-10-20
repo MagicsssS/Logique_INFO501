@@ -129,6 +129,12 @@ position(broussailles, maison, 1).
 position(tronc, ruisseau, 1).
 position(courant, ruisseau, 1).
 
+position(misty, fin0, 2).
+position(animal, fin1, 2).
+position(gerald, fin2, 2).
+position(loup, fin3, 2).
+position(miroir, fin, 2).
+
 % objets pouvants être coupés
 coupage(ronces).
 coupage(arbre).
@@ -170,8 +176,6 @@ check_if_negatif(Num) :-
 change_list(Index, NewVal, List, NewList) :-
         nth0(Index, List, _, TempList),
         nth0(Index, NewList, NewVal, TempList).
-
-somme([H|T], S) :- somme(T,X), S is H + X.
 
 % Ajouter dans l'inventaire si l'item existe déjà
 list_add(Name, OldList, NewList):-
@@ -412,8 +416,6 @@ deplacer(ruisseau, 1) :-
         write("Il vous faut d'abord choisir une arme pour vous défendre !"), nl,
         !.
 
-
-%%%%% CAS HUB reve %%%%%
 % Dans le cas où le nom où nous allons et celui rentré en direction est le même
 deplacer(Direction, Cauchemar) :-
         description(Direction, Cauchemar),
@@ -436,7 +438,7 @@ deplacer(Direction, Cauchemar) :-
         retract(position_courante(Ici)),
         assert(position_courante(La)),
         visited(Visited),
-        list_add([Direction, La, Cauchemar], Visited, NewList),
+        list_add([La, Ici, Cauchemar], Visited, NewList),
         retract(visited(_)),
         assert(visited(NewList)),
         description(La, Cauchemar),
@@ -590,23 +592,28 @@ jouer :-
         !.
 
 
-description(fin, 2) :-
-        actions(Actions),
-        somme(Actions, Res),
-        check_if_positif(Res),
-        write("C'est la fin positive"), nl.
+%%%%%%%%%%%%%%%%%%%%%%%%% Description finales %%%%%%%%%%%%%%%%%%%%%%%%%
+description(fin0, 2) :-
+        write("La salle étrange semble encore se transformer... "), nl,
+        write("Des murs se forment autour de vous et se réduisent, formant un grand couloir."), nl,
+        write("'Hé ! Tu m'entends ? Hé ! Ne lache pas, s'il te plait, tiens bon !'"), nl,
+        write("Une voix au loin semble vous appeler."), nl,
+        write("En face de vous, dans ce grand couloir, se dresse, [Misty], votre chat."), nl.
 
-description(fin, 2) :-
-        actions(Actions),
-        somme(Actions, Res),
-        equal(Res, 0),
-        write("C'est la fin positive"), nl.
+description(misty, 2) :-
+        write("Misty vous fixe, avec de grands yeux ronds, assise, droite et immobile."), nl.
 
-description(fin, 2) :-
-        actions(Actions),
-        somme(Actions, Res),
-        check_if_negatif(Res),
-        write("C'est la fin négative"), nl.
+description(animal, 2) :-
+        write("Comme Misty, l'animal vous regarde sans bouger, attendant votre action."), nl.
+
+description(gerald, 2) :-
+        write("Gérald, est debout devant vous, il vous fixe, avec un grand sourire, immobile."), nl.
+
+description(loup, 2) :-
+        write("Le loup vous observe également. Immobile, comme les autres... Il ne présente aucune animosité."), nl.
+
+description(miroir, 2) :-
+        write("Vous vous regardez dans le miroir... Êtes-vous fier de vos actions ?"), nl.
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Emplacements chambre %%%%%%%%%%%%%%%%%%%%%%%%%
 description(chambre, 0) :- 
@@ -1128,6 +1135,159 @@ description(tronc, 1) :-
 description(courant, 1) :-
         write("Le courant du ruisseau est beaucoup trop fort, vous perdrez l'équilibre en une fraction de seconde si vous essayez de le traverser."), nl.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Interactions finales %%%%%%%%%%%%%%%%%%%%%%%%%
+interaction(misty, 2) :-
+        write("Vous tendez la main pour la caresser... mais elle disparait subitement."), nl,
+        write("La voix au loin répète : 'Pense aux choses qui t'ont rendu heureux !'"), nl,
+        write("..."), nl,
+        write("Vous avancez dans le couloir..."), nl,
+        write("..."), nl,
+        write("Devant vous se dresse désormais le petit [Animal] que vous avez rencontré dans la forêt."), nl,
+        retract(position_courante(_)),
+        assert(position_courante(fin1)).
+
+interaction(animal, 2) :-
+        actions(Actions),
+        check_if_negatif(Actions, 0),
+        write("Vous tendez la main vers l'animal. Terrifié, il s'enfuit en courant !"), nl,
+        write("'On est en train de le perdre !' - Cria une autre voix, au bout du couloir."), nl, nl,
+
+        write("Vous avancez encore... Vous tombez face à [Gérald]."), nl,
+        retract(position_courante(_)),
+        assert(position_courante(fin2)).
+
+interaction(animal, 2) :-
+        write("Vous tendez la main vers l'animal. Il se rapproche de vous et se laisse caresser."), nl,
+        write("Puis il disparait d'un coup."), nl,
+        write("'Ses constantes sont stables !' - Cria une autre voix, au bout du couloir."), nl, nl,
+
+        write("Vous avancez encore... Vous tombez face à [Gérald]."), nl,
+        retract(position_courante(_)),
+        assert(position_courante(fin2)).
+
+interaction(gerald, 2) :-
+        actions(Actions),
+        check_if_negatif(Actions, 1),
+        write("'Hey bonhomme ! Ca va ? C'est toi qui a tué mon pote ?!'"), nl,
+        write("Gérald se jette sur vous, furieux ! Il disparait au moment de vous toucher."), nl, nl,
+
+        write("Vous continuez dans ce sombre couloir... jusqu'à voir les yeux d'un [loup] dans l'obscurité."), nl,
+        write("Celui-ci ne semble pas vouloir vous attaquer."), nl,
+        retract(position_courante(_)),
+        assert(position_courante(fin3)).
+
+interaction(gerald, 2) :-
+        write("'Hey bonhomme ! Ca va ? Richard va bien, il s'est remis de cette aventure."), nl,
+        write("Merci de l'avoir secouru, heureusement que tu étais là !'"), nl,
+        write("Gérald s'approche de vous, bras ouvert, pour vous caliner."), nl, 
+        write("Au moment de vous toucher, il disparait."), nl, nl,
+
+        write("Vous continuez dans ce sombre couloir... jusqu'à voir les yeux d'un [loup] dans l'obscurité."), nl,
+        write("Celui-ci ne semble pas vouloir vous attaquer."), nl,
+        retract(position_courante(_)),
+        assert(position_courante(fin3)).
+
+interaction(loup, 2) :-
+        actions(Actions),
+        check_if_negatif(Actions, 2),
+        write("Vous lui sautez dessus, hache en main ?!"), nl,
+        write("Vous le frappez, le coupez, le tordez, l'arrachez, le déchiquetez, ..."), nl,
+        write("Votre visage est couvert du sang du pauvre loup."), nl,
+        write("Celui-ci disparait."), nl, nl,
+
+        write("Vous voilà à la fin du couloir. Face à un [miroir]."), nl,
+        retract(position_courante(_)),
+        assert(position_courante(fin)).
+
+interaction(loup, 2) :-
+        write("Vous vous abaissez à son niveau et tendez la main... Le loup s'approche."), nl,
+        write("Vous ne ressentez aucune crainte, et carressez lentement le loup en souriant."), nl,
+        write("Le loup semble apprécier les carresses, et vous lèche la main en retour."), nl, 
+        write("Soudain, il disparait."), nl, nl,
+
+        write("Vous voilà à la fin du couloir. Face à un [miroir]."), nl,
+        retract(position_courante(_)),
+        assert(position_courante(fin)).
+
+interaction(miroir, 2) :-
+        actions(Actions),
+        sumlist(Actions, Res),
+        check_if_positif(Res),
+        write("Vous approchez votre main du miroir, puis le touchez."), nl,
+        write("Ce dernier rayonne... Vous vous sentez vous élever..."), nl,
+        write("'Il reprend connaissance !', la voix du couloir semble de plus en plus proche !"), nl,
+        write("'Accroche-toi à de bons souvenirs !'..."), nl,
+        write("Vous repensez à tout ce que vous avez vécu..."), nl,
+        write("Vous ne pouvez pas vous arrêter là..."), nl, nl,
+
+        write("Progressivement, tout autour de vous se met à briller, de plus en plus fort."), nl,
+        write("Vous ne voyez plus rien, puis... seulement la lumière d'une lampe..."), nl,
+        write("La luminosité s'affaiblit et vous distinguez-"), nl, nl,
+
+        write("'Oh putain gars ! On pensait qu'on t'avait perdu !' s'exclama Mathieu."), nl, nl,
+
+        write("Vous regardez autour de vous et reconnaissez également Maxime, Gérald et Richard !"), nl,
+        write("Votre chat, assis sur vos genoux, se dresse vers vous. Il vous regarde avec des yeux ronds."), nl,
+        write("Miaule, comme s'il attendait une caresse. Vous lui faites sans broncher."), nl, nl,
+
+        write("'Depuis ton accident, tu te trouvais dans le coma dans ce lit d'hopital' réplique Richard."), nl, nl,
+
+        write("Maxime explique : 'On s'occupait de ton chat depuis ce jour mais elle n'arrêtait pas de miauler."), nl,
+        write("On s'est dit qu'elle avait peut être envie de te voir.'"), nl,
+        write("'Ce petit bonhomme a sauté sur toi dès qu'elle t'a vu et n'a pas arrêter de miauler !' s'étonne Gérald."), nl,
+        write("'Et en une dizaine de minutes, te voilà réveillé !' finit Mathieu."), nl, nl,
+
+        write("Misty vous fixe, puis miaule une nouvelle fois."), nl,
+        write("..."), nl,
+        write("Merci, Misty."), nl.
+
+interaction(miroir, 2) :-
+        write("Vous approchez votre main du miroir, puis le touchez."), nl,
+        write("Ce dernier se fissure, votre reflet sourit, contrairement à vous."), nl,
+        write("'On le perd !', la voix du couloir est de plus en plus lointaine..."), nl,
+        write("'Accroche-toi à de bons souvenirs !'... 'Lesquels ?' répondit le reflet..."), nl, nl,
+
+        write("Progressivement, tout autour de vous se met à disparaitre..."), nl,
+        write("Le miroir, les murs, le sol, le toit, le couloir, ..."), nl,
+        write("Puis vos pieds, vos mains, vos jambes et vos bras ..."), nl,
+        write("Il ne reste plus que votre tête, plus que votre cerveau..."), nl,
+        write("Votre conscien-..."), nl, nl,
+
+        write("        *Vous n'avez pas réussi à vous réveiller.*"), nl,
+        write("        *Fin...*"), nl.
+        
+
+interaction(miroir, 2) :-
+        write("Vous approchez votre main du miroir, puis le touchez."), nl,
+        write("Ce dernier rayonne... Vous vous sentez vous élever..."), nl,
+        write("'Il reprend connaissance !', la voix du couloir semble de plus en plus proche !"), nl,
+        write("'Accroche-toi à de bons souvenirs !'..."), nl,
+        write("Vous repensez à tout ce que vous avez vécu..."), nl,
+        write("Vous ne pouvez pas vous arrêter là..."), nl, nl,
+
+        write("Progressivement, tout autour de vous se met à briller, de plus en plus fort."), nl,
+        write("Vous ne voyez plus rien, puis... seulement la lumière d'une lampe..."), nl,
+        write("La luminosité s'affaiblit et vous distinguez-"), nl, nl,
+
+        write("'Oh putain gars ! On pensait qu'on t'avait perdu !' s'exclama Mathieu."), nl, nl,
+
+        write("Vous regardez autour de vous et reconnaissez également Maxime, Gérald et Richard !"), nl,
+        write("Votre chat, assis sur vos genoux, se dresse vers vous. Il vous regarde avec des yeux ronds."), nl,
+        write("Miaule, comme s'il attendait une caresse. Vous lui faites sans broncher."), nl, nl,
+
+        write("'Depuis ton accident, tu te trouvais dans le coma dans ce lit d'hopital' réplique Richard."), nl, nl,
+
+        write("Maxime explique : 'On s'occupait de ton chat depuis ce jour mais elle n'arrêtait pas de miauler."), nl,
+        write("On s'est dit qu'elle avait peut être envie de te voir.'"), nl,
+        write("'Ce petit bonhomme a sauté sur toi dès qu'elle t'a vu et n'a pas arrêter de miauler !' s'étonne Gérald."), nl,
+        write("'Et en une dizaine de minutes, te voilà réveillé !' finit Mathieu."), nl, nl,
+
+        write("Misty vous fixe, puis miaule une nouvelle fois."), nl,
+        write("..."), nl,
+        write("Merci, Misty."), nl.
+        
+
 %%%%%%%%%%%%%%%%%%%%%%%%% Interactions chambre %%%%%%%%%%%%%%%%%%%%%%%%%
 interaction(chat, 0) :-
         interactedList(Interacted),
@@ -1549,7 +1709,9 @@ interaction(feu, 1) :-
         assert(actions(NewList)),
         retract(position_courante(_)),
         assert(position_courante(fin0)),
-        description(hub_cauchemar, 1). 
+        retract(cauchemar(_)),
+        assert(cauchemar(2)),
+        description(fin0, 2). 
 
 
 interaction(feu, 1) :-
@@ -1588,7 +1750,9 @@ interaction(loups, 1) :-
         assert(actions(NewList)),
         retract(position_courante(_)),
         assert(position_courante(fin0)),
-        description(hub_cauchemar, 1). 
+        retract(cauchemar(_)),
+        assert(cauchemar(2)),
+        description(fin0, 2). 
 
 interaction(loups, 1) :-
         interactedList(Interacted),

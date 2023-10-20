@@ -43,3 +43,8 @@ go ruisseau.
 int tronc.
 go campement.
 int loups.
+int misty.
+int animal.
+int gerald.
+int loup.
+int miroir.
