@@ -352,8 +352,6 @@ deplacer(porte, 0) :-
         \+ list_check_inventory("Carnet & Stylo", InventoryList),
         %%% CR_F_23
         write("Vous ne pouvez pas sortir sans prendre votre carnet !"), nl, nl,
-        position_courante(Ici),
-        cauchemar(Cauchemar),
         !.
 
 deplacer(porte, 0) :-
@@ -361,8 +359,7 @@ deplacer(porte, 0) :-
         \+ list_check_place(chat, lit, 0, Interacted),
         %%% CR_F_17
         write("Vous mettez la main sur la poignée, votre chat miaule et demande une caresse, mieux vaut lui dire au revoir avant de partir."), nl, nl,
-        position_courante(Ici),
-        cauchemar(Cauchemar),
+
         !.
 
 deplacer(chansons, 0) :-
