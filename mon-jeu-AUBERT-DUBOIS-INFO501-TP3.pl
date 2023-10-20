@@ -250,6 +250,7 @@ interagir(X) :-
 % couper quelque chose
 couper(X) :-
         position_courante(P),
+        position(X, P, Cauchemar),
         coupage(X),
         cauchemar(Cauchemar),
         couperTexte(X, Cauchemar), nl,
@@ -268,6 +269,7 @@ couper(X) :-
 % creuser quelque chose
 creuser(X) :-
         position_courante(P),
+        position(X, P, Cauchemar),
         creusage(X),
         cauchemar(Cauchemar),
         creuserTexte(X, Cauchemar), nl,
@@ -1246,7 +1248,8 @@ interaction(miroir, 2) :-
 
         write("Misty vous fixe, puis miaule une nouvelle fois."), nl,
         write("..."), nl,
-        write("Merci, Misty."), nl.
+        write("Merci, Misty."), nl,
+        fin.
 
 interaction(miroir, 2) :-
         write("Vous approchez votre main du miroir, puis le touchez."), nl,
@@ -1261,37 +1264,7 @@ interaction(miroir, 2) :-
         write("Votre conscien-..."), nl, nl,
 
         write("        *Vous n'avez pas réussi à vous réveiller.*"), nl,
-        write("        *Fin...*"), nl.
-        
-
-interaction(miroir, 2) :-
-        write("Vous approchez votre main du miroir, puis le touchez."), nl,
-        write("Ce dernier rayonne... Vous vous sentez vous élever..."), nl,
-        write("'Il reprend connaissance !', la voix du couloir semble de plus en plus proche !"), nl,
-        write("'Accroche-toi à de bons souvenirs !'..."), nl,
-        write("Vous repensez à tout ce que vous avez vécu..."), nl,
-        write("Vous ne pouvez pas vous arrêter là..."), nl, nl,
-
-        write("Progressivement, tout autour de vous se met à briller, de plus en plus fort."), nl,
-        write("Vous ne voyez plus rien, puis... seulement la lumière d'une lampe..."), nl,
-        write("La luminosité s'affaiblit et vous distinguez-"), nl, nl,
-
-        write("'Oh putain gars ! On pensait qu'on t'avait perdu !' s'exclama Mathieu."), nl, nl,
-
-        write("Vous regardez autour de vous et reconnaissez également Maxime, Gérald et Richard !"), nl,
-        write("Votre chat, assis sur vos genoux, se dresse vers vous. Il vous regarde avec des yeux ronds."), nl,
-        write("Miaule, comme s'il attendait une caresse. Vous lui faites sans broncher."), nl, nl,
-
-        write("'Depuis ton accident, tu te trouvais dans le coma dans ce lit d'hopital' réplique Richard."), nl, nl,
-
-        write("Maxime explique : 'On s'occupait de ton chat depuis ce jour mais elle n'arrêtait pas de miauler."), nl,
-        write("On s'est dit qu'elle avait peut être envie de te voir.'"), nl,
-        write("'Ce petit bonhomme a sauté sur toi dès qu'elle t'a vu et n'a pas arrêter de miauler !' s'étonne Gérald."), nl,
-        write("'Et en une dizaine de minutes, te voilà réveillé !' finit Mathieu."), nl, nl,
-
-        write("Misty vous fixe, puis miaule une nouvelle fois."), nl,
-        write("..."), nl,
-        write("Merci, Misty."), nl.
+        fin.
         
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Interactions chambre %%%%%%%%%%%%%%%%%%%%%%%%%
