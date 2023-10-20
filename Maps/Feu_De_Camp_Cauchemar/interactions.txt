@@ -1,4 +1,4 @@
-Entrée de la zone : FC_D0
+Entrée de la zone : Si FC_D0 => FC_D0_BIS SINON FC_D0
 
 --- D0 ---
 Aller Foret - Si FC_O_01 => FC_D1 SINON FC_F_04
@@ -12,8 +12,8 @@ Interagir Feu - Si FC_O_01 => (Si FC_O_04 => FC_V_03 SINON FC_F_23) SINON FC_F_0
 Observer Pluie - Si FC_O_01 => FC_F_23 SINON FC_F_14
 Interagir Pluie - Si FC_O_01 => FC_F_23 SINON FC_F_15
 
-Observer Loup - Si FC_O_06 => FC_F_20 SINON FC_F_22
-Interagir Loup - 
+Observer Loups - Si FC_O_06 => FC_F_20 SINON FC_F_22
+Interagir Loups - 
 - Si FC_O_06 => 
 	Si FC_O_03 => FC_X_03
 	SINON FC_F_21
@@ -27,7 +27,7 @@ Interagir Ronce - FC_F_06
 Couper Ronce - FC_O_02
 
 --- D2 ---
-Aller Ruisseau - Si FC_O_05 => FC_D3 SINON FC_F_13
+Aller Ruisseau - Si FC_O_03 OU FC_O_04 (Si FC_O_05 => FC_D3 SINON FC_F_13) SINON FC_F_24
 
 Observer Hache - FC_F_08
 Interagir Hache - Si FC_O_03 OU FC_O_04 => FC_F_10 SINON FC_O_03

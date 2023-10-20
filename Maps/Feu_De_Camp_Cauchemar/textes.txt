@@ -8,6 +8,29 @@ Quelques bruits dans les buissons, probablement de petits animaux, sont les seul
 Le [Feu] de camp est éteint par la [Pluie] qui fait rage.
 Des [Traces] suspectes sont présentes un peu partout autour du campement.
 
+FC_D0_Bis
+Vous êtes finalement de retour au campement.
+Mais vous entendez des grognements autour de vous...
+Les [Loups] sont là ! Ils vous ont encerclé !
+Vous reculez lentement en direction du [Feu] de camp éteint...
+
+FC_D1 - Aller Foret
+Vous courez en direction de la forêt pour échapper aux loups. Il fait sombre, vous ne voyez que des [Ronces] bloquant le chemin vers la [maison]. Il faut faire vite, les loups vous poursuivent !
+
+FC_D2 - Aller Maison
+En fuyant les loups, vous arrivez devant la maison.
+Vous recherchez un moyen de vous défendre : 
+- Une [Hache] est posée sur le mur à l'entrée.
+- Un grand [Baton] épais se trouve à vos pieds 
+
+Vous n'aurez le temps d'en récupérer qu'un des deux puis de fuir en direction du {Ruisseau}, bloqué par les [Broussailles]
+
+FC_D3 - Aller Ruisseau
+Vous arrivez de l'autre côté du ruisseau ! 
+Les loups se démènent pour passer à travers les broussailles, cela ne leur prendra pas longtemps.
+Le [Courant] est fort, impossible d'y traverser à pied.
+Heureusement, le [tronc] que vous avez coupé semble toujours en place !
+
 FC_F_01 - Observer Traces
 Des traces d'animaux, encore sèche malgré la pluie, elles doivent être très récentes...
 
@@ -35,48 +58,89 @@ Vous agitez votre nouvelle torche devant les loups, qui craintif, s'enfuient !
 En clignant des yeux, vous vous retrouvez, encore une fois, dans la pièce étrange.
 
 FC_F_14 - Observer Pluie
-Il pleut des cordes.
+La pluie tombe fortement sur toute la forêt... C'est surement pour ça que les campeurs sont partis.
 
+FC_F_15 - Interagir Pluie
+La pluie coulant sur votre peau est froide et désagréable. Vous n'avez aucun moyen de vous abritez. Vous tentez de vous couvrir, mais sans succès.
 
-interactions.txt
---- D0 ---
-Aller Foret - Si FC_O_01 => FC_D1 SINON FC_F_04
+FC_F_05 - Observer Ronces
+Des grandes ronces bloquent le passage vers la maison. C'est votre seul accès pour fuir les loups !
 
-Observer Pluie - FC_F_14
-Interagir Pluie - FC_F_15
+FC_F_06 - Interagir Ronces
+Vous essayez d'arracher les ronces à la main mais celles-ci sont trop durs et piquantes, vous ne faites que vous blessez.
 
-Observer Loup - Si FC_O_06 => FC_F_20 SINON FC_F_22
-Interagir Loup - 
-- Si FC_O_06 => 
-	Si FC_O_03 => FC_X_03
-	SINON FC_F_21
-  SINON FC_F_22
+FC_F_07 - Aller Maison
+Des [Ronces] vous empêche d'aller plus loin !
 
---- D1 ---
-Aller Maison - Si FC_O_02 => FC_D2 SINON FC_F_07
+FC_O_02 - Couper Ronces
+Vous coupez les ronces à l'aide de votre couteau ! Le chemin vers la {maison} est libre !
 
-Observer Ronce - FC_F_05
-Interagir Ronce - FC_F_06
-Couper Ronce - FC_O_02
+FC_F_13 - Aller Ruisseau
+Le chemin est bloqué par des [Broussailles] !
 
---- D2 ---
-Aller Ruisseau - Si FC_O_05 => FC_D3 SINON FC_F_13
+FC_F_24 - Aller Ruisseau
+Il vous faut d'abord choisir une arme pour vous défendre !
 
-Observer Hache - FC_F_08
-Interagir Hache - Si FC_O_03 OU FC_O_04 => FC_F_10 SINON FC_O_03
+FC_F_08 - Observer Hache
+Cela semble être la même hache que vous avez utilisé autrefois. Elle n'est pas en parfait état.
 
-Observer Baton - FC_F_09
-Interagir Baton - Si FC_O_03 OU FC_O_04 => FC_F_10 SINON FC_O_04
+FC_O_03 - Interagir Hache
+Vous saissisez la hache avant que les loups ne vous rattrapent !
+	*Vous obtenez 1x [Hache]*
 
-Observer Broussailles - FC_F_11
-Interagir Broussailles - FC_F_12
-Couper Broussailles - FC_O_05
+FC_F_09 - Observer Baton
+Un simple baton à bout rond, pas pratique pour éliminer ses cibles.
 
---- D3 ---
-Aller Campement - Si FC_O_06 => FC_D0_BIS SINON FC_F_19
+FC_O_04 - Interagir Baton
+Vous saissisez le baton avant que les loups ne vous rattrapent !
+	*Vous obtenez 1x [Baton]*
 
-Observer Tronc - FC_F_16
-Interagir Tronc - FC_O_06
+FC_F_10 - Prendre 2e Item
+Impossible ! Les loups ont déjà dépassé ce point, il faut avancer !
 
-Observer Ruisseau - FC_F_17
-Interagir Ruisseau - FC_F_18
+FC_F_11 - Observer Broussailles
+Des broussailles menant de l'autre côté du ruisseau, si peu qu'on arrive à les traverser.
+
+FC_F_12 - Interagir Broussailles
+Impossible de passer à travers, les feuillages sont trop denses, il va vous falloir un outil !
+
+FC_O_05 - Couper Broussailles
+Vous vous frayez un chemin à travers les broussailles !
+
+FC_F_16 - Observer Tronc
+Un gros tronc d'arbre qui est tombé, permettant de traverser le ruisseau avec un peu d'adresse.
+
+FC_O_06 - Interagir Tronc
+Vous passez par le tronc pour traverser le ruisseau.
+Vous manquez de perdre l'équilibre sous le stress mais vous arrivez à vous en sortir indemne.
+Les loups sont bloqués de l'autre côté. Certains d'entre eux décident de faire le tour.
+Vous n'êtes pas encore sorti d'affaires...
+Le chemin jusqu'au {campement} s'offre à vous afin d'établir une nouvelle stratégie.
+
+FC_F_17 - Observer Courant
+Le courant du ruisseau est beaucoup trop fort, vous perdrez l'équilibre en une fraction de seconde si vous essayez de le traverser.
+
+FC_F_18 - Interagir Courant
+"Impossible ! Les loups me rattraperaient si je perd l'équilibre ! Je ne peux pas tenter ça !"
+
+FC_F_19 - Aller Campement
+Le chemin vers le campement se trouve de l'autre côté du ruisseau !
+
+FC_F_20 - Observer Loups
+Les loups vous dévorent du regard, ils sont prêt à vous sauter dessus à tout moment, il faut agir !
+
+FC_F_21 - Interagir Loups
+Vous tentez de les tenir à distance grâce à votre baton.
+Ca semble fonctionner mais ce n'est qu'une solution temporaire...
+
+FC_F_22 - Des Loups ?
+Des loups ? Quel loups ? Je ne vois pas de loups moi.
+
+FC_X_03 - Interagir Loups
+Vous sautez sur les loups armé de votre hache, tel un guerrier partant en bataille !
+Vous esquivez le premier loup, parez le deuxième avec votre hache et frappez d'un coup mortel le troisième !
+Un quatrième loup vous fait perdre l'équilibre, un des animaux vous saute alors à la gorge !
+Vous bloquez sa machoire avec votre hache... Qui... casse.
+Vous sentez vos entrailles se faire ouvrir et dévorer par les loups...
+Quand soudain... Vous clignez des yeux, et vous revoilà dans la salle étrange, en vie, et même pas blessé.
+	*Vous notez cette expérience unique dans votre carnet*
