@@ -467,8 +467,8 @@ carnet(X) :-
 
 suiv :-
         dernierePage(Last),
+        \+ equal(Last, 3),
         increase(Last, New),
-        \+ equal(New, 5),
         retract(dernierePage(Last)),
         assert(dernierePage(New)),
         lire(New),
@@ -480,8 +480,8 @@ suiv :-
 
 prev :-
         dernierePage(Last),
+        \+ equal(Last, 1),
         decrease(Last, New),
-        \+ equal(New, 0),
         retract(dernierePage(Last)),
         assert(dernierePage(New)),
         lire(New),
