@@ -1979,7 +1979,7 @@ lire(1) :-
         check_if_positif(Actions, 0),
         write("Souvenir positif de la salle du feu de camp."), nl, nl,
 
-        write("J'ai posé un fruit devant un animal roux de l'autre côté d'un ruisseau."), nl,
+        write("J'ai posé un fruit devant un animal de l'autre côté d'un ruisseau."), nl,
         write("Celui-ci l'a dégusté devant moi... Trop mignon !"), nl, nl,
 
         write("Page suivante avec 'suiv.'"), nl,
@@ -1993,8 +1993,8 @@ lire(1) :-
         check_if_negatif(Actions, 0),
         write("Souvenir négatif de la salle du feu de camp."), nl, nl,
         
-        write("En lançant un couteau sur un animal et en lui assenant plusieurs coups de couteaux, celui-ci s'est roulé de douleur avant d'agoniser sur le sol..."), nl,
-        write("Était-ce vraiment une expérience sympathique ?"), nl, nl,
+        write("J'ai tué un animal, celui-ci s'est roulé de douleur avant d'agoniser sur le sol..."), nl,
+        write("Je ne sais pas ce qui m'a pris..."), nl, nl,
 
         write("Page suivante avec 'suiv.'"), nl,
         dernierePage(Last),
@@ -2032,7 +2032,7 @@ lire(2) :-
         write("Souvenir négatif de la salle des galeries."), nl, nl,
 
         write("Dans l'empressement de la découverte de joyaux, le sol s'est dérobé sous mes pieds au premier coup de pelle..."), nl,
-        write("L'éboulement à totalement détruit la pièce du dessous..."), nl, nl,
+        write("L'éboulement a totalement détruit la pièce du dessous... Gérald m'accuse d'avoir tué son ami..."), nl, nl,
 
         write("Page suivante avec 'suiv.'"), nl,
         write("Page précédente avec 'prev.'"), nl,
@@ -2056,8 +2056,8 @@ lire(3) :-
         check_if_positif(Actions, 1),
         write("Souvenir 'positif' du campement."), nl, nl,
 
-        write("En plongeant mon baton dans le feu de camp... Les braises suffirent à enflemmer le baton et à en faire une torche !"), nl,
-        write("J'ai agité ma nouvelle torche devant les loups, qui craintif, s'enfuirent !"), nl, nl,
+        write("J'ai réussi a repoussé la meute de loups sans les blesser !"), nl,
+        write("Le feu m'a permit de les effrayer !"), nl, nl,
 
         write("Page précédente avec 'prev.'"), nl,
         dernierePage(Last),
@@ -2071,8 +2071,7 @@ lire(3) :-
         write("Souvenir négatif du campement."), nl, nl,
 
         write("Après un combat acharné contre les loups... Ma hache s'est cassée au moment où j'affrontais le quatrième loup..."), nl,
-        write("Il l'a cassé avec sa mâchoire ??"), nl,
-        write("Je sentais mes entrailles se faire dévorer par les loups..."), nl, nl,
+        write("J'avais l'impression de me faire dévorer..."), nl, nl,
 
         write("Page précédente avec 'prev.'"), nl,
         dernierePage(Last),
