@@ -24,3 +24,20 @@ int animal.
 b.
 b.
 int mathieu.
+go galeries.
+int gerald.
+int pelle.
+go couloir.
+go passage.
+int pioche.
+b.
+cr friable.
+go escalier.
+int dynamite.
+cr trou.
+b.
+go passage.
+cr joyaux.
+b.
+b.
+int gerald.

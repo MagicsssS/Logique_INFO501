@@ -109,7 +109,6 @@ GR_F_23 - Interagir Trou
 "Hey ! C'est Richard ! Je suis coincé ici ! Tu peux m'aider ? Il faudrait que tu ailles récupérer la [pioche] qui se trouve au passage, c'est la pièce au-dessus de moi ! Reviens avec et tu pourras creuser ce trou dans le mur pour me libérer !"
 
 GR_F_24 - Un Trou ?
-Un trou ? Quel trou ? Je ne vois qu'une dynamite prête à exploser...
 
 GR_F_25 - Creuser Trou
 Vous tentez de creuser avec votre pelle... Cela ne semble pas efficace, le mur est trop solide !
@@ -125,7 +124,7 @@ GR_F_16 - Observer Figurine
 C'est une petite figurine poussièreuse en bois. Elle représente un aigle.
 
 GR_F_17 - Interagir Figurine
-L'heure n'est pas à la récolte, vous vous juerez de récupérer cette figurine avant de partir pour garder un souvenir de cette expédition.
+L'heure n'est pas à la récolte, vous vous jouerez de récupérer cette figurine avant de partir pour garder un souvenir de cette expédition.
 
 GR_Ov_1 - Interagir Gérald
 	*Vous expliquez à Gérald ce qu'il s'est passé*
