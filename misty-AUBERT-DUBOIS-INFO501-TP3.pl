@@ -1,5 +1,5 @@
 %%% INFO-501, TP3
-%%% Pierre Hyvernat
+%%% AUBERT Mathys - DUBOIS Joris
 %%%
 %%% Lancez la "requête"
 %%% jouer.
