@@ -34,7 +34,7 @@ visited([]).
 dernierePage(_).
 
 :- dynamic actions/1.
-actions([0,0,0,0,0]).
+actions([0,0,0,0]).
 
 :- dynamic cauchemar/1.
 cauchemar(0).
@@ -56,6 +56,10 @@ passage(galeries, couloir, couloir).
 passage(couloir, passage, passage).
 passage(couloir, escalier, escalier).
 
+passage(hub_cauchemar, campement, campement).
+passage(hub_cauchemar, galeries, galeries).
+%passage(hub_cauchemar, chambre, chambre).
+
 % RETOURS
 retour(lit, chambre). 
 retour(etagere, chambre). 
@@ -71,6 +75,9 @@ retour(galeries, hub_reve).
 retour(couloir, galeries).
 retour(passage, couloir).
 retour(escalier, couloir).
+
+retour(campement, hub_cauchemar).
+retour(galeries, hub_cauchemar).
 
 % position des objets
 position(chat, lit).
@@ -138,13 +145,21 @@ check_if_positif(Liste, Num) :-
         nth0(Num, Liste, Element),
         Element > 0.
 
+check_if_positif(Num) :-
+        Num > 0.
+
 check_if_negatif(Liste, Num) :-
         nth0(Num, Liste, Element),
         Element < 0.
 
+check_if_negatif(Num) :-
+        Num < 0.
+
 change_list(Index, NewVal, List, NewList) :-
         nth0(Index, List, _, TempList),
         nth0(Index, NewList, NewVal, TempList).
+
+somme([H|T], S) :- somme(T,X), S is H + X.
 
 % Ajouter dans l'inventaire si l'item existe déjà
 list_add(Name, OldList, NewList):-
@@ -170,7 +185,7 @@ indexOf([_|Tail], Element, Index):-
 list_check_place(Name, Place, Cauchemar, [[Name, Place, Cauchemar]|_]).
 list_check_place(Name, Place, Cauchemar, [_|T]):- list_check_place(Name, Place, Cauchemar, T).
 
-% Rule to check if an item exists in a list.
+% Rule to check if a ceartin number of an item exists in a list.
 list_check_inventory(Name, Number, [[Name, Number]|_]).
 list_check_inventory(Name, Number, [_|T]):- list_check_inventory(Name, Number, T).
 
@@ -421,7 +436,7 @@ carnet(X) :-
 suiv :-
         dernierePage(Last),
         increase(Last, New),
-        \+ equal(New, 6),
+        \+ equal(New, 5),
         retract(dernierePage(Last)),
         assert(dernierePage(New)),
         lire(New),
@@ -452,6 +467,9 @@ fin :-
 
 % affiche les instructions du jeu
 instructionsall :-
+        write("Les mots encadrés par des [] sont des objets interagissables. Vous pouvez essayer tout type d'action sur eux, mais soyez logique."), nl,
+        write("Les mots entre {} sont les chemins possibles à suivre. N'hésitez pas à y alelr en utilisant la commande adaptée."), nl, nl, 
+        
         write("Les commandes doivent être données avec la syntaxe Prolog habituelle."), nl,
         write("Les commandes existantes sont :"), nl, nl,
 
@@ -527,7 +545,10 @@ instructions :-
 
 % lancer une nouvelle partie
 jouer :-
-        instructions,
+        write("Notre jeu est un RPG Textuel vous demandant de réaliser des actions en réfléchissant par vous-même."), nl,
+        write("Les textes vous indiqueront plus précisément les actions possibles."), nl, nl,
+        instructions, nl,
+        write("Vous débloquerez probablement quelques commandes supplémentaires au fur et à muesure de votre avancement..."), nl,
         position_courante(Ici),
         cauchemar(Cauchemar),
         description(Ici, Cauchemar),
@@ -537,6 +558,24 @@ jouer :-
         assert(visited(NewList)),
         !.
 
+
+description(fin, 2) :-
+        actions(Actions),
+        somme(Actions, Res),
+        check_if_positif(Res),
+        write("C'est la fin positive"), nl.
+
+description(fin, 2) :-
+        actions(Actions),
+        somme(Actions, Res),
+        check_if_negatif(Res),
+        write("C'est la fin négative"), nl.
+        
+description(fin, 2) :-
+        actions(Actions),
+        somme(Actions, Res),
+        equal(Res, 0),
+        write("C'est la fin ??"), nl.
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Emplacements chambre %%%%%%%%%%%%%%%%%%%%%%%%%
 description(chambre, 0) :- 
