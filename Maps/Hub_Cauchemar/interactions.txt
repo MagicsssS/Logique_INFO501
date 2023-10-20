@@ -1,0 +1,5 @@
+Entrée de la zone : Si HR_D0 => HR_D5 SINON HR_D0
+
+Aller campement - Si HR_D1 => HR_F_01 SINON HR_D1
+Aller chambre - Si HR_D2 => HR_F_01 SINON HR_D2
+Aller galeries - Si HR_D3 => HR_F_01 SINON HR_D3

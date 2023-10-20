@@ -1,0 +1,36 @@
+HR_D0 - (Texte d'entrée dans la zone)
+Les [Fragments Etrange] brillent sous vos yeux, se mettent à flotter et se rapproche doucement les uns des autres...
+Ils se combinent !
+	*Vous obtenez 1x [Souvenir]*
+Un souvenir que vous aviez oublié. Et que vous aurez préféré ne pas vous rappeler.
+
+De manière presque instantané, la pièce étrange se métamorphose sous vos yeux jusqu'à devenir méconnaissable.
+Les portes vers les {galeries}, le {campement} et même votre {chambre} sont réapparus mais, l'atmosphère vous semble pesante, voir même menacante. Vous avez un très mauvais pressentiment.
+
+En écoutant aux portes, vous n'entendez rien, impossible de savoir ce qu'il se trouve derrière.
+
+Cette fois, vous êtes sûr de n'être JAMAIS venu ici.
+
+
+HR_D5 - (Texte d'entrée dans la zone)
+Vous regardez autour de vous... Terrifié...
+Mais il faut continuer d'avancer.
+
+Le {campement}, les {galeries} ou votre {chambre}, quel sera votre choix ?
+
+
+HR_D1 - Aller Campement
+Vous ouvrez la porte correspondant au campement.
+
+HR_D2 - Aller Chambre
+Vous ouvrez la porte correspondant à votre chambre.
+
+HR_D3 - Aller galeries
+Vous ouvrez la porte correspondant aux galeries.
+
+HR_F_01 - Aller ALREADY_VISITED
+La porte est toujours là. Mais... Vous n'avez clairement pas envie d'y retourner, vous êtes traumatisé.
+
+
+
+

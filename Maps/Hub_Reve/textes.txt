@@ -4,9 +4,8 @@ L'atmosphère, pour autant, est douce et légère, vous ne ressentez aucune crai
 Vous ne paraissez pas surpris de ce que vous voyez. Comme si vous étiez déjà venu ici.
 Vous décidez de faire le tour de la pièce afin d'avoir une vue d'ensemble.
 
-Vous y découvrez trois nouvelles portes : 
+Vous y découvrez deux nouvelles portes : 
 - En collant votre oreille à la première, vous y écoutez des {chansons}.
-- Par de-là la seconde, vous entendez des rires d'enfants, comme à une {fete}.
 - Enfin, vous percevez des bruits de pelles et de pioches comme dans des {galeries}.
 
 Malheureusement, la porte à votre chambre a disparu derrière vous... Il ne semble plus être possible d'y aller.
@@ -16,7 +15,6 @@ Où voulez-vous ALLER ?
 HR_D5 - (Texte d'entrée dans la zone)
 Vous êtes de retour dans l'étrange pièce aux portes.
 - Celle d'où proviennent les {chansons}.
-- Celle où semble se dérouler une {fete}.
 - Celle avec la voix du guide des {galeries}.
 
 Où voulez-vous ALLER ?
@@ -24,9 +22,6 @@ Où voulez-vous ALLER ?
 
 HR_D1 - Aller Chansons
 Vous ouvrez la porte dont proviennent les chansons.
-
-HR_D2 - Aller fete
-Vous ouvrez la porte dont proviennent les rires d'enfants.
 
 HR_D3 - Aller galeries
 Vous ouvrez la porte dont proviennent les bruits de galeries.
@@ -36,7 +31,3 @@ La porte menant aux galeries a disparu...
 
 HR_F_02 - Aller Chansons
 La porte menant au feu de camp a disparu...
-
-HR_F_03 - Aller fete
-La porte menant à la fête foraine a disparu...
-
