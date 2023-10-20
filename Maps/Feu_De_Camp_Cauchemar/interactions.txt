@@ -1,0 +1,49 @@
+Entrée de la zone : FC_D0
+
+--- D0 ---
+Aller Foret - Si FC_O_01 => FC_D1 SINON FC_F_04
+
+Observer Traces - FC_F_01
+Interagir Traces - FC_O_01
+
+Observer Feu - FC_F_02
+Interagir Feu - Si FC_O_04 => FC_V_03 SINON FC_F_03
+
+Observer Pluie - FC_F_14
+Interagir Pluie - FC_F_15
+
+Observer Loup - Si FC_O_06 => FC_F_20 SINON FC_F_22
+Interagir Loup - 
+- Si FC_O_06 => 
+	Si FC_O_03 => FC_X_03
+	SINON FC_F_21
+  SINON FC_F_22
+
+--- D1 ---
+Aller Maison - Si FC_O_02 => FC_D2 SINON FC_F_07
+
+Observer Ronce - FC_F_05
+Interagir Ronce - FC_F_06
+Couper Ronce - FC_O_02
+
+--- D2 ---
+Aller Ruisseau - Si FC_O_05 => FC_D3 SINON FC_F_13
+
+Observer Hache - FC_F_08
+Interagir Hache - Si FC_O_03 OU FC_O_04 => FC_F_10 SINON FC_O_03
+
+Observer Baton - FC_F_09
+Interagir Baton - Si FC_O_03 OU FC_O_04 => FC_F_10 SINON FC_O_04
+
+Observer Broussailles - FC_F_11
+Interagir Broussailles - FC_F_12
+Couper Broussailles - FC_O_05
+
+--- D3 ---
+Aller Campement - Si FC_O_06 => FC_D0_BIS SINON FC_F_19
+
+Observer Tronc - FC_F_16
+Interagir Tronc - FC_O_06
+
+Observer Ruisseau - FC_F_17
+Interagir Ruisseau - FC_F_18
