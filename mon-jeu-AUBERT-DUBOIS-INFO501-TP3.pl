@@ -222,9 +222,9 @@ observer(X) :-
         !.
 
 observer(X) :-
-        write("Je ne vois pas de "),
+        write("Il n'y a pas de "),
         write(X),
-        write(" ici. Allez-vous vraiment bien ?"), nl,
+        write(" ici. Vous avez besoin de lunettes ?"), nl,
         fail.
 
 
@@ -241,9 +241,9 @@ interagir(X) :-
         !.
 
 interagir(X) :-
-        write("Je ne vois pas de "),
+        write("Il n'y a pas de "),
         write(X),
-        write(" ici. Allez-vous vraiment bien ?"), nl,
+        write(" ici. Vous avez besoin de lunettes ?"), nl,
         fail.
 
 
@@ -260,7 +260,7 @@ couper(X) :-
         !.
 
 couper(X) :-
-        write("Je ne vois pas de "),
+        write("Il n'y a pas de "),
         write(X),
         write(" ici. Qu'essayez-vous donc de couper ?"), nl,
         fail.
@@ -278,7 +278,7 @@ creuser(X) :-
         !.
 
 creuser(X) :-
-        write("Je ne vois pas de "),
+        write("Il n'y a pas de "),
         write(X),
         write(" ici. Qu'essayez-vous donc de creuser ?"), nl,
         fail.
@@ -358,7 +358,12 @@ deplacer(porte, 0) :-
         interactedList(Interacted),
         \+ list_check_place(chat, lit, 0, Interacted),
         %%% CR_F_17
-        write("Vous mettez la main sur la poignée, votre chat miaule et demande une caresse, mieux vaut lui dire au revoir avant de partir."), nl, nl,
+        write("Vous mettez la main sur la poignée."), nl,
+        write("Votre chat miaule et demande une caresse."), nl,
+        write("Mieux vaut lui dire au revoir avant de partir."), nl, nl,
+        position_courante(Ici),
+        cauchemar(Cauchemar),
+        description(Ici, Cauchemar), 
 
         !.
 
@@ -404,7 +409,7 @@ deplacer(foret, 1) :-
 deplacer(maison, 1) :-
         cutList(Cut),
         \+ list_check_place(ronces, foret, 1, Cut),
-        write("Des [Ronces] vous empêche d'aller plus loin !"), nl,
+        write("Des [Ronces] vous empêchent d'aller plus loin !"), nl,
         !.
 
 deplacer(ruisseau, 1) :-
@@ -444,7 +449,7 @@ deplacer(Direction, Cauchemar) :-
 
 
 deplacer(_, _) :-
-        write("Où essayez vous d'aller ? Cet endroit n'existe pas."), nl,
+        write("Où essayez-vous d'aller ? Cet endroit n'existe pas."), nl,
         fail.
 
 
@@ -498,14 +503,14 @@ fin :-
 
 % affiche les instructions du jeu
 instructionsall :-
-        write("Les mots encadrés par des [] sont des objets interagissables. Vous pouvez essayer tout type d'action sur eux, mais soyez logique."), nl,
-        write("Les mots entre {} sont les chemins possibles à suivre. N'hésitez pas à y alelr en utilisant la commande adaptée."), nl, nl, 
+        write("Les mots encadrés par des [] sont des objets à interactions. Vous pouvez essayer tout type d'action sur eux."), nl,
+        write("Les mots entre {} sont les chemins possibles à suivre. N'hésitez pas à y aller en utilisant la commande adaptée."), nl, nl, 
         
         write("Les commandes doivent être données avec la syntaxe Prolog habituelle."), nl,
         write("Les commandes existantes sont :"), nl, nl,
 
         write("jouer.                             -- pour commencer une partie."), nl,
-        write("regarder. / r.                     -- pour regarder autour de vous (Répète le texte précédent)."), nl,
+        write("regarder. / r.                     -- pour regarder autour de vous (Répète le texte de zone)."), nl,
         write("aller(direction) / go {direction}. -- pour aller dans cette direction."), nl,
         write("retour. / b.                       -- pour retourner à l'endroit précédent/au centre de la pièce."), nl,
         write("observer(objet). / o [objet].      -- pour regarder quelque chose."), nl,
@@ -519,7 +524,7 @@ instructions3 :-
         write("couper(objet). / cut [objet].      -- pour couper un objet"), nl.
 
 instructions4 :-
-        write("creuser(objet). / cr [objet].      -- pour couper un objet"), nl.
+        write("creuser(objet). / cr [objet].      -- pour creuser au niveau de cet objet"), nl.
 
 instructionfin :-
         write("instructions.                      -- pour revoir ce message !"), nl,
@@ -579,7 +584,7 @@ jouer :-
         write("Notre jeu est un RPG Textuel vous demandant de réaliser des actions en réfléchissant par vous-même."), nl,
         write("Les textes vous indiqueront plus précisément les actions possibles."), nl, nl,
         instructions, nl,
-        write("Vous débloquerez probablement quelques commandes supplémentaires au fur et à muesure de votre avancement..."), nl,
+        write("Vous débloquerez probablement quelques commandes supplémentaires au fur et à mesure de votre avancement..."), nl,
         position_courante(Ici),
         cauchemar(Cauchemar),
         description(Ici, Cauchemar),
@@ -712,7 +717,10 @@ description(carnet, 0) :-
 
 description(carnet, 0) :-
         %%% CR_F_15
-        write("Un simple carnet que vous venez d'acheter, est posé sur le bureau, sur sa couverture se trouve un stylo qui vous a suivi toute votre vie puisqu'il ne vous a jamais failli depuis le début de vos études. En même temps vous ne l'avez pas beaucoup utilisé."), nl.
+        write("Un simple carnet que vous venez d'acheter, est posé sur le bureau."), nl,
+        write("sur sa couverture se trouve un stylo qui vous a suivi toute votre vie"), nl,
+        write("puisqu'il ne vous a jamais failli depuis le début de vos études."), nl,
+        write("En même temps vous ne l'avez pas beaucoup utilisé..."), nl.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Emplacements hub reve %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -722,7 +730,7 @@ description(hub_reve, 0) :-
         %%% HR_D5
         write("Vous êtes de retour dans l'étrange pièce aux portes."), nl,
         write("- Celle d'où proviennent les {chansons}."), nl,
-        write("- Celle avec la voix du guide des {galeries}."), nl, nl,
+        write("- Celle avec les bruits des {galeries}."), nl, nl,
 
         write("Où voulez-vous ALLER ?"), nl.
 
@@ -735,7 +743,7 @@ description(hub_reve, 0) :-
 
         write("Vous y découvrez trois nouvelles portes : "), nl,
         write("- En collant votre oreille à la première, vous y écoutez des {chansons}."), nl,
-        write("- Par de-là la seconde, vous percevez la voix d'un guide, beaucoup d'échos, ainsi que des bruits de pelles et de pioches comme dans des {galeries}."), nl, nl,
+        write("- Par de-là la seconde, vous percevez beaucoup d'échos, ainsi que des bruits de pelles et de pioches comme dans des {galeries}."), nl, nl,
 
         write("Malheureusement, la porte à votre chambre a disparu derrière vous... Il ne semble plus être possible d'y aller."), nl, nl,
 
@@ -783,7 +791,7 @@ description(galeries, 0) :-
 
 description(galeries, 0) :-
         %%% HR_D3
-        write("Vous ouvrez la porte dont provient la voix du guide."), nl, nl,
+        write("Vous ouvrez la porte dont provient les bruits de galeries."), nl, nl,
         
         write("Vos poumons manquent subitement d'air... Vos yeux s'habituent difficilement à l'obscurité..."), nl,
         write("Vous vous sentez lourd, en effet, vous remarquez être grandement équipé : Tenue complète de sécurité, bottes comprises et même"), nl,
