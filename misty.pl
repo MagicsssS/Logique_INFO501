@@ -828,10 +828,10 @@ description(maison, 0) :-
         write("Vous remarquez une superbe [hache], là, posée contre le mur, à l'entrée de la maison."), nl.
 
 description(ruisseau, 0) :-
-        write("Vous arrivez proche de l'[eau] claire du ruisseau."), nl,
-        write("Il ne semble pas possible de le traverser, celà vous déçoit quelques instants... Il y a pourtant une buche de l'autre côté..."), nl,
-        write("Un frèle animal vous regarde brièvement depuis l'autre côté du ruisseau."), nl,
-        write("Vous constatez un grand [tronc] figurant à votre droite..."), nl.
+        write("En arrivant au ruisseau, vous remarquez que son [eau] est incroyablement claire malgré son très fort courant."), nl,
+        write("Un petit [animal] boit de l'eau de l'autre côté du ruisseau.") nl,
+        write("Vous remarquez un imposant tronc, bien trop grand pour servir de buche."), nl,
+        write("Mais peut-être qu'en le faisant tomber, le choc fera se détacher une partie qui vous servirait de [buche]"), nl.
 
 description(mathieu, 0) :-
         write("Mathieu s'occupe méticuleusement du feu, regarde chaque braise virevolter, il semble passionné par ce spectacle."), nl.
@@ -2020,7 +2020,7 @@ creuserTexte(trou, 0) :-
 
         write("        *Vous notez cette expérience unique dans la DEUXIÈME PAGE de votre carnet*"), nl, nl,
 
-        write("Votre pioche se casse bien sur le coup... Les produits fait en Chine ne sont pas très solides..."), nl,
+        write("Votre pioche se casse sur le coup... Les produits fait en Chine ne sont pas très solides..."), nl,
         actions(Actions),
         change_list(1, 1, Actions, NewList),
         retract(actions(_)),

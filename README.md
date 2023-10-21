@@ -1,3 +1,5 @@
+Note : misty_magic.pl est une version du jeu sans accent, en cas d'erreur de formatage de votre terminal préféré.
+
 # Notre jeu de logique
 
 Notre jeu est un RPG Textuel, demandant une certaine réflexion sur les actions à faire.
