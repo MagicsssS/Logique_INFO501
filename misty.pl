@@ -442,11 +442,11 @@ deplacer(Direction, Cauchemar) :-
         description(Direction, Cauchemar),
         retract(position_courante(Ici)),
         assert(position_courante(La)),
+        description(La, Cauchemar),
         visited(Visited),
         list_add([La, Ici, Cauchemar], Visited, NewList),
         retract(visited(_)),
         assert(visited(NewList)),
-        description(La, Cauchemar),
         !.
 
 
@@ -691,6 +691,12 @@ description(origami, 0) :-
         %%% CR_F_19
         write("Un origami en forme de renard que vous avez réalisé durant une conférence sur les origamis."), nl, 
         write("Celui-ci semble être courbé au niveau du museau."), nl.
+
+description(maths, 0) :-
+        interactedList(Interacted),
+        list_check_place(maths, etagere, 0, Interacted),
+        %%% CR_F_21
+        write("Non, plus jamais je ne le regarderai !"), nl.
 
 description(maths, 0) :-
         %%% CR_F_07
