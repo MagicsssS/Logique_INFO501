@@ -134,18 +134,19 @@ position(loup, fin3, 2).
 position(miroir, fin, 2).
 
 % objets pouvants être coupés
-coupage(ronces).
-coupage(arbres).
-coupage(fruit).
-coupage(branches).
-coupage(tronc).
-coupage(animal).
-coupage(broussailles).
+coupage(ronces, 0).
+coupage(arbres, 0).
+coupage(fruit, 0).
+coupage(branches, 0).
+coupage(tronc, 0).
+coupage(animal, 0).
+coupage(ronces, 1).
+coupage(broussailles, 1).
 
 % objets pouvants être creusés
-creusage(friable).
-creusage(joyaux).
-creusage(trou).
+creusage(friable, 0).
+creusage(joyaux, 0).
+creusage(trou, 0).
 
 
 increase(X, X1) :-
@@ -154,18 +155,22 @@ increase(X, X1) :-
 decrease(X, X1) :-
         X1 is X-1.
 
+equal(List, Index, Y) :-
+        nth0(Index, List, Element),
+        Element == Y.
+
 equal(X,Y) :-
         X == Y.
 
-check_if_positif(Liste, Num) :-
-        nth0(Num, Liste, Element),
+check_if_positif(List, Index) :-
+        nth0(Index, List, Element),
         Element > 0.
 
 check_if_positif(Num) :-
         Num > 0.
 
-check_if_negatif(Liste, Num) :-
-        nth0(Num, Liste, Element),
+check_if_negatif(List, Index) :-
+        nth0(Index, List, Element),
         Element < 0.
 
 check_if_negatif(Num) :-
@@ -247,10 +252,52 @@ interagir(X) :-
 
 % couper quelque chose
 couper(X) :-
-        position_courante(P),
-        position(X, P, Cauchemar),
-        coupage(X),
         cauchemar(Cauchemar),
+        couper1(X, Cauchemar).
+
+couper1(arbres, 0) :-
+        cutList(Cut),
+        list_check_place(arbres, sentier, 0, Cut),
+        write("Si vous coupez tout les arbres de ce sentier, vous dénaturerez ce dernier..."), nl,
+        !.
+
+couper1(arbres, 0) :-
+        inventory(InventoryList),
+        \+ list_check_inventory("Hache", InventoryList),
+        write("Malgré vos efforts, vous vous rendez à l'évidence : Votre faible couteau ne vous permettra pas de couper cet énorme tronc d'arbre."), nl,
+        !.
+
+couper1(branches, 0) :-
+        cutList(Cut),
+        list_check_place(branches, maison, 0, Cut),
+        write("Vous avez déjà coupé la seule branche pouvant faire office de buche."), nl,
+        !.
+
+couper1(branches, 0) :-
+        inventory(InventoryList),
+        \+ list_check_inventory("Hache", InventoryList),
+        write("Votre couteau ne semble pas affecter ne serait-ce que l'écorce de la branche, il vous faudrait quelque chose de plus tranchant."), nl,
+        !.
+
+couper1(tronc, 0) :-
+        cutList(Cut),
+        \+ list_check_place(tronc, ruisseau, 0, Cut),
+        inventory(InventoryList),
+        \+ list_check_inventory("Hache", InventoryList),
+        write("Vous essayez de couper le tronc avec votre couteau, mais, il s'avère inefficace..."), nl,
+        !.
+
+couper1(animal, 0) :-
+        cutList(Cut),
+        \+ list_check_place(tronc, ruisseau, 0, Cut),
+        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl,
+        !.
+
+couper1(X, Cauchemar) :-
+        position_courante(P),
+        cauchemar(Cauchemar),
+        position(X, P, Cauchemar),
+        coupage(X, Cauchemar),
         couperTexte(X, Cauchemar), nl,
         cutList(Cut),
         list_add([X, P, Cauchemar], Cut, NewList),
@@ -258,7 +305,19 @@ couper(X) :-
         assert(cutList(NewList)),
         !.
 
-couper(X) :-
+couper1(X, Cauchemar) :-
+        position_courante(P),
+        cauchemar(Cauchemar),
+        position(X, P, Cauchemar),
+        write("Vous ne pouvez pas couper "),
+        write(X),
+        write("."), nl,
+        fail.
+
+couper1(X, Cauchemar) :-
+        position_courante(P),
+        cauchemar(Cauchemar),
+        \+ position(X, P, Cauchemar),
         write("Il n'y a pas de "),
         write(X),
         write(" ici. Qu'essayez-vous donc de couper ?"), nl,
@@ -266,10 +325,28 @@ couper(X) :-
 
 % creuser quelque chose
 creuser(X) :-
-        position_courante(P),
-        position(X, P, Cauchemar),
-        creusage(X),
         cauchemar(Cauchemar),
+        creuser1(X, Cauchemar).
+
+creuser1(trou, 0) :-
+        interactedList(Interacted),
+        \+ list_check_place(dynamite, escalier, 0, Interacted),
+        write("Un trou ? Quel trou ? Je ne vois qu'une dynamite prête à exploser..."), nl,
+        !.
+
+creuser1(trou, 0) :-
+        actions(Actions),
+        equal(Actions, 1, 0),
+        inventory(InventoryList),
+        \+ list_check_inventory("Pioche", InventoryList),
+        write("Vous tentez de creuser avec votre pelle... Cela ne semble pas efficace, le mur est trop solide !"), nl,
+        !.
+
+creuser1(X, Cauchemar) :-
+        position_courante(P),
+        cauchemar(Cauchemar),
+        position(X, P, Cauchemar),
+        creusage(X, Cauchemar),
         creuserTexte(X, Cauchemar), nl,
         creusageList(Creusage),
         list_add([X, P, Cauchemar], Creusage, NewList),
@@ -277,7 +354,19 @@ creuser(X) :-
         assert(creusageList(NewList)),
         !.
 
-creuser(X) :-
+creuser1(X, Cauchemar) :-
+        position_courante(P),
+        cauchemar(Cauchemar),
+        position(X, P, Cauchemar),
+        write("Vous ne pouvez pas creuser "),
+        write(X),
+        write("."), nl,
+        fail.
+
+creuser1(X, Cauchemar) :-
+        position_courante(P),
+        cauchemar(Cauchemar),
+        \+ position(X, P, Cauchemar),
         write("Il n'y a pas de "),
         write(X),
         write(" ici. Qu'essayez-vous donc de creuser ?"), nl,
@@ -828,10 +917,10 @@ description(maison, 0) :-
         write("Vous remarquez une superbe [hache], là, posée contre le mur, à l'entrée de la maison."), nl.
 
 description(ruisseau, 0) :-
-        write("En arrivant au ruisseau, vous remarquez que son [eau] est incroyablement claire malgré son très fort courant."), nl,
-        write("Un petit [animal] boit de l'eau de l'autre côté du ruisseau.") nl,
-        write("Vous remarquez un imposant tronc, bien trop grand pour servir de buche."), nl,
-        write("Mais peut-être qu'en le faisant tomber, le choc fera se détacher une partie qui vous servirait de [buche]"), nl.
+        write("Vous arrivez proche de l'[eau] claire du ruisseau."), nl,
+        write("Il ne semble pas possible de le traverser, celà vous déçoit quelques instants... Il y a pourtant une buche de l'autre côté..."), nl,
+        write("Un frèle animal vous regarde brièvement depuis l'autre côté du ruisseau."), nl,
+        write("Vous constatez un grand [tronc] figurant à votre droite..."), nl.
 
 description(mathieu, 0) :-
         write("Mathieu s'occupe méticuleusement du feu, regarde chaque braise virevolter, il semble passionné par ce spectacle."), nl.
@@ -932,7 +1021,8 @@ description(pelle, 0) :-
         write("Une grande pelle à manche rouge est posée sur un mur couvert de minerais multicolores."), nl.
 
 description(gerald, 0) :-
-        write("Gérald est un grand homme d'une trentaine d'année, en tenue complète de sécurité, comme vous. Il a une jolie barbe et de grands yeux bleus. Il sourit gaiement, vous voyant l'observer de tout les recoins au lieu d'aller lui parler."), nl.
+        write("Gérald est un grand homme d'une trentaine d'année, en tenue complète de sécurité, comme vous."), nl,
+        write("Il a une jolie barbe et de grands yeux bleus. Il sourit gaiement, vous voyant l'observer de tout les recoins au lieu d'aller lui parler."), nl.
 
 description(minerais, 0) :-
         write("Sans ces minerais, la grotte serait beaucoup plus fade, il y en a tellement qu'il serait impossible de tous les récolter à vous seul."), nl.
@@ -1845,15 +1935,6 @@ couperTexte(fruit, 0) :-
         assert(inventory(NewList)).
 
 couperTexte(arbres, 0) :-
-        cutList(Cut),
-        list_check_place(arbres, sentier, 0, Cut),
-        write("Si vous coupez tout les arbres de ce sentier, vous dénaturerez ce dernier..."), nl,
-        cutList(Cut),
-        remove_list([arbres, sentier, 0], Cut, NewList),
-        retract(cutList(_)),
-        assert(cutList(NewList)).
-
-couperTexte(arbres, 0) :-
         inventory(InventoryList),
         list_check_inventory("Buche", 2, InventoryList),
         list_check_inventory("Hache", InventoryList),
@@ -1876,22 +1957,6 @@ couperTexte(arbres, 0) :-
         list_add(["Buche", 1], InventoryList, NewList),
         retract(inventory(_)),
         assert(inventory(NewList)).
-
-couperTexte(arbres, 0) :-
-        write("Malgré vos efforts, vous vous rendez à l'évidence : Votre faible couteau ne vous permettra pas de couper cet énorme tronc d'arbre."), nl,
-        cutList(Cut),
-        remove_list([arbres, sentier, 0], Cut, NewList),
-        retract(cutList(_)),
-        assert(cutList(NewList)).
-
-couperTexte(branches, 0) :-
-        cutList(Cut),
-        list_check_place(branches, maison, 0, Cut),
-        write("Vous avez déjà coupé la seule branche pouvant faire office de buche."), nl,
-        cutList(Cut),
-        remove_list([branches, maison, 0], Cut, NewList),
-        retract(cutList(_)),
-        assert(cutList(NewList)).
 
 couperTexte(branches, 0) :-
         inventory(InventoryList),
@@ -1919,13 +1984,6 @@ couperTexte(branches, 0) :-
         retract(inventory(_)),
         assert(inventory(NewList)).
 
-couperTexte(branches, 0) :-
-        write("Votre couteau ne semble pas affecter ne serait-ce que l'écorce de la branche, il vous faudrait quelque chose de plus tranchant."), nl,
-        cutList(Cut),
-        remove_list([branches, maison, 0], Cut, NewList),
-        retract(cutList(_)),
-        assert(cutList(NewList)).
-
 couperTexte(tronc, 0) :-
         cutList(Cut),
         list_check_place(tronc, ruisseau, 0, Cut),
@@ -1936,22 +1994,6 @@ couperTexte(tronc, 0) :-
         list_check_inventory("Hache", InventoryList),
         write("Vous frappez à de nombreuses reprises le tronc... Il tremble... Puis se met à tomber !"), nl,
         write("Vous pouvez désormais accéder à l'autre côté du ruisseau, là où se trouve une [buche] et un petit [animal] !"), nl.
-
-couperTexte(tronc, 0) :-
-        write("Vous essayez de couper le tronc avec votre couteau, mais, il s'avère inefficace..."), nl,
-        cutList(Cut),
-        remove_list([tronc, ruisseau, 0], Cut, NewList),
-        retract(cutList(_)),
-        assert(cutList(NewList)).
-
-couperTexte(animal, 0) :-
-        cutList(Cut),
-        \+ list_check_place(tronc, ruisseau, 0, Cut),
-        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl,
-        cutList(Cut),
-        remove_list([tronc, ruisseau, 0], Cut, NewList),
-        retract(cutList(_)),
-        assert(cutList(NewList)).
 
 couperTexte(animal, 0) :-
         cutList(Cut),
@@ -1983,7 +2025,8 @@ creuserTexte(friable, 0) :-
 creuserTexte(joyaux, 0) :-
         creusageList(Creusage),
         list_check_place(trou, escalier, 0, Creusage),
-        write("Vous avez pris toutes les précautions nécessaires, et ayant sauvé Richard, vous pouvez facilement récupérer les joyaux présents sur la pierre. Ce que vous vous empressez de faire afin de vous en mettre plein les poches évidemment."), nl, nl,
+        write("Vous avez pris toutes les précautions nécessaires, et ayant sauvé Richard, vous pouvez facilement récupérer les joyaux présents sur la pierre."), nl,
+        write("Ce que vous vous empressez de faire afin de vous en mettre plein les poches évidemment."), nl, nl,
 
         write("        *Faites un rapport de la situation à Gérald !*"), nl.
 
@@ -2008,19 +2051,16 @@ creuserTexte(joyaux, 0) :-
 creuserTexte(trou, 0) :-
         actions(Actions),
         check_if_negatif(Actions, 1),
-        write("Il n'y a plus rien ici, l'éboulement a détruit tout ce qui se trouvait de l'autre côté du trou."), nl.
+        write("Il n'y a plus rien ici, l'eboulement a detruit tout ce qui se trouvait de l'autre cote du trou."), nl.
 
 creuserTexte(trou, 0) :-
-        interactedList(Interacted),
-        list_check_place(dynamite, escalier, 0, Interacted),
         inventory(InventoryList),
         list_check_inventory("Pioche", InventoryList),
-        write("Grâce à votre nouvelle pioche, vous arrivez assez aisément à ouvrir un passage pour laisser Richard sortir !"), nl, 
-        write("Votre mission est réussie ! Vous pouvez encore vous balader dans les galeries ou faire tout de suite votre rapport à [gerald]."), nl, nl,
+        write("Grace a votre nouvelle pioche, vous arrivez assez aisement a ouvrir un passage pour laisser Richard sortir ! Votre mission est reussie ! Vous pouvez encore vous balader dans les galeries ou faire tout de suite votre rapport a [Gerald]."), nl, nl,
 
         write("        *Vous notez cette expérience unique dans la DEUXIÈME PAGE de votre carnet*"), nl, nl,
 
-        write("Votre pioche se casse sur le coup... Les produits fait en Chine ne sont pas très solides..."), nl,
+        write("Votre pioche se casse bien sur le coup... Les produits fabriqués en Chine ne sont pas tres solides..."), nl,
         actions(Actions),
         change_list(1, 1, Actions, NewList),
         retract(actions(_)),
@@ -2028,15 +2068,6 @@ creuserTexte(trou, 0) :-
         remove_list(["Pioche", 1], InventoryList, NewList2),
         retract(inventory(_)),
         assert(inventory(NewList2)).
-        
-creuserTexte(trou, 0) :-
-        interactedList(Interacted),
-        list_check_place(dynamite, escalier, 0, Interacted),
-        write("Vous tentez de creuser avec votre pelle... Cela ne semble pas efficace, le mur est trop solide !"), nl.
-
-creuserTexte(trou, 0) :-
-        write("Un trou ? Quel trou ? Je ne vois aucun trou ici..."), nl.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Pages carnet %%%%%%%%%%%%%%%%%%%%%%%%%
 lire(1) :-
