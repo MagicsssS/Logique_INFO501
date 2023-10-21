@@ -1377,7 +1377,7 @@ interaction(mathieu, 0) :-
         write("        *Vous obtenez 1x [Fragment Étrange]*"), nl,
 
         write("'Alors qu'est-ce que tu en pens-'"), nl,
-        write("Vous clignez des yeux, vous êtes de retour dans la pièce étrange."), nl, nl,
+        write("Vous clignez des yeux, ... Puis... "),
         inventory(InventoryList),
         list_add(["Fragment Étrange", 1], InventoryList, NewList),
         remove_list(["Buche", 3], NewList, NewList2),
@@ -1400,7 +1400,7 @@ interaction(mathieu, 0) :-
 
         write("        *Vous obtenez 1x [Fragment Étrange]*"), nl,
 
-        write("'Alors qu'est-ce que tu en pens-'"), nl,
+        write("'Alors qu'est-ce que tu en pens-' ... "),
         list_add(["Fragment Étrange", 1], InventoryList, NewList),
         remove_list(["Buche", 3], NewList, NewList2),
         retract(inventory(_)),
@@ -2165,9 +2165,10 @@ geraldBon :-
         write("'Je te dois une belle chandelle bonhomme ! Tiens, c'est peu par rapport au prix de ma vie, mais j'avais trouvé ça durant mes fouilles'"), nl, 
         write("Richard vous tend un mystérieux objet..."), nl, nl,
 
-        write("        *Vous avez obtenu 1x [Fragment Étrange]*"), nl, nl,
+        write("        *Vous obtenez 1x [Fragment Étrange]*"), nl, nl,
 
         write("'Bon, c'est pas tout ça, on va manger ? Ces mésaventures m'ont ouvert l'a-'"), nl,
+        write("Vous clignez des yeux... Et... "),
         inventory(InventoryList),
         list_add(["Fragment Étrange", 1], InventoryList, NewList),
         retract(inventory(_)),
@@ -2186,7 +2187,7 @@ geraldMauvais :-
         write("On a également trouvé ça, on ne sait pas ce que c'est, ça te dit quelque chose ?'"), nl,
         write("Gérald vous tend un mystérieux objet... A peine vous le touchez que... vous êtes de retour dans la salle étrange."), nl, nl,
 
-        write("        *Vous avez obtenu 1x [Fragment Etrange]*"), nl,
+        write("        *Vous obtenez 1x [Fragment Etrange]*"), nl,
         inventory(InventoryList),
         list_add(["Fragment Étrange", 1], InventoryList, NewList),
         retract(inventory(_)),

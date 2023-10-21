@@ -387,13 +387,13 @@ deplacer(ruisseau, 0) :-
 deplacer(couloir, 0) :-
         interactedList(Interacted),
         \+ list_check_place(gerald, galeries, 0, Interacted),
-        write("Il faut que je parle a [Gerald] afin de savoir ce que je fais ici."), nl,
+        write("Il faut que je parle a [gerald] afin de savoir ce que je fais ici."), nl,
         !.
 
 deplacer(couloir, 0) :-
         inventory(InventoryList),
         \+ list_check_inventory("Pelle", InventoryList),
-        write("Mieux vaut prendre la [Pelle] avant de partir en exploration..."), nl,
+        write("Mieux vaut prendre la [pelle] avant de partir en exploration..."), nl,
         !.
 
 deplacer(foret, 1) :-
@@ -411,7 +411,7 @@ deplacer(foret, 1) :-
 deplacer(maison, 1) :-
         cutList(Cut),
         \+ list_check_place(ronces, foret, 1, Cut),
-        write("Des [Ronces] vous empechent d'aller plus loin !"), nl,
+        write("Des [ronces] vous empechent d'aller plus loin !"), nl,
         !.
 
 deplacer(ruisseau, 1) :-
@@ -603,7 +603,7 @@ description(fin0, 2) :-
         write("Des murs se forment autour de vous et se reduisent, formant un grand couloir."), nl,
         write("'He ! Tu m'entends ? He ! Ne lache pas, s'il te plait, tiens bon !'"), nl,
         write("Une voix au loin semble vous appeler."), nl,
-        write("En face de vous, dans ce grand couloir, se dresse, [Misty], votre chat."), nl.
+        write("En face de vous, dans ce grand couloir, se dresse, [misty], votre chat."), nl.
 
 description(misty, 2) :-
         write("Misty vous fixe, avec de grands yeux ronds, assise, droite et immobile."), nl.
@@ -645,7 +645,7 @@ description(lit, 0) :-
 
 description(etagere, 0) :-
         %%% CR_D2
-        write("Vous vous approchez de l'etagere. Sur celle-ci il y a deux livres, un de [Maths] et un de [Logique]."), nl, 
+        write("Vous vous approchez de l'etagere. Sur celle-ci il y a deux livres, un de [maths] et un de [logique]."), nl, 
         write("Un [origami] fait-main est egalement pose sur cette etagere."), nl.
 
 description(bureau, 0) :-
@@ -762,9 +762,9 @@ description(chansons, 0) :-
         list_check_place(chansons, hub_reve, 0, Visited),
         write("Vous voici de retour autour du [feu]."), nl,
         write("Vous vous trouvez a la clairiere d'une magnifique {foret} doucement eclaircie par un rayon de [lune]."), nl,
-        write("[Mathieu], votre ami d'enfance, est toujours present."), nl,
-        write("Le chant de [Maxime] et les rires de vos amis, ainsi que la chaleur et la lumiere du [feu] vous rassure."), nl,
-        write("[Mathieu] repeta : "), nl,
+        write("[mathieu], votre ami d'enfance, est toujours present."), nl,
+        write("Le chant de [maxime] et les rires de vos amis, ainsi que la chaleur et la lumiere du [feu] vous rassure."), nl,
+        write("[mathieu] repeta : "), nl,
         write("'On va manquer de quelques buches pour alimenter le [feu], tu peux aller nous en chercher dans la {foret} ? Trois buches suffiront je pense !'"), nl,
         write("Vous hochez la tete et vous vous levez... Mais... Vous avez une impression de deja-vu..."), nl.
 
@@ -775,9 +775,9 @@ description(chansons, 0) :-
         write("'Hey mec ! Ca va ?'"), nl,
         write("A peine avoir franchi la porte, vous voila autour d'un [feu] avec vos amis."), nl,
         write("Vous vous trouvez a la clairiere d'une magnifique {foret} doucement eclaircie par un rayon de [lune]."), nl,
-        write("[Mathieu], votre ami d'enfance, vous redemande 'Ca va ? Tu avais l'air absent.'"), nl,
-        write("Le chant de [Maxime] et les rires de vos amis, ainsi que la chaleur et la lumiere du [feu] vous rassure."), nl,
-        write("[Mathieu] continua : "), nl,
+        write("[mathieu], votre ami d'enfance, vous redemande 'Ca va ? Tu avais l'air absent.'"), nl,
+        write("Le chant de [maxime] et les rires de vos amis, ainsi que la chaleur et la lumiere du [feu] vous rassure."), nl,
+        write("[mathieu] continua : "), nl,
         write("'On va manquer de quelques buches pour alimenter le [feu], tu peux aller nous en chercher dans la {foret} ? Trois buches suffiront je pense !'"), nl,
         write("Vous hochez la tete et vous vous levez... Mais... Vous avez une impression de deja-vu..."), nl,
         write("Mathieu vous fait signe : 'Attend ! Tiens ! Ca te sera utile pour (Couper) du bois et te deplacer en foret !'"), nl, nl,
@@ -793,7 +793,7 @@ description(chansons, 0) :-
 description(galeries, 0) :-
         visited(Visited),
         list_check_place(galeries, hub_reve, 0, Visited),
-        write("Vous etes de retour au centre des galeries, la ou vous attend [Gerald]."), nl, nl,
+        write("Vous etes de retour au centre des galeries, la ou vous attend [gerald]."), nl, nl,
         write("Des [minerais] gisent sur les murs en quantite... Pose contre l'un d'entre eux, une [pelle], n'attendant qu'a etre prise."), nl,
         write("Par dela cette salle se trouve un grand {couloir}, menant a la suite des galeries."), nl.
 
@@ -805,7 +805,7 @@ description(galeries, 0) :-
         write("Vous vous sentez lourd, en effet, vous remarquez etre grandement equipe : Tenue complete de securite, bottes comprises et meme"), nl,
         write("un casque a lampe frontale. Vous etes dans une galerie, en train de miner."), nl, nl,
 
-        write("En regardant autour de vous, vous remarquez [Gerald], sans meme vous etonner de connaitre son nom, il vous parrait familier."), nl,
+        write("En regardant autour de vous, vous remarquez [gerald], sans meme vous etonner de connaitre son nom, il vous parrait familier."), nl,
         write("Des [minerais] gisent sur les murs en quantite... Pose contre l'un d'entre eux, une [pelle], n'attendant qu'a etre prise."), nl,
         write("Par dela cette salle se trouve un grand {couloir}, menant a la suite des galeries."), nl.
 
@@ -1034,8 +1034,8 @@ description(campement, 1) :-
         list_check_place(tronc, ruisseau, 1, Interacted),
         write("Vous etes finalement de retour au campement."), nl,
         write("Mais vous entendez des grognements autour de vous..."), nl,
-        write("Les [Loups] sont la ! Ils vous ont encercle !"), nl,
-        write("Vous reculez lentement en direction du [Feu] de camp eteint..."), nl.
+        write("Les [loups] sont la ! Ils vous ont encercle !"), nl,
+        write("Vous reculez lentement en direction du [feu] de camp eteint..."), nl.
 
 description(campement, 1) :-
         interactedList(Interacted),
@@ -1049,7 +1049,7 @@ description(campement, 1) :-
         interactedList(Interacted),
         \+ list_check_place(tronc, ruisseau, 1, Interacted),
         position_courante(X),
-        \+ equal(X, hub_cauchemar),
+        \+ equal(X, campement),
         write("Le chemin vers le campement se trouve de l'autre cote du ruisseau !"), nl,
         !.
 
@@ -1063,18 +1063,18 @@ description(porte, 1) :-
         write("Vous vous retrouvez dans la foret ou a eu lieu le feu de camp, mais..."), nl,
         write("Il n'y a personne."), nl,
         write("Il n'y a que vous."), nl,
-        write("La [Pluie] fait rage, la foret n'a plus rien d'accueillant, vous ne vous sentez plus en securite."), nl,
+        write("La [pluie] fait rage, la foret n'a plus rien d'accueillant, vous ne vous sentez plus en securite."), nl,
         write("Pas une seule eclaircie de la lune ne vous offre ne serait-ce qu'un peu de lumiere dans cette nuit noire."), nl,
         write("Les grands arbres sont oppressant, vous commencez a stresser et a avoir du mal a respirer..."), nl,
         write("Quelques bruits dans les buissons, probablement de petits animaux, sont les seuls sons que vous entendez."), nl,
-        write("Le [Feu] de camp est eteint."), nl,
-        write("Des [Traces] suspectes sont presentes un peu partout autour du campement."), nl.
+        write("Le [feu] de camp est eteint."), nl,
+        write("Des [traces] suspectes sont presentes un peu partout autour du campement."), nl.
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Description campement %%%%%%%%%%%%%%%%%%%%%%%%%
 description(foret, 1) :-
         interactedList(Interacted),
         list_check_place(traces, campement, 1, Interacted),
-        write("Vous courez en direction de la foret pour echapper aux loups. Il fait sombre, vous ne voyez que des [Ronces] bloquant le chemin vers la {maison}. Il faut faire vite, les loups vous poursuivent !"), nl.
+        write("Vous courez en direction de la foret pour echapper aux loups. Il fait sombre, vous ne voyez que des [ronces] bloquant le chemin vers la {maison}. Il faut faire vite, les loups vous poursuivent !"), nl.
 
 description(foret, 1) :-
         write("Vous etes trop petrifie par cette foret sombre pour y penetrer."), nl.
@@ -1115,10 +1115,10 @@ description(loups, 1) :-
 description(maison, 1) :-
         write("En fuyant les loups, vous arrivez devant la maison."), nl,
         write("Vous recherchez un moyen de vous defendre : "), nl,
-        write("- Une [Hache] est posee sur le mur a l'entree."), nl,
-        write("- Un grand [Baton] epais se trouve a vos pieds"), nl, nl,
+        write("- Une [hache] est posee sur le mur a l'entree."), nl,
+        write("- Un grand [baton] epais se trouve a vos pieds"), nl, nl,
 
-        write("Vous n'aurez le temps d'en recuperer qu'un des deux puis de fuir en direction du {Ruisseau}, bloque par les [Broussailles]"), nl.
+        write("Vous n'aurez le temps d'en recuperer qu'un des deux puis de fuir en direction du {ruisseau}, bloque par les [broussailles]"), nl.
 
 description(ronces, 1) :-
         write("Des grandes ronces bloquent le passage vers la maison. C'est votre seul acces pour fuir les loups !"), nl.
@@ -1128,11 +1128,11 @@ description(ruisseau, 1) :-
         list_check_place(broussailles, maison, 1, Cut),
         write("Vous arrivez de l'autre cote du ruisseau !"), nl,
         write("Les loups se demenent pour passer a travers les broussailles, cela ne leur prendra pas longtemps."), nl,
-        write("Le [Courant] est fort, impossible d'y traverser a pied."), nl,
+        write("Le [courant] est fort, impossible d'y traverser a pied."), nl,
         write("Heureusement, le [tronc] que vous avez coupe semble toujours en place !"), nl.
 
 description(ruisseau, 1) :-
-        write("Le chemin est bloque par des [Broussailles] !"), nl.
+        write("Le chemin est bloque par des [broussailles] !"), nl.
 
 description(hache, 1) :-
         write("Cela semble etre la meme hache que vous avez utilise autrefois. Elle n'est pas en parfait etat."), nl.
@@ -1157,7 +1157,7 @@ interaction(misty, 2) :-
         write("..."), nl,
         write("Vous avancez dans le couloir..."), nl,
         write("..."), nl,
-        write("Devant vous se dresse desormais le petit [Animal] que vous avez rencontre dans la foret."), nl,
+        write("Devant vous se dresse desormais le petit [animal] que vous avez rencontre dans la foret."), nl,
         retract(position_courante(_)),
         assert(position_courante(fin1)).
 
@@ -1167,7 +1167,7 @@ interaction(animal, 2) :-
         write("Vous tendez la main vers l'animal. Terrifie, il s'enfuit en courant !"), nl,
         write("'On est en train de le perdre !' - Cria une autre voix, au bout du couloir."), nl, nl,
 
-        write("Vous avancez encore... Vous tombez face a [Gerald]."), nl,
+        write("Vous avancez encore... Vous tombez face a [gerald]."), nl,
         retract(position_courante(_)),
         assert(position_courante(fin2)).
 
@@ -1176,7 +1176,7 @@ interaction(animal, 2) :-
         write("Puis il disparait d'un coup."), nl,
         write("'Ses constantes sont stables !' - Cria une autre voix, au bout du couloir."), nl, nl,
 
-        write("Vous avancez encore... Vous tombez face a [Gerald]."), nl,
+        write("Vous avancez encore... Vous tombez face a [gerald]."), nl,
         retract(position_courante(_)),
         assert(position_courante(fin2)).
 
@@ -1549,7 +1549,7 @@ interaction(animal, 0) :-
         write("Vous posez le fruit a vos pieds puis reculez suffisamment."), nl,
         write("L'animal s'approche lentement... Et deguste le fruit devant vous !"), nl, nl,    
 
-        write("        *Vous notez cette experience unique dans votre carnet*"), nl,
+        write("        *Vous notez cette experience unique dans la PREMIERE PAGE de votre carnet*"), nl,
         actions(Actions),
         change_list(0, 1, Actions, NewList),
         retract(actions(_)),
@@ -1590,7 +1590,9 @@ interaction(gerald, 0) :-
         inventory(InventoryList),
         list_check_inventory("Fragment Etrange", 1, InventoryList),
         geraldMauvais,
-        retour.    
+        retract(position_courante(_)),
+        assert(position_courante(hub_reve)),
+        description(hub_reve, 0).    
 
 interaction(gerald, 0) :-
         actions(Actions),
@@ -1598,7 +1600,9 @@ interaction(gerald, 0) :-
         inventory(InventoryList),
         list_check_inventory("Fragment Etrange", 1, InventoryList),
         geraldBon,
-        retour.      
+        retract(position_courante(_)),
+        assert(position_courante(hub_reve)),
+        description(hub_reve, 0).       
 
 interaction(gerald, 0) :-
         actions(Actions),
@@ -1610,11 +1614,11 @@ interaction(gerald, 0) :-
         assert(cauchemar(1)),
         retract(position_courante(_)),
         assert(position_courante(hub_cauchemar)),
+        description(hub_cauchemar, 1),
         visited(Visited),
         list_add([hub_cauchemar, hub_reve, 1], Visited, NewList3),
         retract(visited(_)),
-        assert(visited(NewList3)),
-        description(hub_cauchemar, 1).
+        assert(visited(NewList3)).
                 
 interaction(gerald, 0) :-
         actions(Actions),
@@ -1626,11 +1630,11 @@ interaction(gerald, 0) :-
         assert(cauchemar(1)),
         retract(position_courante(_)),
         assert(position_courante(hub_cauchemar)),
+        description(hub_cauchemar, 1),
         visited(Visited),
         list_add([hub_cauchemar, hub_reve, 1], Visited, NewList3),
         retract(visited(_)),
-        assert(visited(NewList3)),
-        description(hub_cauchemar, 1).        
+        assert(visited(NewList3)).        
 
 interaction(gerald, 0) :-
         write("'Aaaaah ! Te voila enfin ! On a besoin de toi pour continuer a explorer nos galeries... On n'a plus de nouvelle de Richard depuis quelques minutes, ca nous inquiete pas mal, tu pourrais nous aider a le chercher ? Et si tu peux recuperer quelques pierres precieuses en meme temps, profites-en !'"), nl.
@@ -1709,7 +1713,7 @@ interaction(feu, 1) :-
         write("Vous plongez votre baton dans le feu de camp... Les quelques braises suffirent a enflammer le bout de votre baton, le transformant en torche !"), nl,
         write("Vous agitez votre nouvelle torche devant les loups, qui craintif, s'enfuient !"), nl, nl,
 
-        write("        *Vous notez cette experience unique dans votre carnet*"), nl, nl,
+        write("        *Vous notez cette experience unique dans la TROISIEME PAGE de votre carnet*"), nl, nl,
 
         write("En clignant des yeux, vous vous retrouvez, encore une fois, dans la piece etrange."), nl,
         actions(Actions),
@@ -1752,7 +1756,7 @@ interaction(loups, 1) :-
         write("Vous sentez vos entrailles se faire ouvrir et devorer par les loups..."), nl,
         write("Quand soudain... Vous clignez des yeux, et vous revoila dans la salle etrange, en vie, et meme pas blesse."), nl, nl,
 
-        write("*Vous notez cette experience unique dans votre carnet*"), nl,
+        write("*Vous notez cette experience unique dans la TROISIEME PAGE de votre carnet*"), nl,
         actions(Actions),
         change_list(2, -1, Actions, NewList),
         retract(actions(_)),
@@ -1957,7 +1961,7 @@ couperTexte(animal, 0) :-
 couperTexte(animal, 0) :-
         write("Vous vous lancez brutalement sur l'animal et lui assenez plusieurs coups de couteaux, la bete hurle de douleur et agonise lentement au sol. Son sang coule dans le ruisseau."), nl, nl,
 
-        write("        *Vous notez cette experience unique dans votre carnet*"), nl,
+        write("        *Vous notez cette experience unique dans la PREMIERE PAGE de votre carnet*"), nl,
         actions(Actions),
         change_list(0, -1, Actions, NewList),
         retract(actions(_)),
@@ -1981,15 +1985,21 @@ creuserTexte(joyaux, 0) :-
         list_check_place(trou, escalier, 0, Creusage),
         write("Vous avez pris toutes les precautions necessaires, et ayant sauve Richard, vous pouvez facilement recuperer les joyaux presents sur la pierre. Ce que vous vous empressez de faire afin de vous en mettre plein les poches evidemment."), nl, nl,
 
-        write("        *Faites un rapport de la situation a [Gerald] !*"), nl.
+        write("        *Faites un rapport de la situation a Gerald !*"), nl.
+
+creuserTexte(joyaux, 0) :-
+        creusageList(Creusage),
+        list_check_place(joyaux, passage, 0, Creusage),
+        write("Les joyaux ont disparus dans les debris, tout comme la piece, inexplorable."), nl,
+        write("Retournez voir Gerald pour lui faire votre rapport."), nl.
 
 creuserTexte(joyaux, 0) :-
         write("Dans l'empressement de votre decouverte, vous sautez sur la pierre aux joyaux. Assener votre premier coup de pelle et le sol se derobe sous vos pieds !"), nl,
         write("L'eboulement a totalement detruit la piece du dessous..."), nl, nl,
 
-        write("        *Vous notez cette experience unique dans votre carnet*"), nl, nl,
+        write("        *Vous notez cette experience unique dans la DEUXIEME PAGE de votre carnet*"), nl, nl,
 
-        write("*Faites un rapport de la situation a [Gerald] !*"), nl,
+        write("*Faites un rapport de la situation a Gerald !*"), nl,
         actions(Actions),
         change_list(1, -1, Actions, NewList),
         retract(actions(_)),
@@ -2005,9 +2015,10 @@ creuserTexte(trou, 0) :-
         list_check_place(dynamite, escalier, 0, Interacted),
         inventory(InventoryList),
         list_check_inventory("Pioche", InventoryList),
-        write("Grace a votre nouvelle pioche, vous arrivez assez aisement a ouvrir un passage pour laisser Richard sortir ! Votre mission est reussie ! Vous pouvez encore vous balader dans les galeries ou faire tout de suite votre rapport a [Gerald]."), nl, nl,
+        write("Grace a votre nouvelle pioche, vous arrivez assez aisement a ouvrir un passage pour laisser Richard sortir !"), nl, 
+        write("Votre mission est reussie ! Vous pouvez encore vous balader dans les galeries ou faire tout de suite votre rapport a [gerald]."), nl, nl,
 
-        write("        *Vous notez cette experience unique dans votre carnet*"), nl, nl,
+        write("        *Vous notez cette experience unique dans la DEUXIEME PAGE de votre carnet*"), nl, nl,
 
         write("Votre pioche se casse bien sur le coup... Les produits fait en Chine ne sont pas tres solides..."), nl,
         actions(Actions),
@@ -2082,7 +2093,7 @@ lire(2) :-
 
 lire(2) :-
         actions(Actions),
-        check_if_negatif(Actions, 0),
+        check_if_negatif(Actions, 1),
         write("Souvenir negatif de la salle des galeries."), nl, nl,
 
         write("Dans l'empressement de la decouverte de joyaux, le sol s'est derobe sous mes pieds au premier coup de pelle..."), nl,
@@ -2107,7 +2118,7 @@ lire(2) :-
 
 lire(3) :-
         actions(Actions),
-        check_if_positif(Actions, 1),
+        check_if_positif(Actions, 2),
         write("Souvenir 'positif' du campement."), nl, nl,
 
         write("J'ai reussi a repousse la meute de loups sans les blesser !"), nl,
@@ -2121,7 +2132,7 @@ lire(3) :-
 
 lire(3) :-
         actions(Actions),
-        check_if_negatif(Actions, 0),
+        check_if_negatif(Actions, 2),
         write("Souvenir negatif du campement."), nl, nl,
 
         write("Apres un combat acharne contre les loups... Ma hache s'est cassee au moment ou j'affrontais le quatrieme loup..."), nl,
@@ -2157,6 +2168,7 @@ geraldBon :-
         write("        *Vous avez obtenu 1x [Fragment Etrange]*"), nl, nl,
 
         write("'Bon, c'est pas tout ca, on va manger ? Ces mesaventures m'ont ouvert l'a-'"), nl,
+        write("Vous clignez des yeux. "),
         inventory(InventoryList),
         list_add(["Fragment Etrange", 1], InventoryList, NewList),
         retract(inventory(_)),
