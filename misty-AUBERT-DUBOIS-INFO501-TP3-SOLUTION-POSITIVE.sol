@@ -15,7 +15,7 @@ cut branches.
 b.
 go sentier.
 cut fruit.
-cut arbre.
+cut arbres.
 b.
 go ruisseau.
 cut tronc.
