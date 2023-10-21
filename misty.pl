@@ -266,10 +266,24 @@ couper(X) :-
         cauchemar(Cauchemar),
         position_courante(Ici),
         position(X, Ici, Cauchemar),
+        coupage(X, Cauchemar),
         couper1(X, Cauchemar), 
         !.
 
 couper(X) :-
+        cauchemar(Cauchemar),
+        \+ coupage(X, Cauchemar),
+        position_courante(Ici),
+        position(X, Ici, Cauchemar),
+        write("Vous ne pouvez pas couper "),
+        write(X),
+        write("."), nl,
+        fail.
+
+couper(X) :-
+        cauchemar(Cauchemar),
+        position_courante(Ici),
+        \+ position(X, Ici, Cauchemar),
         write("Il n'y a pas de "),
         write(X),
         write(" ici. Qu'essayez-vous donc de couper ?"), nl,
@@ -318,15 +332,6 @@ couper1(X, Cauchemar) :-
         retract(cutList(_)),
         assert(cutList(NewList)).
 
-couper1(X, Cauchemar) :-
-        position_courante(P),
-        cauchemar(Cauchemar),
-        position(X, P, Cauchemar),
-        write("Vous ne pouvez pas couper "),
-        write(X),
-        write("."), nl,
-        fail.
-
 % creuser quelque chose
 creuser(X) :-
         cauchemar(Cauchemar),
@@ -336,6 +341,19 @@ creuser(X) :-
         !.
 
 creuser(X) :-
+        cauchemar(Cauchemar),
+        \+ creusage(X, Cauchemar),
+        position_courante(Ici),
+        position(X, Ici, Cauchemar),
+        write("Vous ne pouvez pas couper "),
+        write(X),
+        write("."), nl,
+        fail.
+
+creuser(X) :-
+        cauchemar(Cauchemar),
+        position_courante(Ici),
+        \+ position(X, Ici, Cauchemar),
         write("Il n'y a pas de "),
         write(X),
         write(" ici. Qu'essayez-vous donc de creuser ?"), nl,
@@ -363,15 +381,6 @@ creuser1(X, Cauchemar) :-
         list_add([X, P, Cauchemar], Creusage, NewList),
         retract(creusageList(_)),
         assert(creusageList(NewList)).
-
-creuser1(X, Cauchemar) :-
-        position_courante(P),
-        cauchemar(Cauchemar),
-        position(X, P, Cauchemar),
-        write("Vous ne pouvez pas creuser "),
-        write(X),
-        write("."), nl,
-        fail.
 
 
 regarder :-
@@ -923,7 +932,7 @@ description(lune, 0) :-
 description(ronces, 0) :-
         cutList(Cut),
         list_check_place(ronces, foret, 0, Cut),
-        write("Le passage vers le {Ruisseau} est désormais accessible !"), nl. 
+        write("Le passage vers le {ruisseau} est désormais accessible !"), nl. 
 
 description(ronces, 0) :-
         write("Des ronces vous bloquent le passage, vous distinguez un ruisseau derrière celles-ci."), nl.
@@ -1118,18 +1127,6 @@ description(campement, 1) :-
         \+ list_check_place(tronc, ruisseau, 1, Interacted),
         position_courante(X),
         equal(X, campement),
-        write("..."), nl,
-        !.
-
-description(campement, 1) :-
-        interactedList(Interacted),
-        \+ list_check_place(tronc, ruisseau, 1, Interacted),
-        position_courante(X),
-        \+ equal(X, campement),
-        write("Le chemin vers le campement se trouve de l'autre côté du ruisseau !"), nl,
-        !.
-
-description(porte, 1) :-
         write("En vous approchant de la porte, vous remarquez Misty."), nl,
         write("Votre chat, assise et dressée tout en longueur, regarde la porte menacante."), nl,
         write("Elle se retourne vers vous, miaule comme pour vous souhaiter bonne chance, puis disparait."), nl, nl,
@@ -1144,7 +1141,19 @@ description(porte, 1) :-
         write("Les grands arbres sont oppressant, vous commencez à stresser et à avoir du mal à respirer..."), nl,
         write("Quelques bruits dans les buissons, probablement de petits animaux, sont les seuls sons que vous entendez."), nl,
         write("Le [feu] de camp est éteint."), nl,
-        write("Des [traces] suspectes sont présentes un peu partout autour du campement."), nl.
+        write("Des [traces] suspectes sont présentes un peu partout autour du campement."), nl,
+        !.
+
+description(campement, 1) :-
+        interactedList(Interacted),
+        \+ list_check_place(tronc, ruisseau, 1, Interacted),
+        position_courante(X),
+        \+ equal(X, campement),
+        write("Le chemin vers le campement se trouve de l'autre côté du ruisseau !"), nl,
+        !.
+
+description(porte, 1) :-
+        nl.
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Description campement %%%%%%%%%%%%%%%%%%%%%%%%%
 description(foret, 1) :-
@@ -1158,16 +1167,21 @@ description(foret, 1) :-
 description(traces, 1) :-
         interactedList(Interacted),
         list_check_place(traces, campement, 1, Interacted),
-        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {Foret} !"), nl.
+        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {foret} !"), nl.
 
 description(traces, 1) :-
         write("Des traces d'animaux, encore sèche malgré la pluie, elles doivent être très récentes..."), nl.
 
+description(feu, 1) :-
+        inventory(InventoryList),
+        list_check_inventory("Hache", InventoryList),
+        write("Quelques braises chauffent encore le feu..."), nl,
+        write("Ca ne sera pas suffisant pour faire fuir les loups !"), nl.
 
 description(feu, 1) :-
         interactedList(Interacted),
         list_check_place(traces, campement, 1, Interacted),
-        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {Foret} !"), nl.
+        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {foret} !"), nl.
 
 description(feu, 1) :-
         write("Le feu est encore tiède, les campeurs sont partis récemment... Des braises sont encore visibles, miraculeusement protégées de la pluie par quelques buches."), nl.
@@ -1175,7 +1189,7 @@ description(feu, 1) :-
 description(pluie, 1) :-
         interactedList(Interacted),
         list_check_place(traces, campement, 1, Interacted),
-        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {Foret} !"), nl.
+        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {foret} !"), nl.
 
 description(pluie, 1) :-
         write("La pluie tombe fortement sur toute la forêt... C'est surement pour ça que les campeurs sont partis."), nl.
@@ -1211,10 +1225,22 @@ description(ruisseau, 1) :-
         write("Le chemin est bloqué par des [broussailles] !"), nl.
 
 description(hache, 1) :-
+        inventory(InventoryList),
+        \+ list_check_inventory("Hache", InventoryList),
+        \+ list_check_inventory("Baton", InventoryList),
         write("Cela semble être la même hache que vous avez utilisé autrefois. Elle n'est pas en parfait état."), nl.
 
+description(hache, 1) :-
+        write("Impossible ! Les loups ont déjà dépassé ce point, il faut avancer !"), nl.
+
 description(baton, 1) :-
+        inventory(InventoryList),
+        \+ list_check_inventory("Hache", InventoryList),
+        \+ list_check_inventory("Baton", InventoryList),
         write("Un simple baton à bout rond, pas pratique pour éliminer ses cibles."), nl.
+
+description(baton, 1) :-
+        write("Impossible ! Les loups ont déjà dépassé ce point, il faut avancer !"), nl.
 
 description(broussailles, 1) :-
         write("Des broussailles menant de l'autre côté du ruisseau, si peu qu'on arrive à les traverser."), nl.
@@ -1509,7 +1535,7 @@ interaction(lune, 0) :-
 interaction(ronces, 0) :-
         cutList(Cut),
         list_check_place(ronces, foret, 0, Cut),
-        write("Le passage vers le {Ruisseau} est désormais accessible !"), nl. 
+        write("Le passage vers le {ruisseau} est désormais accessible !"), nl. 
 
 interaction(ronces, 0) :-
         write("'Aie ! Ca pique...', ces ronces n'ont pas l'air très solide pour autant."), nl.
@@ -1771,12 +1797,20 @@ interaction(statuette, 0) :-
 interaction(traces, 1) :-
         interactedList(Interacted),
         list_check_place(traces, campement, 1, Interacted),
-        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {Foret} !"), nl.
+        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {foret} !"), nl.
 
 interaction(traces, 1) :-
         write("Vous analysez de plus près les traces d'animaux... Ce sont des traces de loups, ils ont l'air d'être plusieurs..."), nl,
         write("Vous décidez de suivre les traces."), nl,
         write("Celles-ci se terminent au niveau d'un petit sentier, vous regardez au loin et apercevez plusieurs pupilles, brillantes dans le noir... Ce sont les loups ! Ils vous pourchassent !"), nl.
+
+interaction(feu, 1) :-
+        interactedList(Interacted),
+        list_check_place(traces, campement, 1, Interacted),
+        inventory(InventoryList),
+        list_check_inventory("Hache", InventoryList),
+        write("Quelques braises chauffent encore le feu..."), nl,
+        write("Ca ne sera pas suffisant pour faire fuir les loups !"), nl.
 
 interaction(feu, 1) :-
         interactedList(Interacted),
@@ -1803,7 +1837,7 @@ interaction(feu, 1) :-
 interaction(feu, 1) :-
         interactedList(Interacted),
         list_check_place(traces, campement, 1, Interacted),
-        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {Foret} !"), nl.
+        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {foret} !"), nl.
 
 interaction(feu, 1) :-
         write("Vous soufflez sur les braises, espérant vous réchauffez un peu... Sans grand succès."), nl.
@@ -1812,7 +1846,7 @@ interaction(feu, 1) :-
 interaction(pluie, 1) :-
         interactedList(Interacted),
         list_check_place(traces, campement, 1, Interacted),
-        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {Foret} !"), nl.
+        write("Vous n'avez pas le temps de faire ça ! Vous êtes pourchassez par des loups ! Fuyez en direction de la {foret} !"), nl.
 
 interaction(pluie, 1) :-
         write("La pluie coulant sur votre peau est froide et désagréable. Vous n'avez aucun moyen de vous abritez. Vous tentez de vous couvrir, mais sans succès."), nl.
