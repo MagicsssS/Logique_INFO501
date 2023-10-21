@@ -134,18 +134,19 @@ position(loup, fin3, 2).
 position(miroir, fin, 2).
 
 % objets pouvants être coupés
-coupage(ronces).
-coupage(arbres).
-coupage(fruit).
-coupage(branches).
-coupage(tronc).
-coupage(animal).
-coupage(broussailles).
+coupage(ronces, 0).
+coupage(arbres, 0).
+coupage(fruit, 0).
+coupage(branches, 0).
+coupage(tronc, 0).
+coupage(animal, 0).
+coupage(ronces, 1).
+coupage(broussailles, 1).
 
 % objets pouvants être creusés
-creusage(friable).
-creusage(joyaux).
-creusage(trou).
+creusage(friable, 0).
+creusage(joyaux, 0).
+creusage(trou, 0).
 
 
 increase(X, X1) :-
@@ -248,9 +249,9 @@ interagir(X) :-
 % couper quelque chose
 couper(X) :-
         position_courante(P),
-        position(X, P, Cauchemar),
-        coupage(X),
         cauchemar(Cauchemar),
+        position(X, P, Cauchemar),
+        coupage(X, Cauchemar),
         couperTexte(X, Cauchemar), nl,
         cutList(Cut),
         list_add([X, P, Cauchemar], Cut, NewList),
@@ -259,6 +260,18 @@ couper(X) :-
         !.
 
 couper(X) :-
+        position_courante(P),
+        cauchemar(Cauchemar),
+        position(X, P, Cauchemar),
+        write("Vous ne pouvez pas couper "),
+        write(X),
+        write("."), nl,
+        fail.
+
+couper(X) :-
+        position_courante(P),
+        cauchemar(Cauchemar),
+        \+ position(X, P, Cauchemar),
         write("Il n'y a pas de "),
         write(X),
         write(" ici. Qu'essayez-vous donc de couper ?"), nl,
@@ -267,9 +280,9 @@ couper(X) :-
 % creuser quelque chose
 creuser(X) :-
         position_courante(P),
-        position(X, P, Cauchemar),
-        creusage(X),
         cauchemar(Cauchemar),
+        position(X, P, Cauchemar),
+        creusage(X, Cauchemar),
         creuserTexte(X, Cauchemar), nl,
         creusageList(Creusage),
         list_add([X, P, Cauchemar], Creusage, NewList),
@@ -278,6 +291,18 @@ creuser(X) :-
         !.
 
 creuser(X) :-
+        position_courante(P),
+        cauchemar(Cauchemar),
+        position(X, P, Cauchemar),
+        write("Vous ne pouvez pas creuser "),
+        write(X),
+        write("."), nl,
+        fail.
+
+creuser(X) :-
+        position_courante(P),
+        cauchemar(Cauchemar),
+        \+ position(X, P, Cauchemar),
         write("Il n'y a pas de "),
         write(X),
         write(" ici. Qu'essayez-vous donc de creuser ?"), nl,
@@ -932,7 +957,8 @@ description(pelle, 0) :-
         write("Une grande pelle à manche rouge est posée sur un mur couvert de minerais multicolores."), nl.
 
 description(gerald, 0) :-
-        write("Gérald est un grand homme d'une trentaine d'année, en tenue complète de sécurité, comme vous. Il a une jolie barbe et de grands yeux bleus. Il sourit gaiement, vous voyant l'observer de tout les recoins au lieu d'aller lui parler."), nl.
+        write("Gérald est un grand homme d'une trentaine d'année, en tenue complète de sécurité, comme vous."), nl,
+        write("Il a une jolie barbe et de grands yeux bleus. Il sourit gaiement, vous voyant l'observer de tout les recoins au lieu d'aller lui parler."), nl.
 
 description(minerais, 0) :-
         write("Sans ces minerais, la grotte serait beaucoup plus fade, il y en a tellement qu'il serait impossible de tous les récolter à vous seul."), nl.
