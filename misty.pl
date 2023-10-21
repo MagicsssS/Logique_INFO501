@@ -1547,7 +1547,7 @@ interaction(fruit, 0) :-
         write("Vous avez déjà coupé le fruit, il n'y a plus rien désormais."), nl. 
 
 interaction(fruit, 0) :-
-        write("Vous tentez d'attraper le fruit mais celui-ci semble bien accrocher à l'arbre. Peut être que couper le haut du fruit suffirait à le faire tomber..."), nl.
+        write("Vous tentez d'attraper le fruit mais celui-ci semble bien accroché à l'arbre. Peut être que couper le haut du fruit suffirait à le faire tomber..."), nl.
 
 interaction(arbres, 0) :-
         cutList(Cut),
@@ -1555,12 +1555,12 @@ interaction(arbres, 0) :-
         write("Si vous coupez tout les arbres de ce sentier, vous dénaturerez ce dernier..."), nl. 
 
 interaction(arbres, 0) :-
-        write("En tentant d'arracher à main nu cet arbre, vous vous rendez compte que vous n'auriez pas dû arrêter votre abonnement à la salle de musculation si tôt."), nl.
+        write("En tentant d'arracher à main nue cet arbre, vous vous rendez compte que vous n'auriez pas dû arrêter votre abonnement à la salle de musculation si tôt."), nl.
 
 interaction(feuilles, 0) :-
         write("Vous prenez un paquet de feuilles et les jetez en avant."), nl,
         write("Ces dernières se prennent dans la brise d'air et virevoltent dans tous les sens."), nl,
-        write("Ces nuances de couleurs éclatantes mélangé aux doux rayons de la lune vous offrent un spectacle mémorable."), nl.
+        write("Ces nuances de couleurs éclatantes mélangées aux doux rayons de la lune vous offrent un spectacle mémorable."), nl.
 
 interaction(hache, 0) :-
         inventory(InventoryList),
