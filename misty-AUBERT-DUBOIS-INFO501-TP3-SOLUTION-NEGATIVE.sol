@@ -14,7 +14,7 @@ int hache.
 cut branches.
 b.
 go sentier.
-cut arbre.
+cut arbres.
 b.
 go ruisseau.
 cut tronc.

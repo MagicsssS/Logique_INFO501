@@ -397,6 +397,12 @@ deplacer(couloir, 0) :-
         !.
 
 deplacer(foret, 1) :-
+        interactedList(Interacted),
+        \+ list_check_place(traces, campement, 1, Interacted),
+        write("Une forêt ? Quelle forêt ? Je ne vois pas de forêt moi."), nl,
+        !.
+
+deplacer(foret, 1) :-
         visited(Visited),
         list_check_place(foret, campement, 1, Visited),
         write("Les loups vous attraperaient, cela ne servirait à rien..."), nl,
@@ -721,8 +727,8 @@ description(carnet, 0) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Emplacements hub reve %%%%%%%%%%%%%%%%%%%%%%%%%
 description(hub_reve, 0) :-
-        interactedList(Interacted),
-        list_check_place(porte, chambre, 0, Interacted),
+        visited(Visited),
+        list_check_place(hub_reve, chambre, 0, Visited),
         %%% HR_D5
         write("Vous êtes de retour dans l'étrange pièce aux portes."), nl,
         write("- Celle d'où proviennent les {chansons}."), nl,
@@ -1371,7 +1377,9 @@ interaction(mathieu, 0) :-
         remove_list(["Buche", 3], NewList, NewList2),
         retract(inventory(_)),
         assert(inventory(NewList2)),
-        retour.
+        retract(position_courante(_)),
+        assert(position_courante(hub_reve)),
+        description(hub_reve, 0).
 
 interaction(mathieu, 0) :-
         inventory(InventoryList),
