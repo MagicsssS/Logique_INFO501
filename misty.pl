@@ -233,8 +233,17 @@ observer(X) :-
 
 % interagir avec quelque chose
 interagir(X) :-
-        position_courante(P),
         cauchemar(Cauchemar),
+        interagir1(X, Cauchemar).
+
+interagir1(buche, 0) :-
+        cutList(Cut),
+        \+ list_check_place(tronc, ruisseau, 0, Cut),
+        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl,
+        !.
+
+interagir1(X, Cauchemar) :-
+        position_courante(P),
         position(X, P, Cauchemar),
         interaction(X, Cauchemar), nl,
         interactedList(Interacted),
@@ -243,7 +252,8 @@ interagir(X) :-
         assert(interactedList(NewList)),
         !.
 
-interagir(X) :-
+interagir1(X, Cauchemar) :-
+        cauchemar(Cauchemar),
         write("Il n'y a pas de "),
         write(X),
         write(" ici. Vous avez besoin de lunettes ?"), nl,
@@ -1618,9 +1628,6 @@ interaction(buche, 0) :-
         list_add(["Buche", 1], InventoryList, NewList),
         retract(inventory(_)),
         assert(inventory(NewList)).
-
-interaction(buche, 0) :-
-        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl.
 
 interaction(animal, 0) :-
         cutList(Cut),
