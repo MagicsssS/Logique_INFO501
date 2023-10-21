@@ -232,15 +232,24 @@ observer(X) :-
 
 
 % interagir avec quelque chose
+% interagir avec quelque chose
 interagir(X) :-
         cauchemar(Cauchemar),
-        interagir1(X, Cauchemar).
+        position_courante(Ici),
+        position(X, Ici, Cauchemar),
+        interagir1(X, Cauchemar), 
+        !.
+
+interagir(X) :-
+        write("Il n'y a pas de "),
+        write(X),
+        write(" ici. Vous avez besoin de lunettes ?"), nl,
+        fail.
 
 interagir1(buche, 0) :-
         cutList(Cut),
         \+ list_check_place(tronc, ruisseau, 0, Cut),
-        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl,
-        !.
+        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl.
 
 interagir1(X, Cauchemar) :-
         position_courante(P),
@@ -249,59 +258,54 @@ interagir1(X, Cauchemar) :-
         interactedList(Interacted),
         list_add([X, P, Cauchemar], Interacted, NewList),
         retract(interactedList(_)),
-        assert(interactedList(NewList)),
-        !.
-
-interagir1(X, Cauchemar) :-
-        cauchemar(Cauchemar),
-        write("Il n'y a pas de "),
-        write(X),
-        write(" ici. Vous avez besoin de lunettes ?"), nl,
-        fail.
+        assert(interactedList(NewList)).    
 
 
 % couper quelque chose
 couper(X) :-
         cauchemar(Cauchemar),
-        couper1(X, Cauchemar).
+        position_courante(Ici),
+        position(X, Ici, Cauchemar),
+        couper1(X, Cauchemar), 
+        !.
+
+couper(X) :-
+        write("Il n'y a pas de "),
+        write(X),
+        write(" ici. Qu'essayez-vous donc de couper ?"), nl,
+        fail.
 
 couper1(arbres, 0) :-
         cutList(Cut),
         list_check_place(arbres, sentier, 0, Cut),
-        write("Si vous coupez tout les arbres de ce sentier, vous dénaturerez ce dernier..."), nl,
-        !.
+        write("Si vous coupez tout les arbres de ce sentier, vous dénaturerez ce dernier..."), nl.
 
 couper1(arbres, 0) :-
         inventory(InventoryList),
         \+ list_check_inventory("Hache", InventoryList),
-        write("Malgré vos efforts, vous vous rendez à l'évidence : Votre faible couteau ne vous permettra pas de couper cet énorme tronc d'arbre."), nl,
-        !.
+        write("Malgré vos efforts, vous vous rendez à l'évidence : Votre faible couteau ne vous permettra pas de couper cet énorme tronc d'arbre."), nl.
 
 couper1(branches, 0) :-
         cutList(Cut),
         list_check_place(branches, maison, 0, Cut),
-        write("Vous avez déjà coupé la seule branche pouvant faire office de buche."), nl,
-        !.
+        write("Vous avez déjà coupé la seule branche pouvant faire office de buche."), nl.
 
 couper1(branches, 0) :-
         inventory(InventoryList),
         \+ list_check_inventory("Hache", InventoryList),
-        write("Votre couteau ne semble pas affecter ne serait-ce que l'écorce de la branche, il vous faudrait quelque chose de plus tranchant."), nl,
-        !.
+        write("Votre couteau ne semble pas affecter ne serait-ce que l'écorce de la branche, il vous faudrait quelque chose de plus tranchant."), nl.
 
 couper1(tronc, 0) :-
         cutList(Cut),
         \+ list_check_place(tronc, ruisseau, 0, Cut),
         inventory(InventoryList),
         \+ list_check_inventory("Hache", InventoryList),
-        write("Vous essayez de couper le tronc avec votre couteau, mais, il s'avère inefficace..."), nl,
-        !.
+        write("Vous essayez de couper le tronc avec votre couteau, mais, il s'avère inefficace..."), nl.
 
 couper1(animal, 0) :-
         cutList(Cut),
         \+ list_check_place(tronc, ruisseau, 0, Cut),
-        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl,
-        !.
+        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl.
 
 couper1(X, Cauchemar) :-
         position_courante(P),
@@ -312,8 +316,7 @@ couper1(X, Cauchemar) :-
         cutList(Cut),
         list_add([X, P, Cauchemar], Cut, NewList),
         retract(cutList(_)),
-        assert(cutList(NewList)),
-        !.
+        assert(cutList(NewList)).
 
 couper1(X, Cauchemar) :-
         position_courante(P),
@@ -324,33 +327,31 @@ couper1(X, Cauchemar) :-
         write("."), nl,
         fail.
 
-couper1(X, Cauchemar) :-
-        position_courante(P),
-        cauchemar(Cauchemar),
-        \+ position(X, P, Cauchemar),
-        write("Il n'y a pas de "),
-        write(X),
-        write(" ici. Qu'essayez-vous donc de couper ?"), nl,
-        fail.
-
 % creuser quelque chose
 creuser(X) :-
         cauchemar(Cauchemar),
-        creuser1(X, Cauchemar).
+        position_courante(Ici),
+        position(X, Ici, Cauchemar),
+        creuser1(X, Cauchemar), 
+        !.
+
+creuser(X) :-
+        write("Il n'y a pas de "),
+        write(X),
+        write(" ici. Qu'essayez-vous donc de creuser ?"), nl,
+        fail.
 
 creuser1(trou, 0) :-
         interactedList(Interacted),
         \+ list_check_place(dynamite, escalier, 0, Interacted),
-        write("Un trou ? Quel trou ? Je ne vois qu'une dynamite prête à exploser..."), nl,
-        !.
+        write("Un trou ? Quel trou ? Je ne vois qu'une dynamite prête à exploser..."), nl.
 
 creuser1(trou, 0) :-
         actions(Actions),
         equal(Actions, 1, 0),
         inventory(InventoryList),
         \+ list_check_inventory("Pioche", InventoryList),
-        write("Vous tentez de creuser avec votre pelle... Cela ne semble pas efficace, le mur est trop solide !"), nl,
-        !.
+        write("Vous tentez de creuser avec votre pelle... Cela ne semble pas efficace, le mur est trop solide !"), nl.
 
 creuser1(X, Cauchemar) :-
         position_courante(P),
@@ -361,8 +362,7 @@ creuser1(X, Cauchemar) :-
         creusageList(Creusage),
         list_add([X, P, Cauchemar], Creusage, NewList),
         retract(creusageList(_)),
-        assert(creusageList(NewList)),
-        !.
+        assert(creusageList(NewList)).
 
 creuser1(X, Cauchemar) :-
         position_courante(P),
@@ -371,15 +371,6 @@ creuser1(X, Cauchemar) :-
         write("Vous ne pouvez pas creuser "),
         write(X),
         write("."), nl,
-        fail.
-
-creuser1(X, Cauchemar) :-
-        position_courante(P),
-        cauchemar(Cauchemar),
-        \+ position(X, P, Cauchemar),
-        write("Il n'y a pas de "),
-        write(X),
-        write(" ici. Qu'essayez-vous donc de creuser ?"), nl,
         fail.
 
 
@@ -441,103 +432,94 @@ r :- regarder.
 :- op(1000, fx, couper).
 :- op(1000, fx, creuser).
 
-aller(X) :-
+aller(Direction) :-
         cauchemar(Cauchemar),
-        deplacer(X, Cauchemar).
+        position_courante(Ici),
+        passage(Ici, Direction, La, Cauchemar),
+        deplacer(Direction, La, Cauchemar), 
+        !.
+
+aller(_) :-
+        write("Où essayez-vous d'aller ? Cet endroit n'existe pas."), nl,
+        fail.
 
 % déplacements
-deplacer(porte, 0) :-
+deplacer(porte, hub_reve, 0) :-
         inventory(InventoryList),
         \+ list_check_inventory("Carnet & Stylo", InventoryList),
         %%% CR_F_23
-        write("Vous ne pouvez pas sortir sans prendre votre carnet !"), nl, nl,
-        !.
+        write("Vous ne pouvez pas sortir sans prendre votre carnet !"), nl, nl.
 
-deplacer(porte, 0) :-
+deplacer(porte, hub_reve, 0) :-
         interactedList(Interacted),
         \+ list_check_place(chat, lit, 0, Interacted),
         %%% CR_F_17
         write("Vous mettez la main sur la poignée."), nl,
         write("Votre chat miaule et demande une caresse."), nl,
-        write("Mieux vaut lui dire au revoir avant de partir."), nl, nl,
-        !.
+        write("Mieux vaut lui dire au revoir avant de partir."), nl, nl.
 
-deplacer(chansons, 0) :-
+deplacer(chansons, chansons, 0) :-
         visited(Visited),
         list_check_place(chansons, hub_reve, 0, Visited),
         %%% HR_F_02
-        write("La porte menant au feu de camp a disparu..."), nl,
-        !.
+        write("La porte menant au feu de camp a disparu..."), nl.
         
-deplacer(galeries, 0) :-
+deplacer(galeries, galeries, 0) :-
         visited(Visited),
         list_check_place(galeries, hub_reve, 0, Visited),
         %%% HR_F_04
-        write("La porte menant aux galeries a disparu..."), nl,
-        !.
+        write("La porte menant aux galeries a disparu..."), nl.
 
-deplacer(ruisseau, 0) :-
+deplacer(ruisseau, ruisseau, 0) :-
         cutList(Cut),
         \+ list_check_place(ronces, foret, 0, Cut),
         %%% FR_F_39
-        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl,
-        !.
+        write("Il faut trouver un moyen de franchir le ruisseau pour faire cela."), nl.
 
-deplacer(couloir, 0) :-
+deplacer(couloir, couloir, 0) :-
         interactedList(Interacted),
         \+ list_check_place(gerald, galeries, 0, Interacted),
-        write("Il faut que je parle à [gerald] afin de savoir ce que je fais ici."), nl,
-        !.
+        write("Il faut que je parle à [gerald] afin de savoir ce que je fais ici."), nl.
 
-deplacer(couloir, 0) :-
+deplacer(couloir, couloir, 0) :-
         inventory(InventoryList),
         \+ list_check_inventory("Pelle", InventoryList),
-        write("Mieux vaut prendre la [pelle] avant de partir en exploration..."), nl,
-        !.
+        write("Mieux vaut prendre la [pelle] avant de partir en exploration..."), nl.
 
-deplacer(foret, 1) :-
+deplacer(foret, foret, 1) :-
         interactedList(Interacted),
         \+ list_check_place(traces, campement, 1, Interacted),
-        write("Une forêt ? Quelle forêt ? Je ne vois pas de forêt moi."), nl,
-        !.
+        write("Une forêt ? Quelle forêt ? Je ne vois pas de forêt moi."), nl.
 
-deplacer(foret, 1) :-
+deplacer(foret, foret, 1) :-
         visited(Visited),
         list_check_place(foret, campement, 1, Visited),
-        write("Les loups vous attraperaient, cela ne servirait à rien..."), nl,
-        !.
+        write("Les loups vous attraperaient, cela ne servirait à rien..."), nl.
 
-deplacer(maison, 1) :-
+deplacer(maison, maison, 1) :-
         cutList(Cut),
         \+ list_check_place(ronces, foret, 1, Cut),
-        write("Des [ronces] vous empêchent d'aller plus loin !"), nl,
-        !.
+        write("Des [ronces] vous empêchent d'aller plus loin !"), nl.
 
-deplacer(ruisseau, 1) :-
+deplacer(ruisseau, ruisseau, 1) :-
         inventory(InventoryList),
         \+ list_check_inventory("Hache", InventoryList),
         \+ list_check_inventory("Baton", InventoryList),
-        write("Il vous faut d'abord choisir une arme pour vous défendre !"), nl,
-        !.
+        write("Il vous faut d'abord choisir une arme pour vous défendre !"), nl.
 
 % Dans le cas où le nom où nous allons et celui rentré en direction est le même
-deplacer(Direction, Cauchemar) :-
-        position_courante(Ici),
-        passage(Ici, Direction, La, Cauchemar),
+deplacer(Direction, La, Cauchemar) :-
         equal(Direction, La),
         description(Direction, Cauchemar),
         retract(position_courante(Ici)),
-        assert(position_courante(La)),
+        assert(position_courante(Direction)),
         visited(Visited),
         list_add([Direction, Ici, Cauchemar], Visited, NewList),
         retract(visited(_)),
-        assert(visited(NewList)),
-        !.
+        assert(visited(NewList)).
         
 % Dans l'autre cas
-deplacer(Direction, Cauchemar) :-
-        position_courante(Ici),
-        passage(Ici, Direction, La, Cauchemar),
+deplacer(Direction, La, Cauchemar) :-
         description(Direction, Cauchemar),
         retract(position_courante(Ici)),
         assert(position_courante(La)),
@@ -545,13 +527,7 @@ deplacer(Direction, Cauchemar) :-
         visited(Visited),
         list_add([La, Ici, Cauchemar], Visited, NewList),
         retract(visited(_)),
-        assert(visited(NewList)),
-        !.
-
-
-deplacer(_, _) :-
-        write("Où essayez-vous d'aller ? Cet endroit n'existe pas."), nl,
-        fail.
+        assert(visited(NewList)).
 
 
 retour :-
