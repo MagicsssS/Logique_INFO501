@@ -586,7 +586,7 @@ jouer :-
         write("Notre jeu est un RPG Textuel vous demandant de réaliser des actions en réfléchissant par vous-même."), nl,
         write("Les textes vous indiqueront plus précisément les actions possibles."), nl, nl,
         instructions, nl,
-        write("Vous débloquerez probablement quelques commandes supplémentaires au fur et à mesure de votre avancement..."), nl,
+        write("Vous débloquerez probablement quelques commandes supplémentaires au fur et à mesure de votre avancement..."), nl, nl, nl,
         position_courante(Ici),
         cauchemar(Cauchemar),
         description(Ici, Cauchemar),
