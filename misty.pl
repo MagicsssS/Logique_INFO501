@@ -1049,7 +1049,7 @@ description(campement, 1) :-
         interactedList(Interacted),
         \+ list_check_place(tronc, ruisseau, 1, Interacted),
         position_courante(X),
-        \+ equal(X, hub_cauchemar),
+        \+ equal(X, campement),
         write("Le chemin vers le campement se trouve de l'autre côté du ruisseau !"), nl,
         !.
 
@@ -1549,7 +1549,7 @@ interaction(animal, 0) :-
         write("Vous posez le fruit à vos pieds puis reculez suffisamment."), nl,
         write("L'animal s'approche lentement... Et déguste le fruit devant vous !"), nl, nl,    
 
-        write("        *Vous notez cette expérience unique dans votre carnet*"), nl,
+        write("        *Vous notez cette expérience unique dans la PREMIÈRE PAGE de votre carnet*"), nl,
         actions(Actions),
         change_list(0, 1, Actions, NewList),
         retract(actions(_)),
@@ -1590,7 +1590,9 @@ interaction(gerald, 0) :-
         inventory(InventoryList),
         list_check_inventory("Fragment Étrange", 1, InventoryList),
         geraldMauvais,
-        retour.    
+        retract(position_courante(_)),
+        assert(position_courante(hub_reve)),
+        description(hub_reve, 0).    
 
 interaction(gerald, 0) :-
         actions(Actions),
@@ -1598,7 +1600,9 @@ interaction(gerald, 0) :-
         inventory(InventoryList),
         list_check_inventory("Fragment Étrange", 1, InventoryList),
         geraldBon,
-        retour.      
+        retract(position_courante(_)),
+        assert(position_courante(hub_reve)),
+        description(hub_reve, 0).       
 
 interaction(gerald, 0) :-
         actions(Actions),
@@ -1610,11 +1614,11 @@ interaction(gerald, 0) :-
         assert(cauchemar(1)),
         retract(position_courante(_)),
         assert(position_courante(hub_cauchemar)),
+        description(hub_cauchemar, 1),
         visited(Visited),
         list_add([hub_cauchemar, hub_reve, 1], Visited, NewList3),
         retract(visited(_)),
-        assert(visited(NewList3)),
-        description(hub_cauchemar, 1).
+        assert(visited(NewList3)).
                 
 interaction(gerald, 0) :-
         actions(Actions),
@@ -1626,11 +1630,11 @@ interaction(gerald, 0) :-
         assert(cauchemar(1)),
         retract(position_courante(_)),
         assert(position_courante(hub_cauchemar)),
+        description(hub_cauchemar, 1),
         visited(Visited),
         list_add([hub_cauchemar, hub_reve, 1], Visited, NewList3),
         retract(visited(_)),
-        assert(visited(NewList3)),
-        description(hub_cauchemar, 1).        
+        assert(visited(NewList3)).        
 
 interaction(gerald, 0) :-
         write("'Aaaaah ! Te voilà enfin ! On a besoin de toi pour continuer à explorer nos galeries... On n'a plus de nouvelle de Richard depuis quelques minutes, ça nous inquiète pas mal, tu pourrais nous aider à le chercher ? Et si tu peux récupérer quelques pierres précieuses en même temps, profites-en !'"), nl.
@@ -1709,7 +1713,7 @@ interaction(feu, 1) :-
         write("Vous plongez votre baton dans le feu de camp... Les quelques braises suffirent à enflammer le bout de votre baton, le transformant en torche !"), nl,
         write("Vous agitez votre nouvelle torche devant les loups, qui craintif, s'enfuient !"), nl, nl,
 
-        write("        *Vous notez cette expérience unique dans votre carnet*"), nl, nl,
+        write("        *Vous notez cette expérience unique dans la TROISIÈME PAGE de votre carnet*"), nl, nl,
 
         write("En clignant des yeux, vous vous retrouvez, encore une fois, dans la pièce étrange."), nl,
         actions(Actions),
@@ -1752,7 +1756,7 @@ interaction(loups, 1) :-
         write("Vous sentez vos entrailles se faire ouvrir et dévorer par les loups..."), nl,
         write("Quand soudain... Vous clignez des yeux, et vous revoilà dans la salle étrange, en vie, et même pas blessé."), nl, nl,
 
-        write("*Vous notez cette expérience unique dans votre carnet*"), nl,
+        write("*Vous notez cette expérience unique dans la TROISIÈME PAGE de votre carnet*"), nl,
         actions(Actions),
         change_list(2, -1, Actions, NewList),
         retract(actions(_)),
@@ -1957,7 +1961,7 @@ couperTexte(animal, 0) :-
 couperTexte(animal, 0) :-
         write("Vous vous lancez brutalement sur l'animal et lui assénez plusieurs coups de couteaux, la bête hurle de douleur et agonise lentement au sol. Son sang coule dans le ruisseau."), nl, nl,
 
-        write("        *Vous notez cette expérience unique dans votre carnet*"), nl,
+        write("        *Vous notez cette expérience unique dans la PREMIÈRE PAGE de votre carnet*"), nl,
         actions(Actions),
         change_list(0, -1, Actions, NewList),
         retract(actions(_)),
@@ -1981,15 +1985,21 @@ creuserTexte(joyaux, 0) :-
         list_check_place(trou, escalier, 0, Creusage),
         write("Vous avez pris toutes les précautions nécessaires, et ayant sauvé Richard, vous pouvez facilement récupérer les joyaux présents sur la pierre. Ce que vous vous empressez de faire afin de vous en mettre plein les poches évidemment."), nl, nl,
 
-        write("        *Faites un rapport de la situation à [Gérald] !*"), nl.
+        write("        *Faites un rapport de la situation à Gérald !*"), nl.
+
+creuserTexte(joyaux, 0) :-
+        creusageList(Creusage),
+        list_check_place(joyaux, passage, 0, Creusage),
+        write("Les joyaux ont disparus dans les débris, tout comme la pièce, inexplorable."), nl,
+        write("Retournez voir Gerald pour lui faire votre rapport."), nl.
 
 creuserTexte(joyaux, 0) :-
         write("Dans l'empressement de votre découverte, vous sautez sur la pierre aux joyaux. Asséner votre premier coup de pelle et le sol se dérobe sous vos pieds !"), nl,
         write("L'éboulement à totalement détruit la pièce du dessous..."), nl, nl,
 
-        write("        *Vous notez cette expérience unique dans votre carnet*"), nl, nl,
+        write("        *Vous notez cette expérience unique dans la DEUXIÈME PAGE de votre carnet*"), nl, nl,
 
-        write("*Faites un rapport de la situation à [Gérald] !*"), nl,
+        write("*Faites un rapport de la situation à Gérald !*"), nl,
         actions(Actions),
         change_list(1, -1, Actions, NewList),
         retract(actions(_)),
@@ -2007,7 +2017,7 @@ creuserTexte(trou, 0) :-
         list_check_inventory("Pioche", InventoryList),
         write("Grâce à votre nouvelle pioche, vous arrivez assez aisément à ouvrir un passage pour laisser Richard sortir ! Votre mission est réussie ! Vous pouvez encore vous balader dans les galeries ou faire tout de suite votre rapport à [Gérald]."), nl, nl,
 
-        write("        *Vous notez cette expérience unique dans votre carnet*"), nl, nl,
+        write("        *Vous notez cette expérience unique dans la DEUXIÈME PAGE de votre carnet*"), nl, nl,
 
         write("Votre pioche se casse bien sur le coup... Les produits fait en Chine ne sont pas très solides..."), nl,
         actions(Actions),
@@ -2082,7 +2092,7 @@ lire(2) :-
 
 lire(2) :-
         actions(Actions),
-        check_if_negatif(Actions, 0),
+        check_if_negatif(Actions, 1),
         write("Souvenir négatif de la salle des galeries."), nl, nl,
 
         write("Dans l'empressement de la découverte de joyaux, le sol s'est dérobé sous mes pieds au premier coup de pelle..."), nl,
@@ -2107,7 +2117,7 @@ lire(2) :-
 
 lire(3) :-
         actions(Actions),
-        check_if_positif(Actions, 1),
+        check_if_positif(Actions, 2),
         write("Souvenir 'positif' du campement."), nl, nl,
 
         write("J'ai réussi a repoussé la meute de loups sans les blesser !"), nl,
@@ -2121,7 +2131,7 @@ lire(3) :-
 
 lire(3) :-
         actions(Actions),
-        check_if_negatif(Actions, 0),
+        check_if_negatif(Actions, 2),
         write("Souvenir négatif du campement."), nl, nl,
 
         write("Après un combat acharné contre les loups... Ma hache s'est cassée au moment où j'affrontais le quatrième loup..."), nl,
